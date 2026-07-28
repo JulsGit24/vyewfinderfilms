@@ -1,0 +1,169 @@
+/* Mirrors the Instagram strip: edge-to-edge square tiles, no gaps.
+   The view-more tile occupies the last cell so the row reads as one
+   continuous band rather than a button bolted on underneath. */
+.media-grid {
+  --media-columns: 6;
+  display: grid;
+  grid-template-columns: repeat(var(--media-columns), 1fr);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.media-tile {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.media-tile-btn {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: zoom-in;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: -4px;
+  }
+
+  &:hover img,
+  &:focus-visible img {
+    transform: scale(1.08);
+  }
+
+  &:hover .media-tile-hover,
+  &:focus-visible .media-tile-hover {
+    opacity: 1;
+  }
+}
+
+.media-tile-hover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Sits over photography in both themes, so it stays dark-on-light. */
+  background: rgba(31, 31, 31, 0.55);
+  color: #ffffff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* ---- View-more tile ---- */
+.media-tile--more {
+  background-color: var(--wst-color-surface);
+  border: 1px solid var(--wst-color-border);
+}
+
+.media-more {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  padding: clamp(14px, 1.6vw, 22px);
+  text-decoration: none;
+  overflow: hidden;
+
+  /* Wipe that fills the tile from the bottom on hover. */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--wst-color-action);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:hover,
+  &:focus-visible {
+    &::before { transform: scaleY(1); }
+
+    .media-more-label,
+    .media-more-arrow { color: var(--wst-color-on-action); }
+
+    .media-more-arrow { transform: translateX(6px); }
+
+    .media-more-rule {
+      transform: scaleX(1);
+      background-color: var(--wst-color-on-action);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: -4px;
+  }
+}
+
+.media-more-label,
+.media-more-arrow {
+  position: relative;
+  z-index: 1;
+  color: var(--wst-color-text-primary);
+  transition: color 0.35s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.media-more-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(0.7rem, 0.9vw, 0.82rem);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  line-height: 1.3;
+}
+
+.media-more-arrow {
+  display: inline-flex;
+}
+
+.media-more-rule {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 2px;
+  background-color: var(--wst-color-action);
+  transform: scaleX(0.3);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.35s ease;
+}
+
+@media (max-width: 900px) {
+  .media-grid {
+    --media-columns: 3;
+  }
+}
+
+@media (max-width: 520px) {
+  .media-grid {
+    --media-columns: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-tile-btn img,
+  .media-more::before,
+  .media-more-label,
+  .media-more-arrow,
+  .media-more-rule {
+    transition: none;
+  }
+}

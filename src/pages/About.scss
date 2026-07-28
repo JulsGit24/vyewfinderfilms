@@ -1,0 +1,145 @@
+/* ==========================================================
+   About page
+   Every colour reads from the theme tokens so the page
+   inverts with the rest of the site.
+   ========================================================== */
+.about-page {
+  padding-top: 160px;
+  background-color: var(--wst-color-fill-background-primary);
+}
+
+.about-header {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+/* ---- Intro: copy + media ---- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(30px, 5vw, 70px);
+  align-items: center;
+}
+
+.about-lede {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.75;
+  color: var(--wst-color-text-primary);
+  margin-bottom: 24px;
+
+  &--muted {
+    font-size: 1rem;
+    color: var(--wst-color-text-secondary);
+  }
+}
+
+.about-media {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--wst-color-border);
+  aspect-ratio: 4 / 3;
+}
+
+.about-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-media-tag {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  /* Overlays footage in both themes, so it stays light. */
+  color: #ffffff;
+  background: rgba(31, 31, 31, 0.72);
+  padding: 7px 12px;
+}
+
+/* ---- Values ---- */
+.about-values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.about-value {
+  padding: clamp(26px, 3vw, 40px);
+  border: 1px solid var(--wst-color-border);
+  background-color: var(--wst-color-surface);
+  transition: border-color 0.4s ease;
+
+  &:hover {
+    border-color: var(--wst-color-action);
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 14px;
+  }
+
+  p {
+    color: var(--wst-color-text-secondary);
+    line-height: 1.7;
+  }
+}
+
+.about-value-num {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: var(--wst-color-action);
+  margin-bottom: 16px;
+}
+
+/* ---- Stats ---- */
+.about-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  border-top: 1px solid var(--wst-color-border);
+  border-bottom: 1px solid var(--wst-color-border);
+  padding: clamp(30px, 4vw, 54px) 0;
+  margin: 0;
+}
+
+.about-stat {
+  text-align: center;
+}
+
+.about-stat-value {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  line-height: 1;
+  color: var(--wst-color-text-primary);
+}
+
+.about-stat-label {
+  margin: 10px 0 0;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--wst-color-text-secondary);
+}
+
+@media (max-width: 900px) {
+  .about-grid,
+  .about-values-grid,
+  .about-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-media {
+    order: -1;
+  }
+}

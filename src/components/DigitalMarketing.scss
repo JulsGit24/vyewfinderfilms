@@ -1,0 +1,6 @@
+/* Card styles live in index.scss (.case-frame) — shared with the
+   Podcast section. Only section-level concerns belong here. */
+.dm-section {
+  background-color: var(--wst-color-fill-background-primary);
+  /* frame is static now; no 3D context needed */
+}

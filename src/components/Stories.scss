@@ -1,0 +1,253 @@
+.stories-section {
+  /* First section out of the hero — it needs a long breath before the
+     headline so the transition off the full-bleed video reads as a
+     deliberate gap rather than the next block crowding in. */
+  --stories-pad: clamp(120px, 15vw, 260px);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--wst-color-fill-background-primary, #000);
+  padding-top: var(--stories-pad);
+  padding-bottom: 80px;
+}
+
+.stories-header {
+  position: relative;
+  padding: 0 20px;
+  margin-bottom: 60px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  .heading-2 {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .divider {
+    flex: 1;
+    height: 2px;
+    background-color: var(--wst-color-action, #fff);
+  }
+}
+
+/* ----- Splide overrides ----- */
+.stories-slider-wrap {
+  position: relative;
+  padding: 0 20px;
+
+  /* Let slides overflow the track so the focus:center layout is visible */
+  .splide__track {
+    overflow: visible !important;
+  }
+
+  .splide__list {
+    align-items: stretch;
+  }
+}
+
+/* Individual slide */
+.story-slide {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #111;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+              opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Active slide pops, others recede */
+.splide__slide {
+  opacity: 0.5;
+  transition: opacity 0.5s ease;
+
+  &.is-active {
+    opacity: 1;
+
+    .story-slide {
+      transform: scale(1.04);
+    }
+  }
+}
+
+.story-slide__video-wrap {
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover .story-slide__overlay {
+    opacity: 1;
+  }
+}
+
+.story-slide__video {
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  display: block;
+}
+
+.story-slide__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.story-control-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--wst-color-border-strong);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--wst-color-border-strong);
+    transform: scale(1.1);
+  }
+}
+
+.story-slide__info {
+  padding: 20px 24px;
+}
+
+.story-slide__category {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--wst-color-accent, #aaa);
+  margin-bottom: 6px;
+}
+
+.story-slide__title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+  color: var(--wst-color-text-primary);
+}
+
+/* Custom prev/next arrows */
+.stories-controls {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.stories-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: transparent;
+  color: var(--wst-color-text-primary);
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+
+  &:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.5);
+  }
+}
+
+/* Modal */
+.story-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.story-modal-close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  z-index: 10;
+
+  &:hover {
+    transform: scale(1.2) rotate(90deg);
+  }
+}
+
+.story-modal-content {
+  width: 90vw;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.story-modal-video {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  outline: none;
+}
+
+.story-modal-info {
+  text-align: center;
+  color: white;
+
+  h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin: 0;
+    color: var(--wst-color-accent, #aaa);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .stories-section {
+    padding-bottom: 60px;
+  }
+  .stories-header {
+    margin-bottom: 30px;
+  }
+  .story-modal-content {
+    width: 95vw;
+  }
+}

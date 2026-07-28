@@ -1,0 +1,187 @@
+/* ==========================================================
+   Loader.scss — Vyewfinder Films frame-sequence loader
+
+   The loader now follows the site theme: --wst-loader-bg and the
+   ink token are set pre-paint by the inline script in index.html,
+   so the very first frame already matches the saved choice.
+   ========================================================== */
+
+.vyewfinder-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  background: var(--wst-loader-bg);
+  overflow: hidden;
+}
+
+/* ---- Atmosphere: giant watermark + ember vignette + grain ---- */
+.loader-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  background: var(--wst-loader-bg);
+}
+
+.loader-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -46%);
+  white-space: nowrap;
+  font-family: var(--font-display, 'Roboto', sans-serif);
+  font-weight: 900;
+  font-size: clamp(6rem, 17vw, 15rem);
+  letter-spacing: 4px;
+  color: var(--wst-loader-watermark);
+  user-select: none;
+}
+
+.loader-ember-glow {
+  position: absolute;
+  inset: -10%;
+  background:
+    radial-gradient(circle at 50% 55%, rgba(201, 168, 106, 0.22) 0%, rgba(201, 168, 106, 0.1) 22%, rgba(var(--wst-loader-vignette-rgb), 0) 55%),
+    radial-gradient(circle at 50% 55%, rgba(var(--wst-loader-vignette-rgb), 0) 0%, rgba(var(--wst-loader-vignette-rgb), 0.85) 75%);
+  animation: ember-breathe 6s ease-in-out infinite;
+}
+
+@keyframes ember-breathe {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+.loader-grain {
+  position: absolute;
+  inset: -100px;
+  opacity: var(--wst-loader-grain-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  animation: grain-shift 0.6s steps(4) infinite;
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2%, 1%); }
+  50% { transform: translate(1%, -2%); }
+  75% { transform: translate(-1%, -1%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---- Removed Split Panels ---- */
+
+/* ---- Centered Content ---- */
+.loader-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+}
+
+/* ---- Frame sequence stage ---- */
+.loader-stage {
+  width: min(560px, 78vw);
+  aspect-ratio: 900 / 502;
+  filter: drop-shadow(0 0 60px rgba(201, 168, 106, 0.22));
+  transform: scale(1.3);
+
+  @media (max-width: 640px) {
+    width: 86vw;
+  }
+}
+
+.loader-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- Brand lockup (revealed after the assembly completes) ---- */
+.loader-lockup {
+  width: min(340px, 62vw);
+  height: auto;
+  opacity: 0;
+  margin-top: -14px;
+
+  @media (max-width: 640px) {
+    width: 70vw;
+  }
+}
+
+/* Light theme swaps the keyed PNG for the black vector wordmark. The
+   SVG is trimmed tighter than the PNG (961x111 against 880x134), so it
+   loses the negative-space compensation baked into the raster crop. */
+.loader-lockup--vector {
+  width: min(360px, 66vw);
+  margin-top: 0;
+
+  @media (max-width: 640px) {
+    width: 74vw;
+  }
+}
+
+/* ---- Status readout ---- */
+.loader-status {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  min-width: 260px;
+}
+
+.loader-status-label {
+  font-family: var(--font-primary, 'Montserrat', sans-serif);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--wst-color-text-secondary);
+  flex: 1;
+}
+
+.loader-status-percent {
+  font-family: var(--font-primary, 'Montserrat', sans-serif);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--wst-color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Progress Bar ---- */
+.loader-progress-bar {
+  width: 260px;
+  height: 1px;
+  background: var(--wst-color-border);
+  overflow: hidden;
+}
+
+.loader-progress-fill {
+  width: 100%;
+  height: 100%;
+  background-color: var(--wst-color-action);
+  transform-origin: left;
+  transform: scaleX(0);
+  box-shadow: 0 0 8px rgba(201, 168, 106, 0.8);
+}
+
+/* ---- Reduced motion: hold a composed frame, drop ambient movement ---- */
+@media (prefers-reduced-motion: reduce) {
+  .loader-ember-glow,
+  .loader-grain {
+    animation: none;
+  }
+
+  .loader-lockup {
+    opacity: 1;
+  }
+}
+
+/* ---- Body lock ---- */
+body.is-loading {
+  overflow: hidden;
+}

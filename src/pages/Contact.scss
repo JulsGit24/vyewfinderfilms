@@ -1,0 +1,300 @@
+/* ==========================================================
+   Contact page
+
+   Single-column, form-first layout after deduxer.studio: a warm
+   greeting, one column of generously spaced fields, then an FAQ
+   accordion. Every colour is a theme token so it inverts cleanly.
+   ========================================================== */
+.contact-page {
+  padding-top: 160px;
+  background-color: var(--wst-color-fill-background-primary);
+}
+
+/* ---- Welcome header ---- */
+.contact-hero {
+  padding-bottom: clamp(40px, 6vw, 70px);
+
+  .container {
+    max-width: 780px;
+  }
+
+  .heading-1 {
+    margin-bottom: 20px;
+  }
+}
+
+.contact-lede {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.7;
+  color: var(--wst-color-text-secondary);
+  max-width: 620px;
+  margin-bottom: 34px;
+}
+
+.contact-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 30px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.85rem;
+    color: var(--wst-color-text-secondary);
+  }
+
+  svg {
+    color: var(--wst-color-action);
+    flex-shrink: 0;
+  }
+
+  a {
+    color: var(--wst-color-text-primary);
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: var(--wst-color-action);
+    }
+  }
+}
+
+/* ---- Form ---- */
+.contact-form-section {
+  padding-bottom: clamp(50px, 7vw, 90px);
+
+  .container {
+    max-width: 780px;
+  }
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--wst-color-text-secondary);
+
+    span {
+      color: var(--wst-color-action);
+    }
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 15px 16px;
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    color: var(--wst-color-text-primary);
+    background-color: var(--wst-color-surface);
+    border: 1px solid var(--wst-color-border);
+    border-radius: 2px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &::placeholder {
+      color: var(--wst-color-text-secondary);
+      opacity: 0.7;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--wst-color-action);
+      box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.18);
+    }
+
+    &.has-error {
+      border-color: #d9534f;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 130px;
+  }
+
+  select {
+    appearance: none;
+    cursor: pointer;
+    /* Chevron drawn in the border colour so it follows the theme. */
+    background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+      linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position: calc(100% - 20px) center, calc(100% - 14px) center;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 42px;
+  }
+}
+
+.field-error {
+  font-size: 0.78rem;
+  color: #d9534f;
+  margin: 0;
+}
+
+.form-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.form-note {
+  font-size: 0.75rem;
+  color: var(--wst-color-text-secondary);
+  margin: 0;
+}
+
+.contact-success {
+  text-align: center;
+  padding: clamp(40px, 6vw, 70px) 24px;
+  border: 1px solid var(--wst-color-border);
+  background-color: var(--wst-color-surface);
+
+  p {
+    color: var(--wst-color-text-secondary);
+    margin: 0;
+  }
+}
+
+.contact-success-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  background-color: var(--wst-color-action);
+  color: var(--wst-color-on-action);
+}
+
+/* ---- FAQ accordion ---- */
+.contact-faq {
+  padding-bottom: clamp(60px, 8vw, 110px);
+
+  .container {
+    max-width: 880px;
+  }
+
+  .heading-2 {
+    margin-bottom: 34px;
+  }
+}
+
+.faq-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--wst-color-border);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--wst-color-border);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  padding: 22px 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--wst-color-text-primary);
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--wst-color-action);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 2px;
+  }
+}
+
+.faq-question-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  line-height: 1.4;
+}
+
+.faq-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--wst-color-action);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-item.is-open .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-panel {
+  padding: 0 60px 24px 4px;
+
+  p {
+    margin: 0;
+    color: var(--wst-color-text-secondary);
+    line-height: 1.75;
+  }
+}
+
+@media (max-width: 700px) {
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .faq-panel {
+    padding-right: 4px;
+  }
+
+  .form-foot {
+    flex-direction: column;
+    align-items: stretch;
+
+    .btn-primary {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-icon,
+  .contact-details a,
+  .faq-question,
+  .field input,
+  .field select,
+  .field textarea {
+    transition: none;
+  }
+}

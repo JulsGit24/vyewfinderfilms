@@ -1,0 +1,500 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&family=Roboto:wght@400;500;700;900&display=swap');
+
+:root {
+  /* ----------------------------------------------------------
+     Brand tokens — see brand.md.
+     The palette is applied over the dark cinematic base: brand
+     neutrals for surfaces, Soft Gold as the single accent that
+     replaces the previous ember red.
+     ---------------------------------------------------------- */
+  --brand-charcoal: #2E2E2E;
+  --brand-black: #1F1F1F;
+  --brand-gray: #6D6D6D;
+  --brand-light-gray: #E8E6E3;
+  --brand-warm-white: #F8F6F3;
+  --brand-white: #FFFFFF;
+  --brand-soft-beige: #D9C7B8;
+  --brand-soft-gold: #C9A86A;
+  --brand-soft-gold-deep: #B08F52;
+
+  --wst-color-fill-background-primary: var(--brand-black);
+  --wst-color-fill-background-secondary: var(--brand-charcoal);
+  --wst-color-text-primary: var(--brand-white);
+  /* Brand Warm Gray (#6D6D6D) only clears ~3.4:1 on the dark
+     surface, so body copy uses a lifted warm gray of the same
+     hue family to hold WCAG AA. */
+  --wst-color-text-secondary: #9C9691;
+  --wst-color-accent: var(--brand-soft-beige);
+  --wst-color-action: var(--brand-soft-gold);
+  --wst-color-action-hover: var(--brand-soft-gold-deep);
+
+  /* ----------------------------------------------------------
+     Theme-aware surface tokens.
+     Anything that used to hardcode white/black alpha now reads
+     one of these so the whole site can invert.
+     ---------------------------------------------------------- */
+  --wst-color-surface: var(--brand-charcoal);
+  --wst-color-border: rgba(255, 255, 255, 0.14);
+  --wst-color-border-strong: rgba(255, 255, 255, 0.28);
+  --wst-color-border-soft: rgba(255, 255, 255, 0.08);
+  --wst-color-on-action: var(--brand-black);
+  --wst-color-inverse: var(--brand-black);
+  --wst-scrim-rgb: 31, 31, 31;
+  --wst-shadow-strong: rgba(0, 0, 0, 0.45);
+  --wst-loader-bg: #000000;
+  --wst-loader-watermark: rgba(255, 255, 255, 0.035);
+  --wst-loader-vignette-rgb: 0, 0, 0;
+  --wst-loader-grain-opacity: 0.05;
+
+  --font-primary: 'Montserrat', sans-serif;
+  --font-display: 'Roboto', sans-serif;
+
+  --wix-spacing-unit: 8px;
+
+  color-scheme: dark;
+}
+
+/* ============================================================
+   Light theme
+   Uses the brand's Warm White / White / Charcoal set. Gold stays
+   the action colour in both themes; the beige accent is swapped
+   for the deeper gold because beige on warm white is unreadable.
+   ============================================================ */
+:root[data-theme='light'] {
+  --wst-color-fill-background-primary: var(--brand-warm-white);
+  --wst-color-fill-background-secondary: var(--brand-white);
+  --wst-color-text-primary: var(--brand-charcoal);
+  --wst-color-text-secondary: var(--brand-gray);
+  --wst-color-accent: var(--brand-soft-gold-deep);
+  --wst-color-action: var(--brand-soft-gold-deep);
+  --wst-color-action-hover: var(--brand-charcoal);
+
+  --wst-color-surface: var(--brand-white);
+  --wst-color-border: rgba(46, 46, 46, 0.16);
+  --wst-color-border-strong: rgba(46, 46, 46, 0.32);
+  --wst-color-border-soft: rgba(46, 46, 46, 0.08);
+  --wst-color-on-action: var(--brand-white);
+  --wst-color-inverse: var(--brand-white);
+  --wst-scrim-rgb: 248, 246, 243;
+  --wst-shadow-strong: rgba(46, 46, 46, 0.18);
+  --wst-loader-bg: var(--brand-warm-white);
+  --wst-loader-watermark: rgba(46, 46, 46, 0.06);
+  --wst-loader-vignette-rgb: 248, 246, 243;
+  --wst-loader-grain-opacity: 0.03;
+
+  color-scheme: light;
+}
+
+/* Theme changes shouldn't animate mid-scroll on every element, but a
+   short crossfade on the big surfaces keeps the switch from flashing. */
+html, body,
+section, footer, header {
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html, body,
+  section, footer, header {
+    transition: none;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: var(--font-primary);
+  background-color: var(--wst-color-fill-background-primary);
+  color: var(--wst-color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+}
+
+/* Base Utility Classes replacing Tailwind */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.text-center { text-align: center; }
+
+/* Grid */
+.grid { display: grid; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+
+@media (max-width: 768px) {
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Sections */
+.section-padding {
+  padding: 100px 0;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 60px 0;
+  }
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 900;
+  color: var(--wst-color-text-primary);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--wst-color-accent);
+  margin-bottom: 16px;
+}
+
+.heading-1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.75rem, 7vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+
+/* The drop shadow exists to lift the headline off the hero footage.
+   On a flat page background it just reads as muddy, so it stays
+   scoped to the hero rather than riding on every h1. */
+.hero-section .heading-1 {
+  text-shadow: rgba(0, 0, 0, 0.4) 0 4px 5px;
+}
+
+.heading-2 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.heading-3 {
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.subheading {
+  font-size: 1.1rem;
+  color: var(--wst-color-text-secondary);
+  max-width: 600px;
+  margin: 0 auto 40px auto;
+  line-height: 1.6;
+}
+
+.divider {
+  width: 60px;
+  height: 3px;
+  background-color: var(--wst-color-action);
+  margin: 0 auto 30px auto;
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-block;
+  background-color: var(--wst-color-action);
+  color: var(--wst-color-on-action);
+  padding: 16px 36px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background-color: var(--wst-color-action-hover);
+    transform: translateY(-2px);
+  }
+}
+
+.btn-outline {
+  display: inline-block;
+  background-color: transparent;
+  color: var(--wst-color-text-primary);
+  padding: 15px 34px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: 1px solid var(--wst-color-border-strong);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: var(--wst-color-text-primary);
+    color: var(--wst-color-fill-background-primary);
+    border-color: var(--wst-color-text-primary);
+  }
+}
+
+/* ==========================================================
+   Shared editorial case card
+   Used by the Digital Marketing and Podcast sections. Thin
+   bordered frame: type column one side, media flush to the
+   frame edge on the other. Add .case-frame--reverse to put
+   the media on the left.
+   ========================================================== */
+/* The frame is intentionally static — no tilt, parallax or hover
+   scale. The reference case studies measure `transform: none` in
+   every state; their motion comes entirely from the looping media. */
+.case-frame {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--wst-color-border);
+  background-color: var(--wst-color-fill-background-secondary);
+  overflow: hidden;
+  transition: border-color 0.45s ease;
+
+  &:hover {
+    border-color: rgba(201, 168, 106, 0.5);
+
+    .case-media-tag { opacity: 1; transform: translateY(0); }
+    .case-meta li::before { transform: scaleX(1.6); }
+  }
+
+  &--reverse {
+    .case-body { order: 2; }
+    .case-media { order: 1; }
+  }
+}
+
+.case-body {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(32px, 4vw, 60px);
+}
+
+.case-title {
+  font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+  line-height: 1.12;
+  font-weight: 900;
+  margin-bottom: 22px;
+}
+
+.case-lede {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--wst-color-text-secondary);
+  max-width: 44ch;
+  margin-bottom: 40px;
+}
+
+.case-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.case-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: var(--wst-color-text-secondary);
+
+    /* Short rule that extends on card hover */
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 10px;
+      height: 1px;
+      background-color: var(--wst-color-action);
+      transform-origin: left;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+}
+
+.case-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  /* Sits on the card surface, not on footage — it has to follow the
+     theme. Hardcoded white made it disappear on the light card. */
+  color: var(--wst-color-text-primary);
+  padding-bottom: 6px;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--wst-color-action);
+    transform-origin: right;
+    transform: scaleX(1);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .case-link-arrow {
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:hover {
+    color: var(--wst-color-action);
+
+    &::after { transform: scaleX(0.35); }
+    .case-link-arrow { transform: translate(3px, -3px); }
+  }
+}
+
+.case-media {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+
+  img,
+  .case-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.case-media-tag {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  /* Overlays footage in both themes, so it stays light. */
+  color: #ffffff;
+  background: rgba(31, 31, 31, 0.72);
+  padding: 7px 12px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 900px) {
+  .case-frame,
+  .case-frame--reverse {
+    grid-template-columns: 1fr;
+  }
+
+  .case-media,
+  .case-frame--reverse .case-media {
+    order: -1;
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .case-frame--reverse .case-body { order: 2; }
+
+  .case-foot {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .case-meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-frame,
+  .case-media-tag,
+  .case-link::after,
+  .case-link-arrow,
+  .case-meta li::before {
+    transition: none;
+  }
+}
+
+/* ==========================================================
+   SplitType output (see src/utils/animations.js)
+   ========================================================== */
+
+/* SplitType wraps lines in blocks and words in inline-blocks, and
+   neither is painted by its ancestor's text-decoration. On an
+   underlined link that left the rule showing only in the gaps between
+   words, which read as underscores. The whole chain has to re-inherit
+   for each word to draw its own underline. */
+.line,
+.word,
+.char {
+  text-decoration: inherit;
+}
+
+/* Lenis smooth scroll overrides */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+

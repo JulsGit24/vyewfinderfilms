@@ -1,0 +1,40 @@
+.services-page {
+  padding-top: 160px;
+  padding-bottom: 40px;
+  background-color: var(--wst-color-fill-background-primary);
+}
+
+.services-page-header {
+  max-width: 760px;
+  /* padding, not margin: .container already sets `margin: 0 auto` and
+     the two shorthands were fighting over the cascade. */
+  padding-bottom: clamp(40px, 6vw, 70px);
+
+  .subheading {
+    margin-bottom: 0;
+  }
+}
+
+.service-block {
+  padding-top: clamp(40px, 5vw, 72px);
+  padding-bottom: clamp(60px, 8vw, 110px);
+  /* Clears the fixed navbar when reached via /services#photography. */
+  scroll-margin-top: 110px;
+}
+
+.service-block-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: clamp(26px, 3.5vw, 46px);
+
+  .heading-2 {
+    margin-bottom: 14px;
+  }
+
+  .subheading {
+    max-width: 620px;
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,33 @@
+.testimonials-section {
+  background-color: var(--wst-color-fill-background-primary);
+}
+
+.testimonial-card {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+
+  .testimonial-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 30px auto;
+    border: 2px solid var(--wst-color-accent);
+  }
+
+  blockquote {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: var(--wst-color-text-primary);
+    margin-bottom: 20px;
+  }
+
+  .testimonial-name {
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--wst-color-text-secondary);
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "podcast": "Podcast",
+    "about": "About us",
+    "contact": "Contact",
+    "contactUsBtn": "Contact Us",
+    "digitalMarketing": "Digital Marketing",
+    "corporateVideo": "Corporate Video",
+    "photography": "Photography",
+    "socialMedia": "Social Media"
+  },
+  "hero": {
+    "location": "EST.2017 | RICHMOND, VA",
+    "tagline": "Audiovisual Production Company",
+    "subheading": "We create visual experiences that make people choose you.",
+    "btn": "Our Work"
+  },
+  "services": {
+    "title": "Start Your Project",
+    "subheading": "Let's talk about your project",
+    "seeMore": "See more",
+    "items": {
+      "corporate": {
+        "title": "Corporate Videos",
+        "desc": "Professional video production that communicates your brand story with clarity and impact."
+      },
+      "photography": {
+        "title": "Photography",
+        "desc": "High-end photography that captures the details worth remembering."
+      },
+      "social": {
+        "title": "Social Media",
+        "desc": "Scroll-stopping content built for the platforms your audience actually watches."
+      }
+    }
+  },
+  "footer": {
+    "contact": "Contact Us",
+    "addressLbl": "Address",
+    "contactLbl": "Contact",
+    "hoursLbl": "Opening Hours",
+    "subscribe": "Subscribe to our newsletter",
+    "thanks": "Thanks for your message!",
+    "emailPlaceholder": "your@email.com",
+    "send": "Send",
+    "follow": "Follow us on:",
+    "privacy": "Privacy Policy"
+  },
+  "digitalMarketing": {
+    "eyebrow": "Digital Marketing",
+    "title": "Great visuals<br />need a strategy<br />to reach the<br />right people",
+    "lede": "We don't just create content — we make sure it works. From managing your social channels to running paid campaigns, we handle the full picture so you can focus on your business.",
+    "capabilities": {
+      "strategy": "Content Strategy",
+      "campaigns": "Paid Campaigns",
+      "management": "Channel Management"
+    },
+    "getStarted": "Get Started",
+    "mediaTag": "On set / Richmond VA"
+  },
+  "podcast": {
+    "eyebrow": "Launch Your Podcast",
+    "title": "Your voice.<br />your brand.<br />On air",
+    "lede": "We handle everything. You just show up and talk. Two packages designed for brands that are serious about building authority through audio — and video.",
+    "packages": {
+      "audio": "Audio Only",
+      "audioVideo": "Audio + Video",
+      "distribution": "Full Distribution"
+    },
+    "getStarted": "Get Started",
+    "mediaTag": "Studio / On air"
+  },
+  "testimonials": {
+    "title": "Our Work",
+    "quote": "“Testimonials provide a sense of what it's like to work with you or use your products. Change the text and add your own.”",
+    "author": "Alexa Young, CA"
+  },
+  "clients": {
+    "title": "Our Clients"
+  },
+  "instagram": {
+    "title": "Follow Us On Instagram"
+  },
+  "stories": {
+    "title": "STORIES WE'VE CRAFTED",
+    "items": {
+      "1": {
+        "category": "Corporate",
+        "title": "Corporate Film - Velasco Realty Group"
+      },
+      "2": {
+        "category": "Social Content",
+        "title": "Social Content - Let's Upgrade"
+      },
+      "3": {
+        "category": "Social Content",
+        "title": "Social Content - Podcast"
+      }
+    }
+  },
+  "portfolio": {
+    "title": "Featured Work",
+    "quote": "Because perception determines authority",
+    "subheading": "We make Video & Photography that makes people hire you",
+    "items": {
+      "digitalMarketing": {
+        "category": "Digital Marketing",
+        "client": "Featured Campaign",
+        "meta": [
+          "Strategy",
+          "Creative",
+          "Distribution"
+        ]
+      },
+      "corporateVideo": {
+        "category": "Corporate Video",
+        "client": "Velasco Realty",
+        "meta": [
+          "Direction",
+          "Cinematography",
+          "Color"
+        ]
+      },
+      "socialContent": {
+        "category": "Social Content",
+        "client": "Let's Upgrade",
+        "meta": [
+          "Concept",
+          "Production",
+          "Edit"
+        ]
+      },
+      "photography": {
+        "category": "Photography",
+        "client": "Raldas Details",
+        "meta": [
+          "Art Direction",
+          "Retouching",
+          "Lighting"
+        ]
+      }
+    }
+  },
+  "about": {
+    "eyebrow": "Est. 2017 — Richmond, VA",
+    "title": "We make people look twice",
+    "lede": "Vyewfinder Films is an audiovisual production company built on a simple idea: perception determines authority. What people see decides whether they take you seriously.",
+    "body": "We work end to end — direction, cinematography, photography and post — so the story stays intact from the first frame to the final cut. Small team, senior hands, no layers between you and the people doing the work.",
+    "mediaCaption": "On set / Richmond VA",
+    "values": {
+      "craft": {
+        "title": "Craft first",
+        "body": "Every frame is lit, framed and graded deliberately. No filler, no stock filler passed off as story."
+      },
+      "clarity": {
+        "title": "Clarity over noise",
+        "body": "We start with what you need the audience to understand, then build the visuals that carry it."
+      },
+      "partnership": {
+        "title": "Real partnership",
+        "body": "You work directly with the people shooting and cutting your project, start to finish."
+      }
+    },
+    "stats": {
+      "founded": "Founded",
+      "projects": "Projects delivered",
+      "clients": "Brands served"
+    },
+    "ctaTitle": "Let's make something worth watching"
+  },
+  "theme": {
+    "toggle": "Toggle colour theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "servicesPage": {
+    "eyebrow": "What we do",
+    "lede": "Four disciplines, one crew. Every project is scoped, shot and delivered by the same team that pitched it.",
+    "viewMore": "View more"
+  },
+  "gallery": {
+    "back": "All services",
+    "eyebrow": "Selected work",
+    "photos": "Photos",
+    "videos": "Videos",
+    "ctaTitle": "Like what you see?"
+  },
+  "contact": {
+    "eyebrow": "Hey Vyewfinder,",
+    "title": "Let's talk about your project",
+    "lede": "Tell us what you're building and we'll come back within one business day with next steps, a timeline and a straight answer on budget.",
+    "location": "Richmond, VA — available worldwide",
+    "successTitle": "Message sent.",
+    "successBody": "Thanks for reaching out. We'll be in touch within one business day.",
+    "faqTitle": "Frequently asked questions",
+    "form": {
+      "name": "Your name",
+      "namePh": "Jane Rivera",
+      "company": "Company",
+      "companyPh": "Company name (optional)",
+      "email": "Email",
+      "emailPh": "you@company.com",
+      "phone": "Phone",
+      "phonePh": "+1 (804) 555-1234",
+      "purpose": "What's this about?",
+      "purposePh": "Pick one",
+      "purposes": {
+        "project": "Start a project",
+        "partnership": "Partnership or referral",
+        "careers": "Join the team",
+        "other": "Something else"
+      },
+      "message": "Your message",
+      "messagePh": "In short,",
+      "submit": "Send message",
+      "required": "* Required fields",
+      "nameError": "Please enter your name (at least 2 characters).",
+      "emailError": "Please enter a valid email address.",
+      "phoneError": "Please enter a valid phone number (7–15 digits).",
+      "purposeError": "Please choose what this is about.",
+      "messageError": "Please tell us a little more (at least 10 characters)."
+    },
+    "faq": {
+      "timeline": {
+        "q": "How long does a project take?",
+        "a": "Most brand films and photo shoots run two to six weeks from kickoff to delivery. Multi-day shoots or campaigns with several deliverables can run longer — we give you a dated schedule before anything is booked."
+      },
+      "pricing": {
+        "q": "How much does it cost?",
+        "a": "Projects typically start around $3,500 for a single-day shoot with edit. Final cost depends on crew size, shoot days, locations and how many cuts you need. You get an itemised quote, not a range."
+      },
+      "process": {
+        "q": "What does working with you look like?",
+        "a": "A call to understand the goal, then a treatment and quote. Once approved we handle pre-production, the shoot and post. You see a first cut, get two rounds of revisions, and receive final files in every format you need."
+      },
+      "travel": {
+        "q": "Do you travel outside Richmond?",
+        "a": "Yes. We're based in Richmond, VA and shoot regularly across the East Coast and beyond. Travel and lodging are quoted separately and transparently."
+      },
+      "rights": {
+        "q": "Who owns the footage?",
+        "a": "You do. Final deliverables are yours to use across any channel, in perpetuity. We keep the right to show the work in our own portfolio unless you'd rather we didn't."
+      },
+      "podcast": {
+        "q": "Can you produce an ongoing podcast?",
+        "a": "Yes — that's a dedicated service. We handle studio setup, multi-cam recording, editing and distribution, either per episode or on a monthly retainer."
+      }
+    }
+  }
+}

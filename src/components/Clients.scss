@@ -1,0 +1,103 @@
+.clients-section {
+  background-color: var(--wst-color-fill-background-primary);
+  overflow: hidden;
+}
+
+/* ==========================================================
+   Client ticker
+   Continuous horizontal marquee with fade-masked edges, so
+   logos dissolve into the background rather than clipping.
+   ========================================================== */
+.ticker {
+  position: relative;
+}
+
+.ticker-viewport {
+  overflow: hidden;
+
+  /* Fade the leading/trailing edges */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 12%,
+    #000 88%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 12%,
+    #000 88%,
+    transparent 100%
+  );
+}
+
+.ticker-rail {
+  display: flex;
+  width: max-content;
+  animation: ticker-slide 38s linear infinite;
+
+  /* Pausing on hover lets people actually look at a logo. */
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes ticker-slide {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.ticker-track {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ticker-item {
+  flex: 0 0 auto;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(28px, 4vw, 56px);
+
+  img {
+    max-height: 100%;
+    max-width: 170px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%) brightness(1.8);
+    opacity: 0.65;
+    transition: opacity 0.35s ease, filter 0.35s ease;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  &:hover img {
+    opacity: 1;
+    filter: grayscale(0%) brightness(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .ticker-item {
+    height: 40px;
+
+    img { max-width: 120px; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-rail {
+    animation: none;
+    /* Without motion the duplicate track is redundant; let the first
+       set sit still and allow manual panning instead. */
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .ticker-item img {
+    transition: none;
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "podcast": "Podcast",
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "contactUsBtn": "Contáctanos",
+    "digitalMarketing": "Marketing Digital",
+    "corporateVideo": "Video Corporativo",
+    "photography": "Fotografía",
+    "socialMedia": "Redes Sociales"
+  },
+  "hero": {
+    "location": "EST.2017 | RICHMOND, VA",
+    "tagline": "Productora Audiovisual",
+    "subheading": "Creamos experiencias visuales que hacen que la gente te elija.",
+    "btn": "Nuestro Trabajo"
+  },
+  "services": {
+    "title": "Empieza Tu Proyecto",
+    "subheading": "Hablemos de tu proyecto",
+    "seeMore": "Ver más",
+    "items": {
+      "corporate": {
+        "title": "Videos Corporativos",
+        "desc": "Producción de video profesional que comunica la historia de tu marca con claridad e impacto."
+      },
+      "photography": {
+        "title": "Fotografía",
+        "desc": "Fotografía de alta calidad que captura los detalles que vale la pena recordar."
+      },
+      "social": {
+        "title": "Redes Sociales",
+        "desc": "Contenido impactante diseñado para las plataformas que tu audiencia realmente consume."
+      }
+    }
+  },
+  "footer": {
+    "contact": "Contáctanos",
+    "addressLbl": "Dirección",
+    "contactLbl": "Contacto",
+    "hoursLbl": "Horario de Atención",
+    "subscribe": "Suscríbete a nuestro boletín",
+    "thanks": "¡Gracias por tu mensaje!",
+    "emailPlaceholder": "tu@email.com",
+    "send": "Enviar",
+    "follow": "Síguenos en:",
+    "privacy": "Política de privacidad"
+  },
+  "digitalMarketing": {
+    "eyebrow": "Marketing Digital",
+    "title": "Grandes visuales<br />necesitan una estrategia<br />para llegar a las<br />personas adecuadas",
+    "lede": "No solo creamos contenido, nos aseguramos de que funcione. Desde la gestión de tus redes sociales hasta campañas pagas, manejamos el panorama completo para que tú te enfoques en tu negocio.",
+    "capabilities": {
+      "strategy": "Estrategia de Contenido",
+      "campaigns": "Campañas Pagas",
+      "management": "Gestión de Canales"
+    },
+    "getStarted": "Empezar",
+    "mediaTag": "En el set / Richmond VA"
+  },
+  "podcast": {
+    "eyebrow": "Lanza Tu Podcast",
+    "title": "Tu voz.<br />tu marca.<br />Al aire",
+    "lede": "Nos encargamos de todo. Solo tienes que aparecer y hablar. Dos paquetes diseñados para marcas que van en serio en construir autoridad a través de audio — y video.",
+    "packages": {
+      "audio": "Solo Audio",
+      "audioVideo": "Audio + Video",
+      "distribution": "Distribución Completa"
+    },
+    "getStarted": "Empezar",
+    "mediaTag": "Estudio / Al aire"
+  },
+  "testimonials": {
+    "title": "Nuestro Trabajo",
+    "quote": "“Los testimonios ofrecen una idea de cómo es trabajar contigo o usar tus productos. Cambia este texto por el tuyo.”",
+    "author": "Alexa Young, CA"
+  },
+  "clients": {
+    "title": "Nuestros Clientes"
+  },
+  "instagram": {
+    "title": "Síguenos En Instagram"
+  },
+  "stories": {
+    "title": "HISTORIAS QUE HEMOS CREADO",
+    "items": {
+      "1": {
+        "category": "Corporativo",
+        "title": "Película Corporativa - Velasco Realty Group"
+      },
+      "2": {
+        "category": "Contenido Social",
+        "title": "Contenido Social - Let's Upgrade"
+      },
+      "3": {
+        "category": "Contenido Social",
+        "title": "Contenido Social - Podcast"
+      }
+    }
+  },
+  "portfolio": {
+    "title": "Trabajo Destacado",
+    "quote": "Porque la percepción determina la autoridad",
+    "subheading": "Hacemos Video y Fotografía que hace que la gente te contrate",
+    "items": {
+      "digitalMarketing": {
+        "category": "Marketing Digital",
+        "client": "Campaña Destacada",
+        "meta": [
+          "Estrategia",
+          "Creatividad",
+          "Distribución"
+        ]
+      },
+      "corporateVideo": {
+        "category": "Video Corporativo",
+        "client": "Velasco Realty",
+        "meta": [
+          "Dirección",
+          "Cinematografía",
+          "Color"
+        ]
+      },
+      "socialContent": {
+        "category": "Contenido Social",
+        "client": "Let's Upgrade",
+        "meta": [
+          "Concepto",
+          "Producción",
+          "Edición"
+        ]
+      },
+      "photography": {
+        "category": "Fotografía",
+        "client": "Raldas Details",
+        "meta": [
+          "Dirección de Arte",
+          "Retoque",
+          "Iluminación"
+        ]
+      }
+    }
+  },
+  "about": {
+    "eyebrow": "Desde 2017 — Richmond, VA",
+    "title": "Hacemos que te miren dos veces",
+    "lede": "Vyewfinder Films es una productora audiovisual construida sobre una idea simple: la percepción determina la autoridad. Lo que la gente ve decide si te toman en serio.",
+    "body": "Trabajamos de principio a fin — dirección, cinematografía, fotografía y postproducción — para que la historia se mantenga intacta desde el primer cuadro hasta el corte final. Equipo pequeño, manos expertas, sin intermediarios.",
+    "mediaCaption": "En rodaje / Richmond VA",
+    "values": {
+      "craft": {
+        "title": "Oficio primero",
+        "body": "Cada cuadro está iluminado, encuadrado y etiquetado con intención. Sin relleno."
+      },
+      "clarity": {
+        "title": "Claridad sobre ruido",
+        "body": "Empezamos por lo que necesitas que la audiencia entienda, y construimos las imágenes que lo sostienen."
+      },
+      "partnership": {
+        "title": "Colaboración real",
+        "body": "Trabajas directamente con quienes graban y editan tu proyecto, de principio a fin."
+      }
+    },
+    "stats": {
+      "founded": "Fundada",
+      "projects": "Proyectos entregados",
+      "clients": "Marcas atendidas"
+    },
+    "ctaTitle": "Hagamos algo que valga la pena ver"
+  },
+  "theme": {
+    "toggle": "Cambiar tema de color",
+    "light": "Claro",
+    "dark": "Oscuro"
+  },
+  "servicesPage": {
+    "eyebrow": "Lo que hacemos",
+    "lede": "Cuatro disciplinas, un solo equipo. Cada proyecto lo planifica, graba y entrega el mismo equipo que lo propuso.",
+    "viewMore": "Ver más"
+  },
+  "gallery": {
+    "back": "Todos los servicios",
+    "eyebrow": "Trabajo seleccionado",
+    "photos": "Fotos",
+    "videos": "Videos",
+    "ctaTitle": "¿Te gusta lo que ves?"
+  },
+  "contact": {
+    "eyebrow": "Hola Vyewfinder,",
+    "title": "Hablemos de tu proyecto",
+    "lede": "Cuéntanos qué estás construyendo y te respondemos en un día hábil con los siguientes pasos, un calendario y una respuesta clara sobre el presupuesto.",
+    "location": "Richmond, VA — disponibles en todo el mundo",
+    "successTitle": "Mensaje enviado.",
+    "successBody": "Gracias por escribirnos. Te contactaremos en un día hábil.",
+    "faqTitle": "Preguntas frecuentes",
+    "form": {
+      "name": "Tu nombre",
+      "namePh": "Jane Rivera",
+      "company": "Empresa",
+      "companyPh": "Nombre de la empresa (opcional)",
+      "email": "Correo",
+      "emailPh": "tu@empresa.com",
+      "phone": "Teléfono",
+      "phonePh": "+52 33 1234 5678",
+      "purpose": "¿De qué se trata?",
+      "purposePh": "Elige una opción",
+      "purposes": {
+        "project": "Iniciar un proyecto",
+        "partnership": "Alianza o referencia",
+        "careers": "Unirme al equipo",
+        "other": "Otro tema"
+      },
+      "message": "Tu mensaje",
+      "messagePh": "En resumen,",
+      "submit": "Enviar mensaje",
+      "required": "* Campos obligatorios",
+      "nameError": "Ingresa tu nombre (al menos 2 caracteres).",
+      "emailError": "Ingresa un correo electrónico válido.",
+      "phoneError": "Ingresa un teléfono válido (7 a 15 dígitos).",
+      "purposeError": "Elige de qué se trata.",
+      "messageError": "Cuéntanos un poco más (al menos 10 caracteres)."
+    },
+    "faq": {
+      "timeline": {
+        "q": "¿Cuánto tarda un proyecto?",
+        "a": "La mayoría de los videos de marca y sesiones de foto toman de dos a seis semanas desde el arranque hasta la entrega. Las campañas con varios entregables pueden tomar más: te damos un calendario con fechas antes de reservar nada."
+      },
+      "pricing": {
+        "q": "¿Cuánto cuesta?",
+        "a": "Los proyectos suelen empezar alrededor de $3,500 USD por una jornada de grabación con edición. El costo final depende del equipo, los días de rodaje, las locaciones y cuántas versiones necesitas. Recibes una cotización detallada, no un rango."
+      },
+      "process": {
+        "q": "¿Cómo es trabajar con ustedes?",
+        "a": "Una llamada para entender el objetivo, luego un tratamiento y la cotización. Al aprobarla nos encargamos de la preproducción, el rodaje y la postproducción. Ves un primer corte, tienes dos rondas de cambios y recibes los archivos finales en todos los formatos que necesites."
+      },
+      "travel": {
+        "q": "¿Viajan fuera de Richmond?",
+        "a": "Sí. Estamos en Richmond, VA y grabamos con frecuencia en toda la Costa Este y más allá. Los viajes y el hospedaje se cotizan por separado y de forma transparente."
+      },
+      "rights": {
+        "q": "¿De quién es el material?",
+        "a": "Tuyo. Los entregables finales son tuyos para usarlos en cualquier canal, de forma permanente. Nos reservamos el derecho de mostrar el trabajo en nuestro portafolio, salvo que prefieras que no."
+      },
+      "podcast": {
+        "q": "¿Pueden producir un podcast recurrente?",
+        "a": "Sí, es un servicio dedicado. Nos encargamos del montaje del estudio, la grabación multicámara, la edición y la distribución, por episodio o con una iguala mensual."
+      }
+    }
+  }
+}

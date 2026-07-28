@@ -1,0 +1,338 @@
+/* Panel colour and ink are driven by tone variables so the pill, its
+   concave joint, the logo and the hamburger all invert together.
+   The joint must read the exact same value as the panel or the seam
+   between them becomes visible. */
+$notch: 30px;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent;
+  z-index: 100;
+  padding: 24px 0;
+  transition: padding 0.3s ease;
+
+  /* Dark sections: charcoal panel, light ink */
+  &.tone-dark {
+    --nav-panel: #{#1F1F1F};
+    --nav-ink: #{#FFFFFF};
+    --nav-ink-soft: rgba(255, 255, 255, 0.72);
+  }
+
+  /* Light / warm-white sections: the panel takes the page colour and
+     the ink flips to brand charcoal. */
+  &.tone-light {
+    --nav-panel: var(--brand-warm-white);
+    --nav-ink: var(--brand-charcoal);
+    --nav-ink-soft: rgba(46, 46, 46, 0.7);
+  }
+
+  &.scrolled .desktop-nav {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  &.scrolled {
+    padding: 14px 0;
+  }
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  color: var(--nav-ink);
+  transition: color 0.35s ease;
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 6px;
+  }
+}
+
+/* The isotype ships with a hardcoded white fill, which would vanish on
+   a light section. Painting it as a mask instead lets it take the nav
+   ink colour and invert along with the rest of the bar. */
+.logo-isotype {
+  display: block;
+  width: 46px;
+  height: 32px;
+  background-color: var(--nav-ink);
+  mask-image: url('/assets/logo_isotype_2.svg');
+  -webkit-mask-image: url('/assets/logo_isotype_2.svg');
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  transition: background-color 0.35s ease;
+
+  @media (max-width: 768px) {
+    width: 38px;
+    height: 26px;
+  }
+}
+
+/* ==========================================================
+   Notched nav pill
+   Flush to the top-right of the viewport with a convex
+   bottom-left corner and a concave joint on its left, so it
+   reads as carved out of the page edge.
+   ========================================================== */
+.desktop-nav {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--nav-panel);
+  border-bottom-left-radius: $notch;
+  padding: 22px max(20px, calc((100vw - 1200px) / 2)) 20px 34px;
+  transition: background-color 0.35s ease, box-shadow 0.3s ease;
+
+  /* Concave joint: a quarter-circle carved out of a panel-coloured
+     block sitting immediately left of the pill. */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -$notch;
+    width: $notch;
+    height: $notch;
+    background: radial-gradient(circle at 0 100%, transparent 0 $notch, var(--nav-panel) $notch);
+    transition: background 0.35s ease;
+    pointer-events: none;
+  }
+
+  ul {
+    display: flex;
+    gap: 34px;
+
+    a {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 500;
+      color: var(--nav-ink-soft);
+      transition: color 0.3s ease;
+      position: relative;
+
+      &:hover, &.active {
+        color: var(--wst-color-action);
+      }
+
+      &.active::after {
+        content: '';
+        position: absolute;
+        bottom: -6px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: var(--wst-color-action);
+        border-radius: 2px;
+      }
+    }
+  }
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 101;
+
+  .line {
+    width: 24px;
+    height: 2px;
+    background: var(--nav-ink);
+    margin: 6px 0;
+    transition: background-color 0.35s ease, transform 0.3s ease;
+  }
+}
+
+.mobile-nav {
+  overflow: hidden;
+  background: var(--nav-panel);
+
+  ul {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    a {
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--nav-ink);
+
+      &.active {
+        color: var(--wst-color-action);
+      }
+    }
+  }
+}
+
+.mobile-nav-divider {
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--nav-ink-soft);
+}
+
+.mobile-nav-call {
+  color: var(--wst-color-action) !important;
+}
+
+/* Theme and language, mirroring the desktop pill's controls. Sized
+   to the 44px touch-target minimum. */
+.mobile-nav-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.mobile-nav-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 30px;
+  background: none;
+  border: 1px solid var(--nav-ink-soft);
+  color: var(--nav-ink);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, color 0.3s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--wst-color-action);
+    color: var(--wst-color-action);
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none;
+  }
+  .hamburger {
+    display: block;
+  }
+  .navbar.scrolled {
+    background: var(--nav-panel);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar,
+  .desktop-nav,
+  .desktop-nav::before,
+  .logo,
+  .hamburger .line {
+    transition: none;
+  }
+}
+.has-dropdown {
+  position: relative;
+  &:hover .dropdown-menu {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--bg-primary);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  a {
+    color: var(--text-secondary) !important;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    &:hover { color: var(--text-primary) !important; }
+  }
+}
+/* These controls sit inside the nav pill, so they follow the pill's
+   ink token rather than the page tokens — the pill can be dark while
+   the page behind it is light. */
+.lang-toggle {
+  background: none;
+  border: 1px solid var(--nav-ink-soft);
+  color: var(--nav-ink);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    border-color: var(--wst-color-action);
+    color: var(--wst-color-action);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 2px;
+  }
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: none;
+  border: 1px solid var(--nav-ink-soft);
+  color: var(--nav-ink);
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    border-color: var(--wst-color-action);
+    color: var(--wst-color-action);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 2px;
+  }
+}
+
+.btn-contact-us {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--wst-color-action);
+  color: var(--wst-color-on-action) !important;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+
+  &:hover { background: var(--wst-color-action-hover); }
+}

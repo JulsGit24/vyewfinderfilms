@@ -1,0 +1,24 @@
+{
+  "source": "public/assets/loader_intro.mp4",
+  "segment": {
+    "start": 6.2,
+    "duration": 3.8,
+    "note": "exploded -> fully assembled, pre-logo"
+  },
+  "frameCount": 73,
+  "pattern": "frame-%04d.webp",
+  "desktop": {
+    "path": "/loader/desktop",
+    "width": 900
+  },
+  "mobile": {
+    "path": "/loader/mobile",
+    "width": 460
+  },
+  "logo": "/loader/logo-lockup.png",
+  "keying": "luma-ramp alpha (opaque<70, transparent>125) + exposure lift",
+  "bytes": {
+    "desktop": 2459796,
+    "mobile": 1093770
+  }
+}

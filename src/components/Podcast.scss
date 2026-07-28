@@ -1,0 +1,10 @@
+/* Card styles live in index.scss (.case-frame) — shared with the
+   Digital Marketing section. Only section-level concerns here. */
+.podcast-section {
+  position: relative;
+  /* frame is static now; no 3D context needed */
+  background:
+    radial-gradient(circle at 20% 20%, rgba(216, 199, 168, 0.08), transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(201, 168, 106, 0.1), transparent 45%),
+    var(--wst-color-fill-background-primary);
+}

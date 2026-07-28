@@ -1,0 +1,201 @@
+.services-section {
+  background-color: var(--wst-color-fill-background-primary);
+  overflow: hidden;
+}
+
+.section-header {
+  margin-bottom: 50px;
+}
+
+/* ==========================================================
+   Rotating arc gallery
+   Slides sit on a circular arc: each is rotated and pushed
+   down by its distance from the active index, so the row
+   curves like a wheel.
+   ========================================================== */
+$step-angle: 9deg;
+$step-drop: 54px;
+
+.services-wheel {
+  position: relative;
+}
+
+.wheel-stage {
+  position: relative;
+  height: clamp(330px, 46vw, 520px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1400px;
+  cursor: grab;
+  touch-action: pan-y;
+
+  &:active { cursor: grabbing; }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 6px;
+  }
+}
+
+.wheel-slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(230px, 25vw, 360px);
+  height: clamp(300px, 40vw, 460px);
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transform-origin: 50% 140%;
+
+  /* Arc placement: horizontal step, drop along the curve, rotation,
+     and a slight scale/opacity falloff away from centre. */
+  transform:
+    translate(-50%, -50%)
+    translateX(calc(var(--offset) * clamp(200px, 22vw, 320px)))
+    translateY(calc(var(--abs) * #{$step-drop}))
+    rotate(calc(var(--offset) * #{$step-angle}))
+    scale(calc(1 - var(--abs) * 0.08));
+  opacity: calc(1 - var(--abs) * 0.4);
+  transition:
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.6s ease;
+  filter: saturate(0.55) brightness(0.7);
+
+  &.is-active {
+    filter: none;
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 6px;
+  }
+}
+
+.wheel-slide-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--wst-color-border);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+}
+
+.wheel-slide-index {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  color: var(--wst-color-accent);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* ---- Copy + controls ---- */
+.wheel-ui {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.wheel-copy {
+  max-width: 460px;
+  animation: wheel-copy-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes wheel-copy-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.wheel-title {
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+}
+
+.wheel-desc {
+  color: var(--wst-color-text-secondary);
+  line-height: 1.7;
+}
+
+.wheel-controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.wheel-arrow {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--wst-color-border-strong);
+  background: transparent;
+  color: var(--wst-color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--wst-color-action);
+    border-color: var(--wst-color-action);
+    color: var(--brand-black);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 3px;
+  }
+}
+
+.wheel-count {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: var(--wst-color-text-secondary);
+  min-width: 74px;
+  text-align: center;
+
+  i {
+    font-style: normal;
+    color: var(--wst-color-action);
+    margin: 0 2px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wheel-ui {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wheel-slide {
+    transition: none;
+  }
+  .wheel-copy {
+    animation: none;
+  }
+}

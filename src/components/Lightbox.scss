@@ -1,0 +1,121 @@
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 5vw, 64px);
+  animation: lightbox-in 0.28s ease both;
+}
+
+@keyframes lightbox-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  border: none;
+  padding: 0;
+  cursor: zoom-out;
+  background: rgba(var(--wst-scrim-rgb), 0.94);
+  backdrop-filter: blur(6px);
+}
+
+.lightbox-stage {
+  position: relative;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: lightbox-rise 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes lightbox-rise {
+  from { opacity: 0; transform: scale(0.94) translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Natural size, never upscaled — only clamped down when it would
+   overflow the viewport. */
+.lightbox-media {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(100%, 1400px);
+  max-height: calc(100vh - clamp(90px, 14vw, 180px));
+  box-shadow: 0 30px 90px var(--wst-shadow-strong);
+}
+
+.lightbox-caption {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--wst-color-text-secondary);
+}
+
+.lightbox-close,
+.lightbox-nav {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--wst-color-surface);
+  border: 1px solid var(--wst-color-border-strong);
+  color: var(--wst-color-text-primary);
+  cursor: pointer;
+  transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    border-color: var(--wst-color-action);
+    color: var(--wst-color-action);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 3px;
+  }
+}
+
+.lightbox-close {
+  top: clamp(16px, 3vw, 34px);
+  right: clamp(16px, 3vw, 34px);
+}
+
+.lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+
+  &--prev { left: clamp(12px, 3vw, 34px); }
+  &--next { right: clamp(12px, 3vw, 34px); }
+
+  &:hover { transform: translateY(-50%) scale(1.06); }
+}
+
+@media (max-width: 640px) {
+  .lightbox-nav {
+    top: auto;
+    bottom: 20px;
+    transform: none;
+
+    &:hover { transform: scale(1.06); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox,
+  .lightbox-stage {
+    animation: none;
+  }
+  .lightbox-close,
+  .lightbox-nav {
+    transition: none;
+  }
+}

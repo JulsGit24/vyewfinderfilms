@@ -156,3 +156,6 @@ media-src/
 changes_log/
 docs/
 prompts/
+AGENTS.md
+CLAUDE.md
+.agents

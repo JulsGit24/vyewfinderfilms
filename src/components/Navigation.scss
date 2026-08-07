@@ -16,8 +16,8 @@ $notch: 30px;
 
   /* Dark sections: charcoal panel, light ink */
   &.tone-dark {
-    --nav-panel: #{#1F1F1F};
-    --nav-ink: #{#FFFFFF};
+    --nav-panel: var(--brand-black);
+    --nav-ink: var(--brand-white);
     --nav-ink-soft: rgba(255, 255, 255, 0.72);
   }
 

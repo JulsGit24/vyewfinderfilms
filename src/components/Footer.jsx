@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Facebook, Twitter, Linkedin, Instagram } from 'lucide-react'
+import { Facebook, Instagram } from 'lucide-react'
 import { gsap } from 'gsap'
 import './Footer.scss'
 import { animateTextReveal } from '../utils/animations'
@@ -33,10 +33,9 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Contact Us</h4>
             <p className="footer-label">Address</p>
-            <p>500 Terry Francine St.<br />San Francisco, CA 94158</p>
+            <p>Richmond, Virginia</p>
             <p className="footer-label">Contact</p>
-            <p>123-456-7890<br />info@mysite.com</p>
-            <p>+52-1-33-12345678<br />Info@misitio.com</p>
+            <p>804-998-0564<br />info@vyewfinderfilms.com</p>
           </div>
 
           <div className="footer-col footer-brand">
@@ -68,10 +67,8 @@ export default function Footer() {
             )}
             <p className="footer-label follow-label">S&iacute;guenos en:</p>
             <div className="social-links">
-              <a href="https://www.facebook.com" target="_blank" rel="noreferrer noopener" aria-label="Facebook" className="social-icon"><Facebook size={18} /></a>
-              <a href="https://www.twitter.com" target="_blank" rel="noreferrer noopener" aria-label="Twitter" className="social-icon"><Twitter size={18} /></a>
-              <a href="https://www.linkedin.com" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn" className="social-icon"><Linkedin size={18} /></a>
-              <a href="https://www.instagram.com" target="_blank" rel="noreferrer noopener" aria-label="Instagram" className="social-icon"><Instagram size={18} /></a>
+              <a href="https://www.facebook.com/vyewfinderfilmsrva/" target="_blank" rel="noreferrer noopener" aria-label="Facebook" className="social-icon"><Facebook size={18} /></a>
+              <a href="https://www.instagram.com/vyewfinderfilms/" target="_blank" rel="noreferrer noopener" aria-label="Instagram" className="social-icon"><Instagram size={18} /></a>
             </div>
           </div>
         </div>

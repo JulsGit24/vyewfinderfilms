@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import './Hero.scss'
+import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { animateTextReveal } from '../utils/animations'
 import { useSiteReady } from '../utils/siteReady'
+import './Hero.scss'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -64,7 +64,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section id="home" className="hero-section" data-nav-tone="dark" ref={heroRef}>
+    <section id="home" className="hero-section" ref={heroRef}>
       <div className="hero-bg">
         <video
           ref={videoRef}
@@ -73,7 +73,7 @@ export default function Hero() {
           muted
           loop
           playsInline
-          poster="/images/hero-bg.jpg"
+          poster="/images/hero-bg.webp"
           preload={siteReady ? 'auto' : 'none'}
         >
           {siteReady && <source src="/assets/viewfinder_hero.mp4" type="video/mp4" />}
@@ -83,7 +83,7 @@ export default function Hero() {
       <div className="container">
         <div className="hero-content text-center">
           <p className="hero-meta">{t('hero.location')}</p>
-          <h1 className="heading-1">VIEWFINDERFILMS</h1>
+          <h1 className="heading-1">VIEWFINDER FILMS</h1>
           <p className="hero-tagline">{t('hero.tagline')}</p>
           <p className="subheading">{t('hero.subheading')}</p>
           {/* Points at #stories — the old #work target was the Featured

@@ -1,17 +1,17 @@
-import React, { useEffect, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Instagram as InstagramIcon } from 'lucide-react'
 import { gsap } from 'gsap'
-import './Instagram.scss'
+import { Instagram as InstagramIcon } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { animateTextReveal } from '../utils/animations'
+import './Instagram.scss'
 
 const images = [
-  '/images/portfolio-corporate.jpg',
-  '/images/portfolio-social-1.jpg',
-  '/images/portfolio-social-2.jpg',
-  '/images/digital-marketing-side.jpg',
-  '/images/hero-bg.jpg',
-  '/images/testimonial-avatar.jpg'
+  '/images/portfolio-corporate.webp',
+  '/images/portfolio-social-1.webp',
+  '/images/portfolio-social-2.webp',
+  '/images/digital-marketing-side.webp',
+  '/images/hero-bg.webp',
+  '/images/testimonial-avatar.webp'
 ]
 
 export default function Instagram() {
@@ -39,7 +39,7 @@ export default function Instagram() {
           <a
             key={index}
             className="instagram-item"
-            href="https://www.instagram.com"
+            href="https://www.instagram.com/vyewfinderfilms/"
             target="_blank"
             rel="noreferrer noopener"
           >

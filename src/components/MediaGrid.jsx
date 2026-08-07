@@ -22,17 +22,23 @@ export default function MediaGrid({ items, moreHref, moreLabel = 'View more', co
         style={columns ? { '--media-columns': columns } : undefined}
       >
         {items.map((item, i) => (
-          <li className="media-tile" key={item.src}>
+          <li className="media-tile" key={item.thumb}>
             <button
               type="button"
               className="media-tile-btn"
               onClick={() => setOpen(i)}
-              aria-label={`Expand ${item.alt || 'media'}`}
+              aria-label={item.label}
             >
+              {/* Videos show their poster still here — the grid never
+                  mounts a decoder. alt is empty because the tile has no
+                  visible title and the filename must not surface. */}
               <img
-                src={item.type === 'video' ? item.poster : item.src}
-                alt={item.alt || ''}
+                src={item.type === 'video' ? item.poster : item.thumb}
+                alt=""
+                width={item.width}
+                height={item.height}
                 loading="lazy"
+                decoding="async"
                 draggable="false"
               />
               <span className="media-tile-hover" aria-hidden="true">

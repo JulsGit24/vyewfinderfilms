@@ -50,12 +50,8 @@
   box-shadow: 0 30px 90px var(--wst-shadow-strong);
 }
 
-.lightbox-caption {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--wst-color-text-secondary);
-}
+/* .lightbox-caption intentionally removed — gallery media is shown
+   without a visible title. */
 
 .lightbox-close,
 .lightbox-nav {

@@ -23,15 +23,26 @@ export default function ServicesPage() {
     }
   }, [])
 
+  const randomPreviews = React.useMemo(() => {
+    return services.map(service => {
+      // Filter out videos if we specifically want "5 random images" as requested, 
+      // or just shuffle all media. The prompt said "5 random images", so let's filter for images.
+      const imagesOnly = service.media.filter(m => m.type === 'image')
+      const shuffled = [...imagesOnly].sort(() => 0.5 - Math.random())
+      return {
+        ...service,
+        previewMedia: shuffled.slice(0, PREVIEW_COUNT)
+      }
+    })
+  }, [])
+
   return (
     <div className="services-page" ref={pageRef}>
       <div className="container text-center services-page-header">
-        <p className="eyebrow">{t('servicesPage.eyebrow')}</p>
-        <h1 className="heading-1">{t('nav.services')}</h1>
-        <p className="subheading">{t('servicesPage.lede')}</p>
+        <h1 className="heading-1">{t('servicesPage.eyebrow')}</h1>
       </div>
 
-      {services.map((service) => (
+      {randomPreviews.map((service) => (
         <section id={service.anchor} className="service-block" key={service.slug}>
           <div className="container service-block-head">
             <h2 className="heading-2">{t(service.titleKey)}</h2>
@@ -41,7 +52,7 @@ export default function ServicesPage() {
           {/* Tiles expand in place; the row is closed on the right by
               the link through to this service's full gallery. */}
           <MediaGrid
-            items={service.media.slice(0, PREVIEW_COUNT)}
+            items={service.previewMedia}
             moreHref={`/services/${service.slug}`}
             moreLabel={t('servicesPage.viewMore')}
           />

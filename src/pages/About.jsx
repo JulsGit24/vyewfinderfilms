@@ -87,7 +87,7 @@ export default function About() {
                 muted
                 playsInline
                 preload={siteReady ? 'metadata' : 'none'}
-                poster="/images/hero-bg.jpg"
+                poster="/images/hero-bg.webp"
               >
                 {siteReady && <source src="/assets/viewfinder_hero.mp4" type="video/mp4" />}
               </video>

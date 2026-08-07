@@ -1,0 +1,106 @@
+/* ==========================================================
+   ScrollWall — see ScrollWall.jsx for the measured reference
+   behaviour this reproduces.
+
+   The wall is a fixed-height window onto columns that are taller
+   than it. Overflow is hidden on each column so the wrapping
+   translate never spills.
+   ========================================================== */
+.scroll-wall {
+  --wall-columns: 4;
+  --wall-gap: clamp(10px, 1vw, 18px);
+  --wall-height: clamp(560px, 88vh, 940px);
+
+  display: grid;
+  grid-template-columns: repeat(var(--wall-columns), 1fr);
+  gap: var(--wall-gap);
+  height: var(--wall-height);
+  padding: 0 var(--wall-gap);
+  overflow: hidden;
+  /* The tracks translate on every scroll frame; promoting the wall
+     keeps that off the main paint path. */
+  contain: paint;
+}
+
+.scroll-wall-col {
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-wall-track {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wall-gap);
+  will-change: transform;
+}
+
+.wall-tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  /* Matches the reference's tall portrait cards (335x441 ≈ 3/4). */
+  aspect-ratio: 3 / 4;
+  flex: 0 0 auto;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: zoom-in;
+  overflow: hidden;
+  border-radius: 10px;
+
+  img, video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 3px;
+  }
+
+  &:hover img,
+  &:hover video,
+  &:focus-visible img,
+  &:focus-visible video {
+    transform: scale(1.06);
+  }
+
+  &:hover .wall-tile-hover,
+  &:focus-visible .wall-tile-hover {
+    opacity: 1;
+  }
+}
+
+.wall-tile-hover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Sits over photography in both themes, so it stays fixed. */
+  background: rgba(31, 31, 31, 0.5);
+  color: #ffffff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-wall {
+    /* No drift, so the window becomes a plain grid of the first
+       tiles rather than a cropped slice of a moving column. */
+    height: auto;
+    overflow: visible;
+  }
+
+  .scroll-wall-track {
+    will-change: auto;
+  }
+
+  .wall-tile img {
+    transition: none;
+  }
+}

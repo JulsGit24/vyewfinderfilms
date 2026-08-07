@@ -103,7 +103,7 @@ export default function DigitalMarketing() {
               muted
               playsInline
               preload={siteReady ? 'auto' : 'none'}
-              poster="/images/digital-marketing-side.jpg"
+              poster="/images/digital-marketing-side.webp"
             >
               {siteReady && <source src="/assets/loader_intro.mp4" type="video/mp4" />}
             </video>

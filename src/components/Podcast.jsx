@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpRight } from 'lucide-react'
 import { gsap } from 'gsap'
@@ -57,10 +58,10 @@ export default function Podcast() {
                 <li>{t('podcast.packages.audioVideo')}</li>
                 <li>{t('podcast.packages.distribution')}</li>
               </ul>
-              <a href="#contact" className="case-link">
+              <Link to="/podcast" className="case-link">
                 <span>{t('podcast.getStarted')}</span>
                 <ArrowUpRight size={16} className="case-link-arrow" />
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -73,7 +74,7 @@ export default function Podcast() {
               muted
               playsInline
               preload={siteReady ? 'auto' : 'none'}
-              poster="/images/hero-bg.jpg"
+              poster="/images/hero-bg.webp"
             >
               {siteReady && <source src="/assets/podcast_recording.mp4" type="video/mp4" />}
             </video>

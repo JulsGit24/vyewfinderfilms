@@ -145,7 +145,14 @@ vite.config.ts.timestamp-*
 
 #custom ignore
 dist/
-docs/
 ffmpeg_extracted/
 *.zip
 .claude
+# Camera originals for the media pipeline (~465 MB). These are the
+# inputs to `npm run optimize:all`; the web derivatives it writes into
+# public/media, public/assets and public/images are what get committed
+# and deployed. Keep a backup of this folder outside the repo.
+media-src/
+changes_log/
+docs/
+prompts/

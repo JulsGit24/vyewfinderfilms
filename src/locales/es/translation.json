@@ -3,6 +3,7 @@
     "home": "Inicio",
     "services": "Servicios",
     "podcast": "Podcast",
+    "gallery": "Galería",
     "about": "Nosotros",
     "contact": "Contacto",
     "contactUsBtn": "Contáctanos",
@@ -33,6 +34,10 @@
       "social": {
         "title": "Redes Sociales",
         "desc": "Contenido impactante diseñado para las plataformas que tu audiencia realmente consume."
+      },
+      "podcast": {
+        "title": "Podcast",
+        "desc": "Producción de podcast integral, desde el montaje del estudio hasta el episodio que escucha tu audiencia."
       }
     }
   },
@@ -74,8 +79,7 @@
   },
   "testimonials": {
     "title": "Nuestro Trabajo",
-    "quote": "“Los testimonios ofrecen una idea de cómo es trabajar contigo o usar tus productos. Cambia este texto por el tuyo.”",
-    "author": "Alexa Young, CA"
+    "items": []
   },
   "clients": {
     "title": "Nuestros Clientes"
@@ -97,6 +101,10 @@
       "3": {
         "category": "Contenido Social",
         "title": "Contenido Social - Podcast"
+      },
+      "4": {
+        "category": "Real Estate",
+        "title": "Real Estate - Realtor Production"
       }
     }
   },
@@ -185,7 +193,8 @@
     "eyebrow": "Trabajo seleccionado",
     "photos": "Fotos",
     "videos": "Videos",
-    "ctaTitle": "¿Te gusta lo que ves?"
+    "ctaTitle": "¿Te gusta lo que ves?",
+    "work": "Galería"
   },
   "contact": {
     "eyebrow": "Hola Vyewfinder,",
@@ -247,6 +256,342 @@
         "q": "¿Pueden producir un podcast recurrente?",
         "a": "Sí, es un servicio dedicado. Nos encargamos del montaje del estudio, la grabación multicámara, la edición y la distribución, por episodio o con una iguala mensual."
       }
+    }
+  },
+  "chatbot": {
+    "launcher": "Pregúntanos lo que sea…",
+    "title": "Asistente de Vyewfinder",
+    "subtitle": "Asistente virtual — una persona da seguimiento",
+    "close": "Cerrar chat",
+    "restart": "Empezar de nuevo",
+    "send": "Enviar",
+    "skip": "Omitir",
+    "back": "Atrás",
+    "inputPlaceholder": "Escribe tu respuesta…",
+    "privacy": "Comparte solo lo que tu proyecto necesite. No envíes números de tarjeta, contraseñas ni documentos de identidad por aquí.",
+    "errName": "Ingresa tu nombre (al menos 2 caracteres).",
+    "errEmail": "Ingresa un correo electrónico válido.",
+    "errPhone": "Ingresa un teléfono válido (7 a 15 dígitos).",
+    "errShort": "¿Puedes darnos un poco más de detalle?",
+    "sendWhatsapp": "Enviar por WhatsApp",
+    "sendEmail": "Enviar por correo",
+    "sending": "Enviando…",
+    "sentOk": "Enviado. El equipo te dará seguimiento.",
+    "sentFail": "No se pudo enviar automáticamente — usa WhatsApp o el correo de abajo.",
+    "summaryTitle": "Esto es lo que tengo",
+    "nodes": {
+      "welcome": {
+        "message": "¡Hola! Soy el asistente virtual de Vyewfinder Films. Ayudamos a negocios a crear contenido profesional de video, fotografía y redes sociales. ¿Qué te gustaría crear?",
+        "options": {
+          "video": "Producción de Video",
+          "social": "Contenido para Redes",
+          "photo": "Fotografía",
+          "quote": "Solicitar Cotización",
+          "consult": "Agendar Consulta",
+          "faq": "Hacer una Pregunta"
+        }
+      },
+      "svc_video": {
+        "message": "El video corporativo y comercial funciona muy bien cuando necesitas explicar tu negocio, promocionar un servicio o contar la historia de tu marca. Cada proyecto se cotiza por separado, así que el equipo arma una recomendación a la medida según tu objetivo, la grabación, los entregables y el calendario.",
+        "options": {
+          "quote": "Solicitar Cotización",
+          "consult": "Solicitar Consulta",
+          "back": "Volver al menú"
+        }
+      },
+      "svc_social": {
+        "message": "Creamos contenido profesional para redes y podemos hablar de apoyo en estrategia, producción y edición. El mejor esquema depende de tus plataformas, la frecuencia de publicación y si buscas una campaña única o un plan continuo.",
+        "options": {
+          "quote": "Solicitar Cotización",
+          "consult": "Solicitar Consulta",
+          "back": "Volver al menú"
+        }
+      },
+      "menu_photo": {
+        "message": "¿Qué tipo de fotografía te interesa?",
+        "options": {
+          "food": "Fotografía de Alimentos",
+          "realestate": "Fotografía Inmobiliaria",
+          "headshots": "Retratos Corporativos",
+          "other": "Otra Fotografía",
+          "back": "Volver al menú"
+        }
+      },
+      "svc_food": {
+        "message": "La fotografía de alimentos es uno de nuestros servicios, y el portafolio incluye trabajo de restaurantes y hospitalidad. Para cotizarla, al equipo le sirve saber aproximadamente cuántos platillos o bebidas necesitas, dónde se usarán las imágenes y tu fecha objetivo.",
+        "options": {
+          "quote": "Solicitar Cotización",
+          "back": "Atrás"
+        }
+      },
+      "svc_realestate": {
+        "message": "La fotografía inmobiliaria es un servicio que ofrecemos. Para revisar disponibilidad, el equipo necesita la ubicación y el tipo de propiedad, cuándo estará lista para fotografiar, tu horario preferido y la fecha límite del listado.",
+        "options": {
+          "quote": "Solicitar Cotización",
+          "back": "Atrás"
+        }
+      },
+      "svc_headshots": {
+        "message": "Los retratos corporativos son un servicio que ofrecemos, para una persona o para todo un equipo. El alcance depende de cuántas personas, la ubicación, el estilo que buscas y dónde se usarán las imágenes.",
+        "options": {
+          "quote": "Solicitar Cotización",
+          "back": "Atrás"
+        }
+      },
+      "svc_photo_other": {
+        "message": "Puede ser algo que el equipo de producción revise. Cuéntame la idea, dónde se realizaría y tu calendario, y preparo la solicitud para ellos.",
+        "options": {
+          "quote": "Compartir Detalles",
+          "back": "Atrás"
+        }
+      },
+      "quote_service": {
+        "message": "Con gusto preparo una solicitud de cotización. ¿Qué servicio te interesa?",
+        "options": {
+          "video": "Producción de Video",
+          "social": "Contenido para Redes",
+          "food": "Fotografía de Alimentos",
+          "realestate": "Fotografía Inmobiliaria",
+          "headshots": "Retratos Corporativos",
+          "other": "Otro proyecto"
+        }
+      },
+      "quote_goal": {
+        "message": "¿Qué te gustaría lograr con el contenido final?",
+        "options": {
+          "promote": "Promocionar un servicio",
+          "introduce": "Presentar el negocio",
+          "inquiries": "Generar consultas",
+          "awareness": "Dar a conocer la marca",
+          "property": "Mostrar una propiedad",
+          "other": "Otro objetivo"
+        }
+      },
+      "quote_scope": {
+        "message": "¿Qué te gustaría recibir? Por ejemplo, aproximadamente cuántos videos o fotos, la duración que buscas, o las plataformas donde se usarán."
+      },
+      "quote_location": {
+        "message": "¿Dónde se realizaría la grabación o la sesión de fotos?"
+      },
+      "quote_date": {
+        "message": "¿Qué fecha o fecha límite tienes en mente?"
+      },
+      "quote_budget": {
+        "message": "¿Tienes un presupuesto o rango de inversión que quieras que el equipo considere? No hay problema si todavía no lo sabes."
+      },
+      "consult_intro": {
+        "message": "Con gusto solicito una consulta. ¿Qué tipo de contenido estás considerando y qué objetivo de negocio debería apoyar?"
+      },
+      "consult_when": {
+        "message": "¿Qué fechas y horarios te funcionan mejor? Comparte al menos dos opciones — el equipo confirmará la disponibilidad antes de agendar algo."
+      },
+      "menu_faq": {
+        "message": "¿Qué te gustaría saber?",
+        "options": {
+          "pricing": "¿Cuánto cuesta?",
+          "areas": "¿Qué zonas cubren?",
+          "timeline": "¿Cuánto tarda?",
+          "spanish": "¿Hablan español?",
+          "work": "¿Puedo ver su trabajo?",
+          "back": "Volver al menú"
+        }
+      },
+      "faq_pricing": {
+        "message": "El precio es personalizado, porque el alcance varía según la planeación, el tiempo de grabación, las locaciones, el equipo, la edición, las versiones y la fecha límite. No tengo una lista de precios fija que darte — pero puedo recopilar los datos para que el equipo prepare un número preciso.",
+        "options": {
+          "quote": "Solicitar Cotización",
+          "back": "Atrás"
+        }
+      },
+      "faq_areas": {
+        "message": "Vyewfinder Films está en Richmond, Virginia. El trabajo fuera de Richmond no está definido públicamente, así que el equipo confirma la disponibilidad y cualquier consideración de viaje para tu ubicación.",
+        "options": {
+          "quote": "Solicitar Cotización",
+          "back": "Atrás"
+        }
+      },
+      "faq_timeline": {
+        "message": "Los tiempos dependen del servicio, los entregables, las locaciones y el plan de producción, y no tengo plazos confirmados que prometer. Comparte tu fecha límite y el equipo confirmará si es viable.",
+        "options": {
+          "consult": "Solicitar Consulta",
+          "back": "Atrás"
+        }
+      },
+      "faq_spanish": {
+        "message": "Sí — puedes escribirme en español y te respondo en español. Nuestra comunicación incluye español, y el equipo puede confirmar la disponibilidad de idioma para una reunión específica.",
+        "options": {
+          "back": "Atrás"
+        }
+      },
+      "faq_work": {
+        "message": "Sí — las páginas de Servicios incluyen video y fotografía destacados en bienes raíces, belleza, restaurantes, servicios financieros, remodelación y otras categorías de negocios locales.",
+        "options": {
+          "quote": "Solicitar Cotización",
+          "back": "Atrás"
+        }
+      },
+      "consent": {
+        "message": "¿Puedo recopilar tu nombre y datos de contacto para que el equipo dé seguimiento a este proyecto?",
+        "options": {
+          "yes": "Sí, adelante",
+          "no": "Ahora no"
+        }
+      },
+      "lead_name": {
+        "message": "Perfecto — ¿a quién debe contactar el equipo?"
+      },
+      "lead_business": {
+        "message": "¿Cómo se llama tu negocio u organización?"
+      },
+      "lead_email": {
+        "message": "¿Cuál es el mejor correo para contactarte?"
+      },
+      "lead_phone": {
+        "message": "¿Y un número de teléfono?"
+      },
+      "lead_contact_pref": {
+        "message": "¿Cómo prefieres que te contacten?",
+        "options": {
+          "email": "Correo",
+          "phone": "Llamada",
+          "whatsapp": "WhatsApp"
+        }
+      },
+      "review": {
+        "message": "Esta es la solicitud que voy a enviar. Un miembro del equipo la revisará y confirmará el alcance, la disponibilidad y el precio — nada queda reservado hasta que lo confirmen.",
+        "options": {
+          "send": "Todo correcto — enviar",
+          "restart": "Empezar de nuevo"
+        }
+      },
+      "done": {
+        "message": "Gracias. Envíala por WhatsApp para la respuesta más rápida, o por correo al equipo — ambas llegan a las mismas personas."
+      },
+      "declined": {
+        "message": "Sin problema. Puedes contactar al equipo cuando quieras en info@vyewfinderfilms.com o al 804-998-0564.",
+        "options": {
+          "back": "Volver al menú"
+        }
+      }
+    },
+    "pickOption": "Elige una opción arriba…"
+  },
+  "podcastPage": {
+    "eyebrow": "Producción de Podcast",
+    "title": "Tu voz, producida como se merece",
+    "lede": "Desde el primer episodio hasta los clips que lo llevan a las redes, Vyewfinder Films se encarga de la producción para que tú te concentres en la conversación.",
+    "cta": "Comienza tu podcast",
+    "ctaSecondary": "Ver qué incluimos",
+    "formats": {
+      "eyebrow": "Qué producimos",
+      "title": "Diseñado alrededor de tu programa",
+      "lede": "Cada podcast se cotiza de forma individual. Cuéntanos el formato que tienes en mente y el equipo arma una recomendación a tu medida — estas son las áreas que cubrimos.",
+      "items": {
+        "video": {
+          "chip": "Video",
+          "title": "Producción de podcast en video",
+          "desc": "Grabación con varias cámaras, encuadrada e iluminada para que tu programa se vea tan cuidado como suena."
+        },
+        "audio": {
+          "chip": "Audio",
+          "title": "Grabación de audio",
+          "desc": "Audio limpio y bien capturado para anfitriones e invitados, ya sea un programa solo de audio o con video."
+        },
+        "live": {
+          "chip": "En vivo",
+          "title": "Transmisión en vivo",
+          "desc": "Transmitimos tu grabación a las plataformas donde ya está tu audiencia. El alcance y el montaje se planifican contigo antes de la sesión."
+        },
+        "editing": {
+          "chip": "Post",
+          "title": "Edición y postproducción",
+          "desc": "Montaje, limpieza, color y sonido para que cada episodio llegue terminado y no como material en bruto."
+        },
+        "clips": {
+          "chip": "Redes",
+          "title": "Clips para redes",
+          "desc": "Cortes verticales de cada episodio para Reels, Shorts y TikTok — el formato que más ayuda a encontrar nuevos oyentes."
+        },
+        "launch": {
+          "chip": "Lanzamiento",
+          "title": "Montaje de un programa nuevo",
+          "desc": "¿Empiezas desde cero? Podemos ayudarte a definir el formato, la estética y el plan de episodios antes de la primera grabación."
+        }
+      }
+    },
+    "process": {
+      "eyebrow": "Cómo funciona",
+      "title": "De la idea al episodio publicado",
+      "lede": "El mismo flujo de producción que aplicamos en cada proyecto, adaptado a podcasts.",
+      "steps": {
+        "discovery": {
+          "title": "Descubrimiento",
+          "desc": "Hablamos del programa, la audiencia, el formato y con qué frecuencia planeas publicar."
+        },
+        "scope": {
+          "title": "Alcance y cotización",
+          "desc": "Recibes una recomendación por escrito y una cotización personalizada. Nada queda reservado hasta que lo apruebes."
+        },
+        "production": {
+          "title": "Grabación",
+          "desc": "Planificamos contigo el lugar de grabación, montamos y capturamos la sesión."
+        },
+        "post": {
+          "title": "Edición y revisión",
+          "desc": "Editamos el episodio y te lo compartimos para tus comentarios antes de finalizar nada."
+        },
+        "delivery": {
+          "title": "Entrega",
+          "desc": "Archivos finales del episodio y los cortes para redes que incluya tu alcance, listos para publicar."
+        }
+      }
+    },
+    "audience": {
+      "eyebrow": "Para quién es",
+      "title": "Programas con los que encajamos bien",
+      "lede": "Vyewfinder Films trabaja con negocios y organizaciones del área de Richmond. Un podcast suele tener sentido cuando tienes algo que decir de forma constante y quieres que se vea profesional.",
+      "items": {
+        "business": "Negocios que construyen autoridad en su industria",
+        "personal": "Marcas personales, coaches y consultores",
+        "church": "Iglesias, organizaciones sin fines de lucro y comunitarias",
+        "creative": "Programas de entrevistas, paneles y conversaciones creativas"
+      }
+    },
+    "faq": {
+      "eyebrow": "Preguntas",
+      "title": "Antes de contactarnos",
+      "items": {
+        "produce": {
+          "q": "¿Producen podcasts?",
+          "a": "Sí. Podemos cubrir video, audio, edición, clips cortos o una combinación. El montaje adecuado depende de tu formato, así que el equipo confirma los detalles como parte de tu cotización."
+        },
+        "studio": {
+          "q": "¿Dónde se realiza la grabación?",
+          "a": "El lugar de grabación se planifica contigo — tu oficina, un espacio que tú facilites u otra ubicación que acordemos juntos. Cuéntanos qué tienes en mente y el equipo confirmará qué funciona para el montaje que necesita tu programa."
+        },
+        "clips": {
+          "q": "¿Pueden convertir los episodios en clips cortos?",
+          "a": "Es una de las solicitudes más comunes y encaja naturalmente con el trabajo de formato corto que ya hacemos. Dinos cuántos clips quieres por episodio y se incluirá en tu alcance."
+        },
+        "existing": {
+          "q": "Ya tengo un podcast. ¿Pueden encargarse?",
+          "a": "Sí. Ya sea un programa nuevo o uno en marcha, cuéntanos cómo está hoy y qué te gustaría cambiar, y armamos la recomendación desde ahí."
+        },
+        "cost": {
+          "q": "¿Cuánto cuesta?",
+          "a": "Los proyectos de podcast se cotizan de forma individual, porque el costo depende del formato, la cantidad de episodios, el montaje de grabación, el alcance de edición y cuánto contenido para redes quieras. Comparte esos detalles y el equipo preparará una cotización precisa."
+        },
+        "platforms": {
+          "q": "¿Se encargan de la publicación y distribución?",
+          "a": "Dinos en qué plataformas piensas publicar y con qué te gustaría recibir ayuda. El equipo confirmará qué se puede incluir antes de que te comprometas a nada."
+        }
+      }
+    },
+    "closing": {
+      "title": "¿Listo para comenzar tu podcast?",
+      "lede": "Envíanos el formato que tienes en mente, con qué frecuencia quieres publicar y tu tiempo estimado. Te responderemos con una recomendación y una cotización personalizada.",
+      "cta": "Solicitar cotización",
+      "note": "El alcance, la disponibilidad y el precio los confirma el equipo antes de reservar nada."
     }
   }
 }

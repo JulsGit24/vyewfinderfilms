@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ArrowLeft } from 'lucide-react'
 import { gsap } from 'gsap'
 import { animateTextReveal } from '../utils/animations'
-import MediaGrid from '../components/MediaGrid'
+import ScrollWall from '../components/ScrollWall'
 import { getService } from '../data/services'
 import './ServiceGallery.scss'
 
@@ -30,9 +30,6 @@ export default function ServiceGallery() {
 
   if (!service) return <Navigate to="/services" replace />
 
-  const photos = service.media.filter((m) => m.type !== 'video')
-  const videos = service.media.filter((m) => m.type === 'video')
-
   return (
     <div className="gallery-page" ref={pageRef}>
       <div className="container">
@@ -48,21 +45,15 @@ export default function ServiceGallery() {
         </header>
       </div>
 
-      <section className="gallery-block" aria-label={t('gallery.photos')}>
+      {/* Photos and videos share one wall: the reference presents a
+          single continuous surface, not sectioned rows. Video tiles
+          show their poster and still expand on click. */}
+      <section className="gallery-block" aria-label={t('gallery.work')}>
         <div className="container">
-          <h2 className="gallery-block-title">{t('gallery.photos')}</h2>
+          <h2 className="gallery-block-title">{t('gallery.work')}</h2>
         </div>
-        <MediaGrid items={photos} columns={4} />
+        <ScrollWall items={service.media} />
       </section>
-
-      {videos.length > 0 && (
-        <section className="gallery-block" aria-label={t('gallery.videos')}>
-          <div className="container">
-            <h2 className="gallery-block-title">{t('gallery.videos')}</h2>
-          </div>
-          <MediaGrid items={videos} columns={4} />
-        </section>
-      )}
 
       <div className="container gallery-cta">
         <h2 className="heading-2">{t('gallery.ctaTitle')}</h2>

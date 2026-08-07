@@ -10,32 +10,7 @@ import './Navigation.scss'
 const PROBE_Y = 28
 const ACTIVE_PROBE_Y = 140
 
-const parseColor = (value) => {
-  const m = /rgba?\(([^)]+)\)/.exec(value)
-  if (!m) return null
-  const parts = m[1].split(',').map((n) => parseFloat(n.trim()))
-  const [r, g, b] = parts
-  const a = parts.length > 3 ? parts[3] : 1
-  return a < 0.35 ? null : [r, g, b]
-}
 
-const resolveBackground = (el) => {
-  let node = el
-  while (node && node !== document.documentElement) {
-    const rgb = parseColor(getComputedStyle(node).backgroundColor)
-    if (rgb) return rgb
-    node = node.parentElement
-  }
-  return null
-}
-
-const relativeLuminance = ([r, g, b]) => {
-  const lin = (c) => {
-    const s = c / 255
-    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4
-  }
-  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
-}
 
 export default function Navigation() {
   const { t, i18n } = useTranslation()
@@ -54,9 +29,8 @@ export default function Navigation() {
 
   const links = [
     { name: t('nav.home'), href: '/' },
-    { name: t('nav.about'), href: '/about' },
-    { 
-      name: t('nav.services'), 
+    {
+      name: t('nav.services'),
       href: '/services',
       subLinks: [
         { name: t('nav.digitalMarketing'), href: '/services#digital-marketing' },
@@ -65,6 +39,9 @@ export default function Navigation() {
         { name: t('nav.socialMedia'), href: '/services#social-media' }
       ]
     },
+    { name: t('nav.podcast'), href: '/podcast' },
+    { name: t('nav.gallery'), href: '/services' },
+    { name: t('nav.about'), href: '/about' },
     { name: t('nav.contact'), href: '/contact' }
   ]
 
@@ -94,8 +71,10 @@ export default function Navigation() {
       if (override === 'dark' || override === 'light') {
         setTone(override)
       } else {
-        const rgb = resolveBackground(probed)
-        if (rgb) setTone(relativeLuminance(rgb) > 0.45 ? 'light' : 'dark')
+        /* Standard sections track the global theme. 
+           Probing the DOM color during a theme switch reads the 
+           mid-transition color and causes a lag in the navbar update. */
+        setTone(theme)
       }
 
       let active = ''

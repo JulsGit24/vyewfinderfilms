@@ -52,7 +52,7 @@ export default function Lightbox({ items, index, onClose, onIndex }) {
       className="lightbox"
       role="dialog"
       aria-modal="true"
-      aria-label={item.alt || 'Expanded media'}
+      aria-label={item.label || 'Expanded media'}
     >
       <button
         type="button"
@@ -77,20 +77,22 @@ export default function Lightbox({ items, index, onClose, onIndex }) {
         </>
       )}
 
+      {/* No caption: gallery media is shown without a visible title, so
+          nothing here may render the source filename. `full` is the
+          only place the large derivative is requested. */}
       <figure className="lightbox-stage">
         {item.type === 'video' ? (
           <video
             className="lightbox-media"
-            src={item.src}
+            src={item.full}
             poster={item.poster}
             controls
             autoPlay
             playsInline
           />
         ) : (
-          <img className="lightbox-media" src={item.src} alt={item.alt || ''} />
+          <img className="lightbox-media" src={item.full} alt="" />
         )}
-        {item.alt && <figcaption className="lightbox-caption">{item.alt}</figcaption>}
       </figure>
     </div>,
     document.body

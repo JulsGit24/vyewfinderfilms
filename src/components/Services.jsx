@@ -1,24 +1,22 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import './Services.scss'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { animateTextReveal } from '../utils/animations'
+import './Services.scss'
 
 gsap.registerPlugin(ScrollTrigger)
 
 // Removed static services array, moved inside component to use translations
 
-const COUNT = 3
-
 /* Shortest signed distance from the active index, so the wheel always
    rotates the short way round instead of unwinding through the middle. */
-const wrappedOffset = (index, active) => {
+const wrappedOffset = (index, active, count) => {
   let offset = index - active
-  if (offset > COUNT / 2) offset -= COUNT
-  if (offset < -COUNT / 2) offset += COUNT
+  if (offset > count / 2) offset -= count
+  if (offset < -count / 2) offset += count
   return offset
 }
 
@@ -33,26 +31,34 @@ export default function Services() {
     {
       title: t('services.items.corporate.title', 'Corporate Videos'),
       description: t('services.items.corporate.desc', 'Professional video production that communicates your brand story with clarity and impact.'),
-      image: '/images/portfolio-corporate.png',
+      image: '/images/portfolio-corporate-v.webp',
       link: '/services#corporate-video'
     },
     {
       title: t('services.items.photography.title', 'Photography'),
       description: t('services.items.photography.desc', 'High-end photography that captures the details worth remembering.'),
-      image: '/images/portfolio-photography.png',
+      image: '/images/portfolio-photography.webp',
       link: '/services#photography'
     },
     {
       title: t('services.items.social.title', 'Social Media'),
       description: t('services.items.social.desc', 'Scroll-stopping content built for the platforms your audience actually watches.'),
-      image: '/images/portfolio-social.png',
+      image: '/images/portfolio-social.webp',
       link: '/services#social-media'
+    },
+    {
+      title: t('services.items.podcast.title', 'Podcast'),
+      description: t('services.items.podcast.desc', 'Full-service podcast production, from studio setup to the episode your audience hears.'),
+      image: '/images/portfolio-podcast.webp',
+      link: '/podcast'
     }
   ]
 
+  const COUNT = localizedServices.length
+
   const go = useCallback((dir) => {
     setActive((prev) => (prev + dir + COUNT) % COUNT)
-  }, [])
+  }, [COUNT])
 
   /* Keyboard + drag/swipe on the stage */
   useEffect(() => {
@@ -131,7 +137,7 @@ export default function Services() {
           aria-label="Services"
         >
           {localizedServices.map((service, index) => {
-            const offset = wrappedOffset(index, active)
+            const offset = wrappedOffset(index, active, COUNT)
             const isActive = offset === 0
             return (
               <button
@@ -149,7 +155,7 @@ export default function Services() {
                 tabIndex={isActive ? 0 : -1}
               >
                 <span className="wheel-slide-media">
-                  <img src={service.image} alt="" draggable="false" />
+                  <img src={service.image} alt="" draggable="false" loading="lazy" decoding="async" />
                 </span>
                 <span className="wheel-slide-index">{String(index + 1).padStart(2, '0')}</span>
               </button>

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { Suspense, lazy, useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Lenis, { useLenis } from '@studio-freight/react-lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import Loader from './components/Loader'
+import Chatbot from './components/Chatbot'
 import { GridRule } from './components/GridOverlay'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
@@ -16,10 +17,15 @@ import Testimonials from './components/Testimonials'
 import Clients from './components/Clients'
 import Instagram from './components/Instagram'
 import Footer from './components/Footer'
-import ServicesPage from './pages/ServicesPage'
-import ServiceGallery from './pages/ServiceGallery'
-import About from './pages/About'
-import Contact from './pages/Contact'
+
+/* Routes are split out of the entry bundle: a visitor landing on the
+   home page was downloading and parsing the services galleries, the
+   about page and the contact form before anything could paint. */
+const ServicesPage = lazy(() => import('./pages/ServicesPage'))
+const ServiceGallery = lazy(() => import('./pages/ServiceGallery'))
+const PodcastPage = lazy(() => import('./pages/PodcastPage'))
+const About = lazy(() => import('./pages/About'))
+const Contact = lazy(() => import('./pages/Contact'))
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -93,15 +99,22 @@ function App() {
         <div className="app-container">
           <Navigation />
           <main>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/services" element={<ServicesPage />} />
-              <Route path="/services/:slug" element={<ServiceGallery />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
+            {/* No spinner: the loader already covers first paint, and a
+                flash of fallback on an in-app navigation reads worse
+                than the brief pause while a route chunk arrives. */}
+            <Suspense fallback={null}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/services" element={<ServicesPage />} />
+                <Route path="/services/:slug" element={<ServiceGallery />} />
+                <Route path="/podcast" element={<PodcastPage />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+              </Routes>
+            </Suspense>
           </main>
           <Footer />
+          <Chatbot />
         </div>
       </Lenis>
     </>

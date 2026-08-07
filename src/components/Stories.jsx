@@ -1,12 +1,12 @@
-import React, { useRef, useEffect, useState } from 'react'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/splide/dist/css/splide.min.css'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Maximize2, Pause, Play, Volume2, VolumeX, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { animateTextReveal } from '../utils/animations'
 import { useSiteReady } from '../utils/siteReady'
-import { VolumeX, Volume2, Maximize2, X, Play, Pause } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import './Stories.scss'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -18,7 +18,10 @@ export default function Stories() {
   const siteReady = useSiteReady()
   
   // State for tracking mute and play status of each video
-  const [mutedStates, setMutedStates] = useState({ 1: true, 2: true, 3: true })
+  /* Every slide id needs an entry: `el.muted = mutedStates[id]` assigns
+     undefined for a missing key, which is falsy — the slide would then
+     autoplay with sound. */
+  const [mutedStates, setMutedStates] = useState({ 1: true, 2: true, 3: true, 4: true })
   const [playStates, setPlayStates] = useState({ 1: true, 2: true, 3: true })
   const videosRef = useRef({})
   
@@ -26,9 +29,12 @@ export default function Stories() {
   const [expandedVideo, setExpandedVideo] = useState(null)
 
   const storiesData = [
-    { id: 1, title: t('stories.items.1.title'), videoSrc: '/assets/video1.mp4', poster: '/images/portfolio-corporate.jpg', category: t('stories.items.1.category') },
-    { id: 2, title: t('stories.items.2.title'), videoSrc: '/assets/video2.mp4', poster: '/images/portfolio-social-1.jpg', category: t('stories.items.2.category') },
-    { id: 3, title: t('stories.items.3.title'), videoSrc: '/assets/video3.mp4', poster: '/images/portfolio-social-2.jpg', category: t('stories.items.3.category') }
+    { id: 1, title: t('stories.items.1.title'), videoSrc: '/assets/video1.mp4', poster: '/images/portfolio-corporate.webp', category: t('stories.items.1.category') },
+    { id: 2, title: t('stories.items.2.title'), videoSrc: '/assets/video2.mp4', poster: '/images/portfolio-social-1.webp', category: t('stories.items.2.category') },
+    { id: 3, title: t('stories.items.3.title'), videoSrc: '/assets/video3.mp4', poster: '/images/portfolio-social-2.webp', category: t('stories.items.3.category') },
+    /* id was a duplicate 3, which collided with the slide above as a
+       React key and as the lookup into mutedStates. */
+    { id: 4, title: t('stories.items.4.title'), videoSrc: '/assets/video4.mp4', poster: '/images/portfolio-social-2.webp', category: t('stories.items.4.category') }
   ]
 
   useEffect(() => {
@@ -87,27 +93,56 @@ export default function Stories() {
     const root = sectionRef.current
     if (!root) return undefined
 
+    /* Loading is gated on visibility as well as siteReady.
+
+       Every clone carries the same src, and assigning them all at once
+       put three concurrent range requests on the wire for one file —
+       none of them complete in time to populate the cache for the
+       others, so the home page pulled video4 three times over (15.5 MB
+       for a 5 MB clip). Only the slides actually on screen fetch. */
+    const attach = (video) => {
+      const id = Number(video.dataset.storyId)
+      const shouldMute = mutedStates[id] !== false
+      const wanted = storiesData.find((s) => s.id === id)?.videoSrc
+      if (!wanted) return
+      if (!video.getAttribute('src')) {
+        video.setAttribute('src', wanted)
+        video.muted = shouldMute
+      }
+      video.play().catch(() => {})
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target
+          if (!siteReady) return
+          if (entry.isIntersecting) attach(video)
+          else if (!video.paused) video.pause()
+        })
+      },
+      { rootMargin: '100px' }
+    )
+
+    /* muted is a property, not a reflected attribute, so it has to be
+       re-applied to clones on every mutation regardless of visibility —
+       an unmuted clone swapped into view starts blaring. */
     const applyVideoState = () => {
       root.querySelectorAll('video[data-story-id]').forEach((video) => {
         const id = Number(video.dataset.storyId)
-
         const shouldMute = mutedStates[id] !== false
         if (video.muted !== shouldMute) video.muted = shouldMute
-
-        if (!siteReady) return
-        const wanted = storiesData.find((s) => s.id === id)?.videoSrc
-        if (wanted && !video.getAttribute('src')) {
-          video.setAttribute('src', wanted)
-          video.muted = shouldMute
-          video.play().catch(() => {})
-        }
+        io.observe(video) // no-op if already observed
       })
     }
 
     applyVideoState()
     const observer = new MutationObserver(applyVideoState)
     observer.observe(root, { childList: true, subtree: true })
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      io.disconnect()
+    }
   }, [mutedStates, siteReady])
   
   const openExpanded = (story) => {

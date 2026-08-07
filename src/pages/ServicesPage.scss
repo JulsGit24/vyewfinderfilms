@@ -8,11 +8,7 @@
   max-width: 760px;
   /* padding, not margin: .container already sets `margin: 0 auto` and
      the two shorthands were fighting over the cascade. */
-  padding-bottom: clamp(40px, 6vw, 70px);
-
-  .subheading {
-    margin-bottom: 0;
-  }
+  padding-bottom: clamp(140px, 16vw, 220px);
 }
 
 .service-block {

@@ -1,0 +1,154 @@
+/* ==========================================================
+   ShapeReveal — pinned scroll-mask scene
+   Layout only; all motion lives in ShapeReveal.jsx (GSAP).
+   Layer order: heading (1) < masked video (2) < overlay (3),
+   so the growing footage swallows the display type on its way
+   to fullscreen, the same way the reference site's mask does.
+   ========================================================== */
+.shape-scene {
+  position: relative;
+}
+
+.shape-stage {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.shape-heading {
+  position: absolute;
+  top: clamp(72px, 11vh, 140px);
+  left: 0;
+  right: 0;
+  /* Above the mask: where the display type and the shape meet, the
+     type sits on the footage — the same deliberate layering the
+     reference site uses — instead of the shape clipping through the
+     middle of a text line. The heading is faded out by ~30% of the
+     pin, so it never obstructs the fullscreen state. */
+  z-index: 3;
+  text-align: center;
+  padding: 0 24px;
+  /* Never intercept clicks meant for the CTA overlay. */
+  pointer-events: none;
+}
+
+.shape-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.3rem, 6.5vw, 4.6rem);
+  line-height: 1.04;
+  text-transform: uppercase;
+}
+
+/* 100vmin square centered via margins so the GSAP transform stays a
+   pure scale — mixing translate into the tween would fight the
+   counter-scale math. Center sits at 58% — below the heading block,
+   filling what would otherwise be dead space under the title. Keep
+   this in sync with CENTER_OFFSET in ShapeReveal.jsx, which feeds
+   the same offset into the end-scale coverage math. */
+.shape-mask {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  width: 100vmin;
+  height: 100vmin;
+  margin: -50vmin 0 0 -50vmin;
+  z-index: 2;
+  will-change: transform;
+}
+
+/* Always exactly the viewport once the outer scale and this
+   counter-scale cancel out — see the note in ShapeReveal.jsx. */
+.shape-video-fit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  margin: -50vh 0 0 -50vw;
+  will-change: transform;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+/* Closing copy sits on footage in both themes, so it is fixed light
+   over a scrim rather than following the theme tokens. */
+.shape-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(24px, 4vw, 56px);
+  padding-top: 140px;
+  color: #ffffff;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 12, 0.78),
+    rgba(10, 10, 12, 0.32) 55%,
+    transparent
+  );
+
+  .shape-lede {
+    max-width: 46ch;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 22px;
+  }
+
+  .case-meta li {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .case-link {
+    color: #ffffff;
+
+    &:hover {
+      color: var(--wst-color-action);
+    }
+  }
+}
+
+.shape-overlay-foot {
+  display: flex;
+  align-items: flex-end;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.shape-tag {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #ffffff;
+  background: rgba(31, 31, 31, 0.72);
+  padding: 7px 12px;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .shape-heading {
+    top: clamp(64px, 9vh, 110px);
+  }
+
+  .shape-overlay {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .shape-overlay-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+}

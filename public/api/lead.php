@@ -94,21 +94,43 @@ if (is_file($rateFile) && (time() - (int) filemtime($rateFile)) < RATE_SECONDS) 
 // ---------------------------------------------------------------
 // Build the lead record (§26 / §27)
 // ---------------------------------------------------------------
+/* Two senders share this endpoint:
+
+     - the website chatbot, whose schema this was built for (§26/§27);
+     - the /contact form, whose own fields (name, company, purpose,
+       message) do not map onto the chatbot's without lying about what
+       they are.
+
+   Rather than force-fitting one into the other, the contact form's
+   values get their own keys, interleaved here so a record reads in a
+   sensible order. Empty values are skipped below, so a submission only
+   ever prints its own rows and the chatbot's output is byte-for-byte
+   what it was before. `email` and `phone` are deliberately shared —
+   the actionable-lead check further down keys on exactly those two. */
 $fields = [
-    'Name'                   => 'full_name',
-    'Business'               => 'business_name',
-    'Email'                  => 'email',
-    'Phone'                  => 'phone',
+    'Name'                   => 'full_name',              // chatbot
+    'Contact name'           => 'contact_name',           // contact form
+    'Business'               => 'business_name',          // chatbot
+    'Company'                => 'contact_company',        // contact form
+    'Email'                  => 'email',                  // both
+    'Phone'                  => 'phone',                  // both
     'Preferred contact'      => 'preferred_contact_method',
+    'Enquiry type'           => 'contact_purpose',        // contact form
     'Service requested'      => 'service_interest',
     'Project goal'           => 'project_goal',
     'Requested deliverables' => 'deliverables_requested',
     'Location'               => 'production_location',
     'Preferred date'         => 'preferred_date',
     'Budget guidance'        => 'budget_guidance',
+    'Message'                => 'contact_message',        // contact form
 ];
 
-$lines = ['NEW VYEWFINDER FILMS CHATBOT LEAD', ''];
+/* Absent lead_source means an older chatbot build; treat it as the
+   chatbot so nothing about that flow changes. */
+$source  = body_safe($data['lead_source'] ?? '');
+$fromBot = ($source === '' || $source === 'Website Chatbot');
+
+$lines = [$fromBot ? 'NEW VYEWFINDER FILMS CHATBOT LEAD' : 'NEW VYEWFINDER FILMS WEBSITE LEAD', ''];
 $lines[] = 'Preferred language: ' . body_safe($data['language'] ?? 'English');
 $lines[] = 'Submitted: ' . body_safe($data['submitted_at'] ?? gmdate('c'));
 $lines[] = '';
@@ -127,7 +149,7 @@ if (!$hasContact) {
 }
 
 $lines[] = '';
-$lines[] = 'Source: website assistant';
+$lines[] = 'Source: ' . ($fromBot ? 'website assistant' : $source);
 $body = implode("\n", $lines);
 
 // ---------------------------------------------------------------
@@ -142,7 +164,12 @@ $body = implode("\n", $lines);
 // ---------------------------------------------------------------
 // Email
 // ---------------------------------------------------------------
-$service = header_safe(body_safe($data['service_interest'] ?? 'New enquiry'));
+/* The contact form has no service_interest; its nearest equivalent is
+   the "What's this about?" answer. Falling through to it keeps the subject
+   line meaningful for both senders. */
+$service = header_safe(body_safe(
+    $data['service_interest'] ?? $data['contact_purpose'] ?? 'New enquiry'
+));
 $subject = 'Website lead — ' . ($service !== '' ? $service : 'New enquiry');
 
 $headers = [

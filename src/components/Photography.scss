@@ -1,0 +1,10 @@
+/* Card styles live in index.scss (.case-frame) — shared with the
+   Digital Marketing and Podcast scenes. Only section-level concerns
+   belong here.
+
+   No decorative gradient here on purpose: Podcast.scss carries one and
+   this scene sits immediately after it, so two consecutive tinted
+   scenes would muddy the transition. */
+.photography-section {
+  background-color: var(--wst-color-fill-background-primary);
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Alondra",
+    "src": "/media/clients/alondra.webp",
+    "width": 400,
+    "height": 100
+  },
+  {
+    "name": "Botanya",
+    "src": "/media/clients/botanya.webp",
+    "width": 400,
+    "height": 115
+  },
+  {
+    "name": "Kairos",
+    "src": "/media/clients/kairos.webp",
+    "width": 400,
+    "height": 100
+  },
+  {
+    "name": "Lemur Remodeling",
+    "src": "/media/clients/lemur-remodeling.webp",
+    "width": 400,
+    "height": 140
+  },
+  {
+    "name": "Little Mexico",
+    "src": "/media/clients/little-mexico.webp",
+    "width": 400,
+    "height": 120
+  },
+  {
+    "name": "Raldas Details",
+    "src": "/media/clients/raldas-details.webp",
+    "width": 400,
+    "height": 209
+  },
+  {
+    "name": "The Sasso Realty Group",
+    "src": "/media/clients/the-sasso-realty-group.webp",
+    "width": 400,
+    "height": 100
+  }
+]

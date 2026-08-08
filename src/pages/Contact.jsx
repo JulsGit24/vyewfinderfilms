@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import { Mail, Phone, MapPin, Plus, Check } from 'lucide-react'
 import { gsap } from 'gsap'
 import { animateTextReveal } from '../utils/animations'
+import {
+  submitLead,
+  BUSINESS_EMAIL,
+  BUSINESS_PHONE_E164,
+  BUSINESS_PHONE_DISPLAY
+} from '../utils/leads'
 import './Contact.scss'
 
 const FAQ_KEYS = ['timeline', 'pricing', 'process', 'travel', 'rights', 'podcast']
@@ -31,13 +37,16 @@ const validators = {
 const EMPTY = { name: '', company: '', email: '', phone: '', purpose: '', message: '' }
 
 export default function Contact() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const pageRef = useRef(null)
 
   const [values, setValues] = useState(EMPTY)
   const [errors, setErrors] = useState({})
   const [touched, setTouched] = useState({})
   const [submitted, setSubmitted] = useState(false)
+  /* 'idle' | 'sending' | 'error'. Separate from `submitted`, which now
+     only flips once the POST has actually confirmed. */
+  const [status, setStatus] = useState('idle')
   const [openFaq, setOpenFaq] = useState(0)
 
   useEffect(() => {
@@ -78,8 +87,16 @@ export default function Contact() {
     setErrors((prev) => ({ ...prev, [field]: validators[field](values[field]) || undefined }))
   }
 
-  const handleSubmit = (e) => {
+  /* This used to flip straight to the success panel after client-side
+     validation, without sending anything anywhere — the visitor was
+     told their message had been delivered when nothing had left the
+     browser. It now POSTs to the same /api/lead.php endpoint the
+     chatbot uses (see submitLead), and the success panel waits for
+     {ok:true}. On failure the filled form stays mounted. */
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    if (status === 'sending') return
+
     const found = validateAll()
     setErrors(found)
     setTouched(Object.keys(validators).reduce((a, k) => ({ ...a, [k]: true }), {}))
@@ -89,7 +106,34 @@ export default function Contact() {
       first?.focus()
       return
     }
-    setSubmitted(true)
+
+    setStatus('sending')
+
+    /* Contact-form-specific keys, so the emailed record reads as a
+       contact-form submission instead of being force-fit into the
+       chatbot's field labels. `email` and `phone` keep the shared
+       names — lead.php's "is this lead actionable" check keys on them.
+       The purpose is sent in English so the team always reads the same
+       value whichever language the visitor used. */
+    const ok = await submitLead(
+      {
+        lead_source: 'Website Contact Form',
+        contact_name: values.name.trim(),
+        contact_company: values.company.trim(),
+        email: values.email.trim(),
+        phone: values.phone.trim(),
+        contact_purpose: t(`contact.form.purposes.${values.purpose}`, { lng: 'en' }),
+        contact_message: values.message.trim()
+      },
+      i18n.language
+    )
+
+    if (ok) {
+      setStatus('idle')
+      setSubmitted(true)
+    } else {
+      setStatus('error')
+    }
   }
 
   const fieldProps = (field) => ({
@@ -124,7 +168,7 @@ export default function Contact() {
             </li>
             <li>
               <Phone size={16} />
-              <a href="tel:+18045551234">+1 (804) 555-1234</a>
+              <a href={`tel:${BUSINESS_PHONE_E164}`}>{BUSINESS_PHONE_DISPLAY}</a>
             </li>
             <li>
               <MapPin size={16} />
@@ -186,9 +230,23 @@ export default function Contact() {
                 {errorFor('message')}
               </div>
 
+              {status === 'error' && (
+                <p className="form-status form-status--error" role="alert">
+                  <Trans
+                    i18nKey="contact.form.sendError"
+                    components={{
+                      mail: <a href={`mailto:${BUSINESS_EMAIL}`} />,
+                      tel: <a href={`tel:${BUSINESS_PHONE_E164}`} />
+                    }}
+                  />
+                </p>
+              )}
+
               <div className="form-foot">
                 <p className="form-note">{t('contact.form.required')}</p>
-                <button type="submit" className="btn-primary">{t('contact.form.submit')}</button>
+                <button type="submit" className="btn-primary" disabled={status === 'sending'}>
+                  {status === 'sending' ? t('contact.form.sending') : t('contact.form.submit')}
+                </button>
               </div>
             </form>
           )}

@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Phone, Sun, Moon, Languages } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { BUSINESS_PHONE_E164 } from '../utils/leads'
 import './Navigation.scss'
 
 const PROBE_Y = 28
@@ -27,6 +28,12 @@ export default function Navigation() {
     i18n.changeLanguage(i18n.language === 'en' ? 'es' : 'en')
   }
 
+  /* "Gallery" is gone: it pointed at /services, the same destination as
+     the Services item right above it. Social Media is gone from the
+     dropdown too — it is now part of Digital Marketing. The label stays
+     the short "Digital Marketing"; the full "Digital Marketing and
+     Social Media" name does its disambiguating on /services and on the
+     gallery page, where there is room for it. */
   const links = [
     { name: t('nav.home'), href: '/' },
     {
@@ -35,12 +42,10 @@ export default function Navigation() {
       subLinks: [
         { name: t('nav.digitalMarketing'), href: '/services#digital-marketing' },
         { name: t('nav.corporateVideo'), href: '/services#corporate-video' },
-        { name: t('nav.photography'), href: '/services#photography' },
-        { name: t('nav.socialMedia'), href: '/services#social-media' }
+        { name: t('nav.photography'), href: '/services#photography' }
       ]
     },
     { name: t('nav.podcast'), href: '/podcast' },
-    { name: t('nav.gallery'), href: '/services' },
     { name: t('nav.about'), href: '/about' },
     { name: t('nav.contact'), href: '/contact' }
   ]
@@ -221,21 +226,37 @@ export default function Navigation() {
               </button>
             </li>
 
-            <li>
+            {/* The native `title` is gone deliberately: it would raise an
+                OS tooltip on top of the preview panel below. */}
+            <li className="nav-theme">
               <button
                 type="button"
                 className="theme-toggle"
                 onClick={toggleTheme}
                 aria-label={t('theme.toggle')}
-                title={theme === 'dark' ? t('theme.light') : t('theme.dark')}
                 aria-pressed={theme === 'light'}
               >
                 {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
               </button>
+
+              {/* Hover preview. The card is painted in the OPPOSITE
+                  theme's tokens and the current theme wipes off it — both
+                  token sets are defined at once in index.scss, so this
+                  never has to touch documentElement.dataset.theme. */}
+              <div className="theme-preview" aria-hidden="true">
+                <span className="theme-preview-card">
+                  {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+                  <span className="theme-preview-bar" />
+                  <span className="theme-preview-bar theme-preview-bar--short" />
+                </span>
+                <span className="theme-preview-label">
+                  {theme === 'dark' ? t('theme.tryLight') : t('theme.tryDark')}
+                </span>
+              </div>
             </li>
 
             <li>
-              <a href="tel:123-456-7890" className="btn-contact-us">
+              <a href={`tel:${BUSINESS_PHONE_E164}`} className="btn-contact-us">
                 <Phone size={16} />
                 <span>{t('nav.contactUsBtn')}</span>
               </a>
@@ -270,14 +291,26 @@ export default function Navigation() {
                 </li>
               ))}
               <li className="mobile-nav-divider">
-                <a href="tel:123-456-7890" className="mobile-nav-call">{t('nav.contactUsBtn')}</a>
+                <a href={`tel:${BUSINESS_PHONE_E164}`} className="mobile-nav-call">{t('nav.contactUsBtn')}</a>
               </li>
               {/* The desktop pill's controls had no mobile equivalent,
                   so phone visitors could not switch theme at all. */}
               <li className="mobile-nav-controls">
-                <button type="button" className="mobile-nav-control" onClick={toggleTheme} aria-pressed={theme === 'light'}>
-                  {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-                  <span>{theme === 'dark' ? t('theme.light') : t('theme.dark')}</span>
+                {/* Touch has no hover, so the preview card and the
+                    "Try X theme!" label are simply always visible here
+                    rather than being revealed. */}
+                <button
+                  type="button"
+                  className="mobile-nav-control mobile-nav-control--theme"
+                  onClick={toggleTheme}
+                  aria-label={t('theme.toggle')}
+                  aria-pressed={theme === 'light'}
+                >
+                  <span className="theme-preview-card theme-preview-card--mini" aria-hidden="true">
+                    <span className="theme-preview-bar" />
+                    <span className="theme-preview-bar theme-preview-bar--short" />
+                  </span>
+                  <span>{theme === 'dark' ? t('theme.tryLight') : t('theme.tryDark')}</span>
                 </button>
                 <button type="button" className="mobile-nav-control" onClick={toggleLang}>
                   <Languages size={16} />

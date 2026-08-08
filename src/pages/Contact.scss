@@ -153,6 +153,23 @@
   margin: 0;
 }
 
+/* Form-level send failure. Sits above .form-foot, with the filled form
+   still mounted — nothing the visitor typed is discarded. */
+.form-status {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+.form-status--error {
+  color: #d9534f; /* same red as .field-error */
+}
+
 .form-foot {
   display: flex;
   align-items: center;
@@ -160,6 +177,14 @@
   gap: 20px;
   flex-wrap: wrap;
   margin-top: 6px;
+
+  /* No spinner component exists on this site and this is not the place
+     to introduce one — the label swap carries the in-flight state. */
+  .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: default;
+    transform: none;
+  }
 }
 
 .form-note {

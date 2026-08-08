@@ -29,11 +29,41 @@
       },
       "photography": {
         "title": "Fotografía",
-        "desc": "Fotografía de alta calidad que captura los detalles que vale la pena recordar."
+        "desc": "Fotografía de alta calidad que captura los detalles que vale la pena recordar.",
+        "keywords": [
+          "Producto y e-commerce",
+          "Retratos corporativos y ejecutivos",
+          "Bibliotecas de equipo y marca",
+          "Bienes raíces y propiedades"
+        ]
       },
       "social": {
         "title": "Redes Sociales",
         "desc": "Contenido impactante diseñado para las plataformas que tu audiencia realmente consume."
+      },
+      "digitalMarketing": {
+        "title": "Marketing Digital y Redes Sociales",
+        "teaser": "Contenido impactante diseñado para las plataformas que tu audiencia realmente consume.",
+        "desc": "Publicar no es lo difícil. Lo difícil es publicar lo correcto, cada semana, sin que tengas que pensarlo.",
+        "keywords": [
+          "Estrategia de campañas",
+          "Contenido para redes",
+          "Sitios web",
+          "Edición y subtítulos",
+          "Gestión de comunidad",
+          "Reportes mensuales"
+        ],
+        "highlight": "Tú apruebas. Nosotros nos encargamos del resto — y te damos un número que puedes mostrar."
+      },
+      "corporateVideo": {
+        "desc": "La diferencia no está en la cámara. Está en hacia dónde la apuntas. Primero construimos la narrativa — la objeción que tiene tu cliente y la prueba que la responde — y después grabamos.",
+        "keywords": [
+          "Videos de marca",
+          "Reclutamiento",
+          "Testimonios de clientes",
+          "Liderazgo de opinión ejecutivo",
+          "Cobertura de eventos"
+        ]
       },
       "podcast": {
         "title": "Podcast",
@@ -44,19 +74,30 @@
   "footer": {
     "contact": "Contáctanos",
     "addressLbl": "Dirección",
+    "address": "Richmond, Virginia",
     "contactLbl": "Contacto",
     "hoursLbl": "Horario de Atención",
+    "hours": {
+      "weekdaysLbl": "Lun – Vie",
+      "weekdays": "9:00 am – 7:00 pm",
+      "saturdayLbl": "Sábado",
+      "saturday": "9:00 am – 5:00 pm",
+      "sundayLbl": "Domingo",
+      "sunday": "Cerrado"
+    },
     "subscribe": "Suscríbete a nuestro boletín",
     "thanks": "¡Gracias por tu mensaje!",
     "emailPlaceholder": "tu@email.com",
     "send": "Enviar",
     "follow": "Síguenos en:",
+    "followLbl": "Síguenos",
+    "rights": "© {{year}} Vyewfinder Films. Todos los derechos reservados.",
     "privacy": "Política de privacidad"
   },
   "digitalMarketing": {
     "eyebrow": "Marketing Digital",
     "title": "Grandes visuales<br />necesitan una estrategia<br />para llegar a las<br />personas adecuadas",
-    "lede": "No solo creamos contenido, nos aseguramos de que funcione. Desde la gestión de tus redes sociales hasta campañas pagas, manejamos el panorama completo para que tú te enfoques en tu negocio.",
+    "lede": "Grandes visuales, respaldados por una estrategia sólida para llegar a la audiencia correcta.",
     "capabilities": {
       "strategy": "Estrategia de Contenido",
       "campaigns": "Campañas Pagas",
@@ -77,15 +118,60 @@
     "getStarted": "Empezar",
     "mediaTag": "Estudio / Al aire"
   },
+  "photography": {
+    "eyebrow": "Fotografía",
+    "title": "Cada detalle<br />que vale la pena<br />recordar",
+    "lede": "Fotografía comercial para lo que tu negocio necesita mostrar: producto, comida, propiedades y las personas detrás. Tomada para funcionar en tu sitio, tus anuncios y tus redes.",
+    "capabilities": {
+      "product": "Producto y Comida",
+      "portraits": "Retratos Corporativos",
+      "property": "Bienes Raíces y Espacios"
+    },
+    "getStarted": "Empezar",
+    "mediaTag": "En locación / Richmond VA"
+  },
   "testimonials": {
-    "title": "Nuestro Trabajo",
-    "items": []
+    "eyebrow": "Reseñas",
+    "title": "Lo que dicen nuestros clientes de trabajar con nosotros",
+    "ratingLabel": "{{rating}} de 5",
+    "counter": "{{current}} de {{total}}",
+    "next": "Siguiente",
+    "prev": "Anterior",
+    "items": [
+      {
+        "quote": "Contratamos a Vyewfinder para hacer un video para nuestro negocio y todo lo que puedo decir es que son profesionales, puntuales, ¡y no podría estar más feliz con los resultados! Así que si buscas un videógrafo en Richmond Virginia o un fotógrafo en Richmond Virginia, esta es tu mejor opción, los recomiendo 200%, vas a quedar feliz. ¡Gracias David y Alondra por unos videos increíbles!",
+        "author": "Ralda's Details",
+        "role": "Video Comercial y de Marca",
+        "rating": 5
+      },
+      {
+        "quote": "Producción y equipo increíbles. Me encantó trabajar con ellos, ¡el servicio bilingüe es un plus! Tienen una gran visión, estrategias y creatividad. Tuve un retorno de inversión muy alto. ¡Gracias! De verdad los recomiendo.",
+        "author": "Angela Garcia",
+        "role": "Cobertura de Eventos Corporativos",
+        "rating": 5
+      },
+      {
+        "quote": "Hicieron un trabajo increíble con nuestro video, ¡recomiendo 100% esta compañía para cualquier trabajo de video en el área de Richmond Virginia! Gracias por un video tan increíble.",
+        "author": "Nataly Turcios",
+        "role": "Marketing Digital",
+        "rating": 5
+      },
+      {
+        "quote": "He trabajado con David y su compañía durante muchos años en distintos proyectos audiovisuales, y honestamente puedo decir que no hay nadie que se compare. Realmente conoce su campo, y no solo eso, sino que es apasionado por lo que hace, lo que siempre lleva a resultados maravillosos. Es muy honesto y meticuloso en su trabajo y como persona. Lo recomiendo 100%. ¡Gracias, David! Por tu apoyo y por estar siempre dispuesto a dar lo mejor por mis proyectos.",
+        "author": "Shirley Garcia",
+        "role": "Contenido de Producto y Marketing",
+        "rating": 5
+      }
+    ]
   },
   "clients": {
     "title": "Nuestros Clientes"
   },
   "instagram": {
-    "title": "Síguenos En Instagram"
+    "title": "Síguenos En Instagram",
+    "lede": "Lo último de nuestro feed.",
+    "follow": "Sigue @vyewfinderfilms",
+    "visit": "Sigue a Vyewfinder Films en Instagram"
   },
   "stories": {
     "title": "HISTORIAS QUE HEMOS CREADO",
@@ -181,11 +267,13 @@
   "theme": {
     "toggle": "Cambiar tema de color",
     "light": "Claro",
-    "dark": "Oscuro"
+    "dark": "Oscuro",
+    "tryLight": "¡Prueba el tema claro!",
+    "tryDark": "¡Prueba el tema oscuro!"
   },
   "servicesPage": {
     "eyebrow": "Lo que hacemos",
-    "lede": "Cuatro disciplinas, un solo equipo. Cada proyecto lo planifica, graba y entrega el mismo equipo que lo propuso.",
+    "lede": "Un solo equipo, de principio a fin. Cada proyecto lo planifica, graba y entrega el mismo equipo que lo propuso.",
     "viewMore": "Ver más"
   },
   "gallery": {
@@ -224,6 +312,8 @@
       "message": "Tu mensaje",
       "messagePh": "En resumen,",
       "submit": "Enviar mensaje",
+      "sending": "Enviando…",
+      "sendError": "Algo salió mal al enviar tu mensaje. Inténtalo de nuevo, escríbenos a <mail>info@vyewfinderfilms.com</mail> o llámanos al <tel>804-998-0564</tel>.",
       "required": "* Campos obligatorios",
       "nameError": "Ingresa tu nombre (al menos 2 caracteres).",
       "emailError": "Ingresa un correo electrónico válido.",
@@ -478,8 +568,8 @@
   },
   "podcastPage": {
     "eyebrow": "Producción de Podcast",
-    "title": "Tu voz, producida como se merece",
-    "lede": "Desde el primer episodio hasta los clips que lo llevan a las redes, Vyewfinder Films se encarga de la producción para que tú te concentres en la conversación.",
+    "title": "Tú hablas. Nosotros nos encargamos del resto",
+    "lede": "La producción, las cámaras, el sonido, la edición y los clips, para que tú te concentres en la conversación",
     "cta": "Comienza tu podcast",
     "ctaSecondary": "Ver qué incluimos",
     "formats": {
@@ -518,6 +608,22 @@
           "desc": "¿Empiezas desde cero? Podemos ayudarte a definir el formato, la estética y el plan de episodios antes de la primera grabación."
         }
       }
+    },
+    "youtube": {
+      "eyebrow": "Nuestro canal",
+      "title": "Esto es lo que producimos",
+      "lede": "El trabajo terminado, completo, en el canal de Vyewfinder Films.",
+      "chip": "YouTube",
+      "cta": "Ver en YouTube",
+      "cardLabel": "Ver el canal de YouTube de Vyewfinder Films (se abre en una pestaña nueva)",
+      "itemLabel": "Ver \"{{title}}\" en YouTube (se abre en una pestaña nueva)",
+      "videos": [
+        { "id": "At59vMU1WRU", "title": "Beauty Wizard" },
+        { "id": "db3cnfGmciw", "title": "Kairos Financial & Tax" },
+        { "id": "CaCtrmX2Va8", "title": "Golds Gym Box" },
+        { "id": "4WRWGGWR0GY", "title": "Golds Gym - White Oak" },
+        { "id": "DmXjxjpLtq0", "title": "Lemur Remodeling Comercial HD" }
+      ]
     },
     "process": {
       "eyebrow": "Cómo funciona",

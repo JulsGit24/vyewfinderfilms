@@ -70,6 +70,38 @@
   "digital-marketing": [
     {
       "type": "video",
+      "thumb": "/media/digital-marketing/sm-video-tile.mp4",
+      "full": "/media/digital-marketing/sm-video-full.mp4",
+      "poster": "/media/digital-marketing/sm-video-poster.webp",
+      "width": 360,
+      "height": 640
+    },
+    {
+      "type": "video",
+      "thumb": "/media/digital-marketing/sm-video1-tile.mp4",
+      "full": "/media/digital-marketing/sm-video1-full.mp4",
+      "poster": "/media/digital-marketing/sm-video1-poster.webp",
+      "width": 360,
+      "height": 640
+    },
+    {
+      "type": "video",
+      "thumb": "/media/digital-marketing/sm-video3-tile.mp4",
+      "full": "/media/digital-marketing/sm-video3-full.mp4",
+      "poster": "/media/digital-marketing/sm-video3-poster.webp",
+      "width": 360,
+      "height": 640
+    },
+    {
+      "type": "video",
+      "thumb": "/media/digital-marketing/sm-video4-tile.mp4",
+      "full": "/media/digital-marketing/sm-video4-full.mp4",
+      "poster": "/media/digital-marketing/sm-video4-poster.webp",
+      "width": 360,
+      "height": 640
+    },
+    {
+      "type": "video",
       "thumb": "/media/digital-marketing/video-tile.mp4",
       "full": "/media/digital-marketing/video-full.mp4",
       "poster": "/media/digital-marketing/video-poster.webp",
@@ -94,6 +126,20 @@
     },
     {
       "type": "image",
+      "thumb": "/media/digital-marketing/1000014350-thumb.webp",
+      "full": "/media/digital-marketing/1000014350-full.webp",
+      "width": 2000,
+      "height": 1500
+    },
+    {
+      "type": "image",
+      "thumb": "/media/digital-marketing/269969821-221726726790293-3886550120067624183-n-thumb.webp",
+      "full": "/media/digital-marketing/269969821-221726726790293-3886550120067624183-n-full.webp",
+      "width": 1079,
+      "height": 1078
+    },
+    {
+      "type": "image",
       "thumb": "/media/digital-marketing/270303347-221721563457476-4485556000288663986-n-thumb.webp",
       "full": "/media/digital-marketing/270303347-221721563457476-4485556000288663986-n-full.webp",
       "width": 1440,
@@ -110,6 +156,13 @@
       "type": "image",
       "thumb": "/media/digital-marketing/292797982-110400705072604-2831238822085572987-n-thumb.webp",
       "full": "/media/digital-marketing/292797982-110400705072604-2831238822085572987-n-full.webp",
+      "width": 1440,
+      "height": 1440
+    },
+    {
+      "type": "image",
+      "thumb": "/media/digital-marketing/293844788-110400721739269-1092659771064561578-n-thumb.webp",
+      "full": "/media/digital-marketing/293844788-110400721739269-1092659771064561578-n-full.webp",
       "width": 1440,
       "height": 1440
     },
@@ -140,6 +193,20 @@
       "full": "/media/digital-marketing/cnst-10-full.webp",
       "width": 1333,
       "height": 2000
+    },
+    {
+      "type": "image",
+      "thumb": "/media/digital-marketing/cnst-12-thumb.webp",
+      "full": "/media/digital-marketing/cnst-12-full.webp",
+      "width": 1333,
+      "height": 2000
+    },
+    {
+      "type": "image",
+      "thumb": "/media/digital-marketing/dsc09463-thumb.webp",
+      "full": "/media/digital-marketing/dsc09463-full.webp",
+      "width": 2000,
+      "height": 1333
     }
   ],
   "photography": [
@@ -240,75 +307,6 @@
       "full": "/media/photography/ramirez-spa-3-full.webp",
       "width": 1333,
       "height": 2000
-    }
-  ],
-  "social-media": [
-    {
-      "type": "video",
-      "thumb": "/media/social-media/video-tile.mp4",
-      "full": "/media/social-media/video-full.mp4",
-      "poster": "/media/social-media/video-poster.webp",
-      "width": 360,
-      "height": 640
-    },
-    {
-      "type": "video",
-      "thumb": "/media/social-media/video1-tile.mp4",
-      "full": "/media/social-media/video1-full.mp4",
-      "poster": "/media/social-media/video1-poster.webp",
-      "width": 360,
-      "height": 640
-    },
-    {
-      "type": "video",
-      "thumb": "/media/social-media/video3-tile.mp4",
-      "full": "/media/social-media/video3-full.mp4",
-      "poster": "/media/social-media/video3-poster.webp",
-      "width": 360,
-      "height": 640
-    },
-    {
-      "type": "video",
-      "thumb": "/media/social-media/video4-tile.mp4",
-      "full": "/media/social-media/video4-full.mp4",
-      "poster": "/media/social-media/video4-poster.webp",
-      "width": 360,
-      "height": 640
-    },
-    {
-      "type": "image",
-      "thumb": "/media/social-media/1000014350-thumb.webp",
-      "full": "/media/social-media/1000014350-full.webp",
-      "width": 2000,
-      "height": 1500
-    },
-    {
-      "type": "image",
-      "thumb": "/media/social-media/269969821-221726726790293-3886550120067624183-n-thumb.webp",
-      "full": "/media/social-media/269969821-221726726790293-3886550120067624183-n-full.webp",
-      "width": 1079,
-      "height": 1078
-    },
-    {
-      "type": "image",
-      "thumb": "/media/social-media/293844788-110400721739269-1092659771064561578-n-thumb.webp",
-      "full": "/media/social-media/293844788-110400721739269-1092659771064561578-n-full.webp",
-      "width": 1440,
-      "height": 1440
-    },
-    {
-      "type": "image",
-      "thumb": "/media/social-media/cnst-12-thumb.webp",
-      "full": "/media/social-media/cnst-12-full.webp",
-      "width": 1333,
-      "height": 2000
-    },
-    {
-      "type": "image",
-      "thumb": "/media/social-media/dsc09463-thumb.webp",
-      "full": "/media/social-media/dsc09463-full.webp",
-      "width": 2000,
-      "height": 1333
     }
   ]
 }

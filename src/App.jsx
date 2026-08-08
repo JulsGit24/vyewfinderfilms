@@ -13,6 +13,7 @@ import Stories from './components/Stories'
 import Services from './components/Services'
 import DigitalMarketing from './components/DigitalMarketing'
 import Podcast from './components/Podcast'
+import Photography from './components/Photography'
 import Testimonials from './components/Testimonials'
 import Clients from './components/Clients'
 import Instagram from './components/Instagram'
@@ -80,6 +81,11 @@ function HomePage() {
       <GridRule />
       <DigitalMarketing />
       <Podcast />
+      {/* Third ShapeReveal scene. Placed after Podcast, not next to
+          Digital Marketing, because it reuses the same camera
+          silhouette — the mic scene between them keeps the run reading
+          as camera → mic → camera rather than a repeat. */}
+      <Photography />
       <GridRule />
       <Testimonials />
       <Clients />

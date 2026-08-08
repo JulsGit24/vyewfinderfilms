@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { gsap } from 'gsap'
-import { ArrowUpRight, Plus, Minus } from 'lucide-react'
+import { ArrowUpRight, Play, Plus, Minus, Youtube } from 'lucide-react'
 import { animateTextReveal } from '../utils/animations'
 import { useSiteReady } from '../utils/siteReady'
 import './PodcastPage.scss'
@@ -27,7 +27,16 @@ import './PodcastPage.scss'
    client instead.
    ========================================================== */
 
-const FORMAT_KEYS = ['video', 'audio', 'live', 'editing', 'clips', 'launch']
+/* 'live' (Live streaming) was removed at the client's request. Its
+   podcastPage.formats.items.live.* strings are left in both locale
+   files unreferenced — same call as the other round-2 orphans — since
+   the copy is already translated and the format is a plausible
+   reinstatement. */
+const FORMAT_KEYS = ['video', 'audio', 'editing', 'clips', 'launch']
+
+/* Footer.jsx line 87 already links this exact handle; do not invent
+   another one. */
+const YOUTUBE_CHANNEL = 'https://www.youtube.com/@vyewfinderfilmsrva'
 const STEP_KEYS = ['discovery', 'scope', 'production', 'post', 'delivery']
 const AUDIENCE_KEYS = ['business', 'personal', 'church', 'creative']
 const FAQ_KEYS = ['produce', 'studio', 'clips', 'existing', 'cost', 'platforms']
@@ -38,6 +47,22 @@ export default function PodcastPage() {
   const videoRef = useRef(null)
   const siteReady = useSiteReady()
   const [openFaq, setOpenFaq] = useState(null)
+
+  /* Content-driven: an empty array keeps today's single "visit the
+     channel" facade (see the block below) exactly as it shipped last
+     round. A real embedsocial-style spotlight-plus-list grid (autoplay
+     muted spotlight, up to 4 more as click-through thumbnails) only
+     replaces it once real video IDs exist here — a translation-file
+     edit, same contract as testimonials.items. Populate each entry as
+     { id: '<YouTube video ID>', title: '<short title>' }. */
+  const rawVideos = t('podcastPage.youtube.videos', { returnObjects: true })
+  const videos = Array.isArray(rawVideos) ? rawVideos.filter((v) => v && v.id) : []
+  const [spotlight, ...rest] = videos
+
+  const reducedMotion = useMemo(
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    []
+  )
 
   /* The <source> is withheld until the loader releases, and a source
      added after the element has already tried to load needs an
@@ -116,6 +141,146 @@ export default function PodcastPage() {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* ---- YouTube channel ---- */}
+      {/* Deliberately near-identical in title to the formats section
+          above ("What we produce" / "This is what we produce") — both
+          are the client's own wording for two distinct sections. The
+          --alt surface at this boundary is what stops them reading as
+          one duplicated block. */}
+      <section className="podcast-block podcast-block--alt" id="youtube">
+        <div className="container">
+          {spotlight ? (
+            /* Populated state: one autoplaying-muted vertical spotlight
+               (embedsocial.com/templates/youtube-shorts-section/ is the
+               reference — a large "now playing" Short plus a scrollable
+               list of the rest) plus up to 4 more videos as
+               click-through thumbnails. Thumbnails stay static images
+               rather than more embeds — five simultaneous YouTube
+               players would be a real performance cost for a section
+               that isn't the page's main content. */
+            <>
+              <header className="podcast-block-head">
+                <p className="eyebrow">{t('podcastPage.youtube.eyebrow')}</p>
+                <h2 className="heading-2">{t('podcastPage.youtube.title')}</h2>
+                <p className="podcast-lede">{t('podcastPage.youtube.lede')}</p>
+                <a
+                  className="podcast-pill podcast-youtube-cta"
+                  href={YOUTUBE_CHANNEL}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <span>{t('podcastPage.youtube.cta')}</span>
+                  <ArrowUpRight size={16} />
+                </a>
+              </header>
+
+              <div className="podcast-youtube-grid">
+                <div className="podcast-youtube-spotlight">
+                  {reducedMotion ? (
+                    // Respects prefers-reduced-motion: a poster + explicit
+                    // play control rather than forcing autoplay on someone
+                    // who asked the OS not to animate things for them.
+                    <a
+                      className="podcast-youtube-spotlight-poster"
+                      href={`https://www.youtube.com/watch?v=${spotlight.id}`}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label={t('podcastPage.youtube.itemLabel', { title: spotlight.title || t('podcastPage.youtube.title') })}
+                    >
+                      <img src={`https://i.ytimg.com/vi/${spotlight.id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" />
+                      <span className="podcast-youtube-badge" aria-hidden="true">
+                        <Play size={26} fill="currentColor" />
+                      </span>
+                    </a>
+                  ) : (
+                    <iframe
+                      className="podcast-youtube-spotlight-frame"
+                      src={`https://www.youtube.com/embed/${spotlight.id}?autoplay=1&mute=1&loop=1&playlist=${spotlight.id}&controls=1&modestbranding=1&playsinline=1&rel=0`}
+                      title={spotlight.title || t('podcastPage.youtube.title')}
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  )}
+                  {spotlight.title && <p className="podcast-youtube-spotlight-title">{spotlight.title}</p>}
+                </div>
+
+                {rest.length > 0 && (
+                  <ul className="podcast-youtube-list">
+                    {rest.slice(0, 4).map((video) => (
+                      <li key={video.id}>
+                        <a
+                          className="podcast-youtube-list-item"
+                          href={`https://www.youtube.com/watch?v=${video.id}`}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          aria-label={t('podcastPage.youtube.itemLabel', { title: video.title || t('podcastPage.youtube.title') })}
+                        >
+                          <span className="podcast-youtube-list-thumb">
+                            <img src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" />
+                            <span className="podcast-youtube-list-play" aria-hidden="true">
+                              <Play size={16} fill="currentColor" />
+                            </span>
+                          </span>
+                          {video.title && <span className="podcast-youtube-list-title">{video.title}</span>}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </>
+          ) : (
+            /* Empty state — byte-for-byte the same layout that shipped
+               last round (.podcast-split: copy left, card right). A
+               facade, not a player: no video IDs exist yet. Honest about
+               being a link out (chip, arrow, new-tab aria-label) rather
+               than pretending to play inline. Populating
+               podcastPage.youtube.videos in both locale files (shape:
+               [{ id, title }]) swaps this whole block for the grid
+               above with no further code change. */
+            <div className="podcast-split">
+              <div className="podcast-split-body">
+                <p className="eyebrow">{t('podcastPage.youtube.eyebrow')}</p>
+                <h2 className="heading-2">{t('podcastPage.youtube.title')}</h2>
+                <p className="podcast-lede">{t('podcastPage.youtube.lede')}</p>
+                <a
+                  className="podcast-pill podcast-youtube-cta"
+                  href={YOUTUBE_CHANNEL}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <span>{t('podcastPage.youtube.cta')}</span>
+                  <ArrowUpRight size={16} />
+                </a>
+              </div>
+
+              <a
+                className="podcast-youtube-card"
+                href={YOUTUBE_CHANNEL}
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label={t('podcastPage.youtube.cardLabel')}
+              >
+                <img
+                  src="/images/portfolio-corporate-v.webp"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span className="podcast-youtube-scrim" aria-hidden="true" />
+                <span className="podcast-chip podcast-youtube-chip">
+                  {t('podcastPage.youtube.chip')}
+                </span>
+                <span className="podcast-youtube-badge" aria-hidden="true">
+                  <Youtube size={28} />
+                </span>
+              </a>
+            </div>
+          )}
         </div>
       </section>
 

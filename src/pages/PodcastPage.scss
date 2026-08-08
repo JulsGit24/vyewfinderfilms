@@ -211,6 +211,218 @@
   color: var(--wst-color-text-secondary);
 }
 
+/* ---- YouTube channel ----
+   The process block below is also --alt, so this rule keeps the
+   boundary between the two legible. */
+#youtube {
+  border-bottom: 1px solid var(--wst-color-border);
+}
+
+.podcast-youtube-cta {
+  margin-top: 28px;
+}
+
+.podcast-youtube-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 20px; /* matches .podcast-split-media */
+  background-color: var(--wst-color-inverse);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 3px;
+  }
+
+  &:hover .podcast-youtube-badge {
+    transform: translate(-50%, -50%) scale(1.06);
+    background-color: var(--wst-color-action-hover);
+  }
+}
+
+/* Fixed dark in both themes: it sits on photography, exactly like
+   .shape-overlay's scrim does. Same construction as
+   .podcast-hero-scrim. */
+.podcast-youtube-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.18) 60%, transparent);
+}
+
+.podcast-youtube-chip {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+}
+
+/* Gold, not YouTube red — the page stays inside the token system, and
+   the lucide YouTube glyph carries the recognition on its own. */
+.podcast-youtube-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: var(--wst-color-action);
+  color: var(--wst-color-on-action);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease;
+}
+
+/* ---- YouTube channel, populated state ----
+   embedsocial.com/templates/youtube-shorts-section/ is the layout: a
+   large "now playing" player beside a scrollable list of the rest.
+   The reference presents vertical Shorts; this channel's catalogue is
+   landscape 16:9 videos, so the spotlight and thumbs run 16:9 — the
+   format is kept, the aspect follows the actual footage rather than
+   letterboxing it inside a phone frame. Ships once
+   podcastPage.youtube.videos has entries — see PodcastPage.jsx. */
+.podcast-youtube-grid {
+  display: grid;
+  gap: clamp(24px, 3vw, 40px);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 860px) {
+  .podcast-youtube-grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+    align-items: start;
+  }
+}
+
+.podcast-youtube-spotlight {
+  position: relative;
+}
+
+.podcast-youtube-spotlight-frame,
+.podcast-youtube-spotlight-poster {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: var(--wst-color-inverse);
+}
+
+.podcast-youtube-spotlight-poster {
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .podcast-youtube-badge {
+    width: 60px;
+    height: 60px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 3px;
+  }
+
+  &:hover .podcast-youtube-badge {
+    transform: translate(-50%, -50%) scale(1.06);
+    background-color: var(--wst-color-action-hover);
+  }
+}
+
+.podcast-youtube-spotlight-title {
+  margin: 12px 0 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--wst-color-text-primary);
+}
+
+.podcast-youtube-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* Bounded height + scroll — "stacked, scrollable feed" per the
+     reference — so the list never forces the section taller than
+     the spotlight beside it. */
+  max-height: clamp(300px, 34vw, 430px);
+  overflow-y: auto;
+}
+
+.podcast-youtube-list-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid var(--wst-color-border);
+  background-color: var(--wst-color-fill-background-primary);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--wst-color-accent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 2px;
+  }
+}
+
+.podcast-youtube-list-thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: 128px;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.podcast-youtube-list-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.podcast-youtube-list-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--wst-color-text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .podcast-youtube-spotlight-poster,
+  .podcast-youtube-list-item {
+    transition: none;
+  }
+}
+
 /* ---- process ---- */
 .podcast-steps {
   display: grid;
@@ -383,12 +595,17 @@
 
 @media (prefers-reduced-motion: reduce) {
   .podcast-pill,
-  .podcast-format {
+  .podcast-format,
+  .podcast-youtube-badge {
     transition: none;
   }
 
   .podcast-pill:hover,
   .podcast-format:hover {
     transform: none;
+  }
+
+  .podcast-youtube-card:hover .podcast-youtube-badge {
+    transform: translate(-50%, -50%);
   }
 }

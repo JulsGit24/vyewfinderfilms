@@ -242,6 +242,17 @@ $notch: 30px;
   .hamburger .line {
     transition: none;
   }
+
+  /* The panel still appears, it just does not slide, and the card
+     simply shows the opposite theme with no wipe. */
+  .theme-preview {
+    transition: none;
+    transform: none;
+  }
+
+  .theme-preview .theme-preview-card::before {
+    display: none;
+  }
 }
 .has-dropdown {
   position: relative;
@@ -252,13 +263,19 @@ $notch: 30px;
     pointer-events: auto;
   }
 }
+/* The panel reads as transparent before this because it referenced
+   --bg-primary / --text-secondary / --text-primary, none of which are
+   defined anywhere in the project — an undefined custom property
+   resolves to nothing. It follows the pill's own tone variables rather
+   than the page tokens, because the pill can be dark over a light page. */
 .dropdown-menu {
   position: absolute;
   top: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(10px);
-  background: var(--bg-primary);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--nav-panel);
+  border: 1px solid var(--wst-color-border);
+  box-shadow: 0 14px 34px var(--wst-shadow-strong);
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -267,11 +284,25 @@ $notch: 30px;
   pointer-events: none;
   transition: all 0.3s ease;
   min-width: 200px;
+
+  /* Hover bridge across the 10px gap between the trigger and the
+     panel, so travelling down to it does not dismiss it mid-move. */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -14px;
+    left: 0;
+    right: 0;
+    height: 14px;
+  }
+
   a {
-    color: var(--text-secondary) !important;
+    color: var(--nav-ink-soft);
     font-size: 0.9rem;
     padding: 0.5rem;
-    &:hover { color: var(--text-primary) !important; }
+    /* Gold on hover, matching the rest of the bar — --nav-ink would
+       read as less emphatic than the top-level links' hover state. */
+    &:hover { color: var(--wst-color-action); }
   }
 }
 /* These controls sit inside the nav pill, so they follow the pill's
@@ -320,6 +351,107 @@ $notch: 30px;
     outline: 2px solid var(--wst-color-action);
     outline-offset: 2px;
   }
+}
+
+/* ==========================================================
+   Theme toggle hover preview
+   A mini card painted in the *opposite* theme's tokens, with the
+   current theme wiping off it. Both token sets are defined at once
+   in index.scss, so the live theme is never touched — the page only
+   flips when the button is actually clicked.
+   ========================================================== */
+.nav-theme {
+  position: relative;
+}
+
+.theme-preview {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  white-space: nowrap;
+  background: var(--nav-panel);
+  border: 1px solid var(--wst-color-border);
+  box-shadow: 0 14px 34px var(--wst-shadow-strong);
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Keyboard users get it too — the panel is the only place the
+   "Try X theme!" wording appears on desktop. */
+.nav-theme:hover .theme-preview,
+.theme-toggle:focus-visible ~ .theme-preview {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.theme-preview-card {
+  position: relative;
+  overflow: hidden;
+  width: 76px;
+  height: 48px;
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: var(--wst-preview-bg);
+  border: 1px solid var(--wst-preview-border);
+  color: var(--wst-preview-accent);
+}
+
+.theme-preview-bar {
+  height: 4px;
+  width: 100%;
+  border-radius: 2px;
+  background: var(--wst-preview-ink);
+  opacity: 0.55;
+
+  &--short { width: 60%; }
+}
+
+/* The wipe. Scoped to the desktop panel: the mobile mini card is
+   always visible and has nothing to reveal. */
+.theme-preview .theme-preview-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--wst-color-fill-background-primary);
+  transform: translateX(0);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+}
+
+.nav-theme:hover .theme-preview-card::before,
+.theme-toggle:focus-visible ~ .theme-preview .theme-preview-card::before {
+  transform: translateX(101%);
+}
+
+.theme-preview-label {
+  color: var(--nav-ink);
+  font-family: var(--font-primary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Mobile: the same card, shrunk to sit inline inside the control. */
+.theme-preview-card--mini {
+  width: 26px;
+  height: 18px;
+  flex: 0 0 auto;
+  padding: 3px;
+  gap: 2px;
+  border-radius: 4px;
+
+  .theme-preview-bar { height: 2px; }
 }
 
 .btn-contact-us {

@@ -31,19 +31,38 @@ const buildMedia = (slug) =>
     label: `${item.type === 'video' ? 'Video' : 'Photo'} ${index + 1}`
   }))
 
+/* `keywordsKey` and `highlightKey` are optional and are read by
+   ServiceGallery.jsx only — the /services overview deliberately does
+   not render them, so a service without either simply gets no chips
+   and no callout, with no per-page branching.
+
+   Social Media used to be a fourth entry here reusing digital
+   marketing's media folder split in two. It is merged into
+   digital-marketing: one entry, one media folder, one set of keys.
+   /services/social-media needs no redirect — ServiceGallery already
+   <Navigate>s any unrecognised slug back to /services. */
 export const services = [
   {
     slug: 'digital-marketing',
     anchor: 'digital-marketing',
-    titleKey: 'nav.digitalMarketing',
-    descKey: 'services.items.social.desc',
+    /* Own keys now. It used to borrow nav.digitalMarketing for the
+       title and services.items.social.desc — the *Social Media*
+       copy — for the description. */
+    titleKey: 'services.items.digitalMarketing.title',
+    descKey: 'services.items.digitalMarketing.desc',
+    keywordsKey: 'services.items.digitalMarketing.keywords',
+    highlightKey: 'services.items.digitalMarketing.highlight',
     media: buildMedia('digital-marketing')
   },
   {
     slug: 'corporate-video',
     anchor: 'corporate-video',
     titleKey: 'nav.corporateVideo',
-    descKey: 'services.items.corporate.desc',
+    /* Its own key rather than services.items.corporate.desc, which is
+       the home wheel's short teaser and is shown at a different length
+       in a different context. */
+    descKey: 'services.items.corporateVideo.desc',
+    keywordsKey: 'services.items.corporateVideo.keywords',
     media: buildMedia('corporate-video')
   },
   {
@@ -51,14 +70,8 @@ export const services = [
     anchor: 'photography',
     titleKey: 'nav.photography',
     descKey: 'services.items.photography.desc',
+    keywordsKey: 'services.items.photography.keywords',
     media: buildMedia('photography')
-  },
-  {
-    slug: 'social-media',
-    anchor: 'social-media',
-    titleKey: 'nav.socialMedia',
-    descKey: 'services.items.social.desc',
-    media: buildMedia('social-media')
   }
 ]
 

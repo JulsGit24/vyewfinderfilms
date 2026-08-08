@@ -154,6 +154,7 @@ ffmpeg_extracted/
 # and deployed. Keep a backup of this folder outside the repo.
 media-src/
 changes_log/
+workflow/
 docs/
 prompts/
 AGENTS.md

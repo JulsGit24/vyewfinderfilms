@@ -36,6 +36,16 @@ const TARGETS = [
   ['viewfinder_hero.mp4', 1440, 26, false],
   ['podcast_recording.mp4', 1280, 24, false], // card
   ['loader_intro.mp4', 1280, 25, false], // card
+  /* Drop-in slot for the home page's Digital Marketing card. The client
+     replaces media-src/assets/dm-section/loop.mp4 and re-runs this
+     script; no component edit is needed. Same box/CRF/no-audio as the
+     clip it replaces. */
+  ['dm-section/loop.mp4', 1280, 25, false], // card
+  /* Same drop-in arrangement for the home page's Photography scene.
+     Its source is currently a copy of viewfinder_hero.mp4 standing in
+     until the client delivers real photography footage — see
+     media-src/assets/photography-section/README.md. */
+  ['photography-section/loop.mp4', 1280, 25, false], // card
   /* Stories play in a card no wider than ~380 CSS px; 1080-tall
      encodes were roughly double what that slot can resolve. */
   ['video1.mp4', 800, 27, true], // visitor can unmute these
@@ -62,6 +72,10 @@ for (const [file, box, crf, keepAudio] of TARGETS) {
     console.log(`skip (no source): ${file}`)
     continue
   }
+
+  /* TARGETS entries may be nested (dm-section/loop.mp4), and ffmpeg
+     will not create the output directory for us. */
+  fs.mkdirSync(path.dirname(out), { recursive: true })
 
   const args = [
     '-hide_banner', '-loglevel', 'error', '-y',

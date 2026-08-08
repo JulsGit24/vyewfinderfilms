@@ -8,7 +8,17 @@
   max-width: 760px;
   /* padding, not margin: .container already sets `margin: 0 auto` and
      the two shorthands were fighting over the cascade. */
-  padding-bottom: clamp(140px, 16vw, 220px);
+  /* Was clamp(140px, 16vw, 220px). Adding the lede fills the gap but
+     does not shrink it — both changes are needed to close the distance
+     to the first service block. */
+  padding-bottom: clamp(72px, 8vw, 110px);
+
+  /* The utility's default 40px bottom margin would re-open the gap
+     immediately under the copy that was added to close it. */
+  .subheading {
+    max-width: 620px;
+    margin: 16px auto 0;
+  }
 }
 
 .service-block {

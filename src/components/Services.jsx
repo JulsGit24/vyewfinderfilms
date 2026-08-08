@@ -41,10 +41,16 @@ export default function Services() {
       link: '/services#photography'
     },
     {
-      title: t('services.items.social.title', 'Social Media'),
-      description: t('services.items.social.desc', 'Scroll-stopping content built for the platforms your audience actually watches.'),
+      /* Was "Social Media". That service is now merged into Digital
+         Marketing, and leaving the old label on the home page is
+         exactly the two-offerings confusion the merge removes. The
+         teaser copy is unchanged, it just moved to its own key; the
+         link had to move too — /services#social-media no longer
+         renders a block to anchor to. */
+      title: t('nav.digitalMarketing', 'Digital Marketing'),
+      description: t('services.items.digitalMarketing.teaser', 'Scroll-stopping content built for the platforms your audience actually watches.'),
       image: '/images/portfolio-social.webp',
-      link: '/services#social-media'
+      link: '/services#digital-marketing'
     },
     {
       title: t('services.items.podcast.title', 'Podcast'),
@@ -139,11 +145,20 @@ export default function Services() {
           {localizedServices.map((service, index) => {
             const offset = wrappedOffset(index, active, COUNT)
             const isActive = offset === 0
+            /* With COUNT = 4 the offsets present are {-1, 0, 1, 2}. The
+               |2| slide is already at 0.2 opacity and translated far
+               enough sideways to be clipped by the section's
+               overflow:hidden below ~1600px — but not above it, where
+               its rotated bottom corner reaches into the copy. Hiding
+               it outright removes that tail case; the existing 0.75s
+               opacity transition fades it back in as it becomes the
+               left neighbour. */
+            const isFar = Math.abs(offset) > 1
             return (
               <button
                 type="button"
                 key={service.title}
-                className={`wheel-slide ${isActive ? 'is-active' : ''}`}
+                className={`wheel-slide ${isActive ? 'is-active' : ''} ${isFar ? 'wheel-slide--far' : ''}`}
                 style={{
                   '--offset': offset,
                   '--abs': Math.abs(offset),
@@ -158,6 +173,11 @@ export default function Services() {
                   <img src={service.image} alt="" draggable="false" loading="lazy" decoding="async" />
                 </span>
                 <span className="wheel-slide-index">{String(index + 1).padStart(2, '0')}</span>
+                {/* "Text at the edge of every image" — a label on each
+                    slide, not just the active one. Deliberately not run
+                    through animateTextReveal: it re-renders on every
+                    slide change and splitting it would flicker. */}
+                <span className="wheel-slide-label">{service.title}</span>
               </button>
             )
           })}

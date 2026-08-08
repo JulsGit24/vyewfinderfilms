@@ -16,11 +16,31 @@ export default function ServiceGallery() {
   const pageRef = useRef(null)
   const service = getService(slug)
 
+  /* returnObjects hands back the array; i18next returns the key string
+     when the array is missing, hence the shape guard — same defensive
+     shape Testimonials.jsx uses. */
+  const rawKeywords = service?.keywordsKey ? t(service.keywordsKey, { returnObjects: true }) : null
+  const keywords = Array.isArray(rawKeywords) ? rawKeywords.filter(Boolean) : []
+
   useEffect(() => {
     if (!service) return undefined
     let revertText
     const ctx = gsap.context(() => {
-      revertText = animateTextReveal('.gallery-page h1, .gallery-page .subheading, .gallery-page .eyebrow')
+      revertText = animateTextReveal(
+        '.gallery-page h1, .gallery-page .subheading, .gallery-page .eyebrow, .gallery-page .service-highlight'
+      )
+
+      /* Chips are staggered rather than split: SplitType on a pill
+         flickers, and these are short enough that a word ramp would
+         read as broken text rather than as motion. */
+      gsap.from('.service-keywords li', {
+        opacity: 0,
+        y: 10,
+        duration: 0.5,
+        stagger: 0.05,
+        ease: 'power3.out',
+        delay: 0.25
+      })
     }, pageRef)
     return () => {
       if (revertText) revertText()
@@ -42,6 +62,22 @@ export default function ServiceGallery() {
           <p className="eyebrow">{t('gallery.eyebrow')}</p>
           <h1 className="heading-1">{t(service.titleKey)}</h1>
           <p className="subheading">{t(service.descKey)}</p>
+
+          {/* Chips render on the gallery pages only, not on the
+              /services overview — that page is a scan-and-click index
+              where each block is immediately followed by a media row,
+              and six chips per block would bury the imagery. */}
+          {keywords.length > 0 && (
+            <ul className="service-keywords">
+              {keywords.map((keyword) => (
+                <li className="service-keyword" key={keyword}>{keyword}</li>
+              ))}
+            </ul>
+          )}
+
+          {service.highlightKey && (
+            <p className="service-highlight">{t(service.highlightKey)}</p>
+          )}
         </header>
       </div>
 

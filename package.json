@@ -10,7 +10,8 @@
     "optimize:media": "node scripts/optimize-media.mjs",
     "optimize:images": "node scripts/optimize-site-images.mjs",
     "optimize:assets": "node scripts/optimize-assets.mjs",
-    "optimize:all": "npm run optimize:images && npm run optimize:assets && npm run optimize:media",
+    "optimize:clients": "node scripts/optimize-clients.mjs",
+    "optimize:all": "npm run optimize:images && npm run optimize:assets && npm run optimize:clients && npm run optimize:media",
     "test": "node tests/smoke.mjs"
   },
   "dependencies": {

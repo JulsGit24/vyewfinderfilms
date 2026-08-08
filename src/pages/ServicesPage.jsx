@@ -38,8 +38,13 @@ export default function ServicesPage() {
 
   return (
     <div className="services-page" ref={pageRef}>
+      {/* servicesPage.lede was already written and translated but never
+          rendered, leaving the H1 alone above ~200px of padding. The
+          existing animateTextReveal selector above already covers
+          .services-page .subheading, so it picks up the word ramp. */}
       <div className="container text-center services-page-header">
         <h1 className="heading-1">{t('servicesPage.eyebrow')}</h1>
+        <p className="subheading">{t('servicesPage.lede')}</p>
       </div>
 
       {randomPreviews.map((service) => (

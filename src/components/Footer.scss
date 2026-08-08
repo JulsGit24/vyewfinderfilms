@@ -69,57 +69,10 @@
   }
 }
 
-.newsletter-form {
-  label {
-    display: block;
-    font-size: 12px;
-    margin-bottom: 10px;
-    color: var(--wst-color-text-secondary);
-  }
-}
-
-.newsletter-input-row {
-  display: flex;
-
-  input {
-    flex: 1;
-    padding: 13px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: transparent;
-    color: var(--wst-color-text-primary);
-    font-family: inherit;
-
-    &:focus {
-      outline: none;
-      border-color: var(--wst-color-action);
-    }
-  }
-
-  button {
-    padding: 13px 20px;
-    background-color: var(--wst-color-action);
-    color: var(--wst-color-text-primary);
-    border: none;
-    text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: var(--wst-color-action-hover);
-    }
-  }
-}
-
-.footer-thanks {
-  color: var(--wst-color-accent) !important;
-}
-
-.follow-label {
-  margin-top: 30px;
-}
+/* The newsletter form's rules lived here (.newsletter-form,
+   .newsletter-input-row, .footer-thanks, .follow-label). They went with
+   the markup — .newsletter-input-row input also carried this file's one
+   hardcoded rgba border, so the footer is now entirely token-driven. */
 
 .social-links {
   display: flex;

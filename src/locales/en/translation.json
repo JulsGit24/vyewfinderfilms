@@ -29,11 +29,41 @@
       },
       "photography": {
         "title": "Photography",
-        "desc": "High-end photography that captures the details worth remembering."
+        "desc": "High-end photography that captures the details worth remembering.",
+        "keywords": [
+          "Product & e-commerce",
+          "Headshots & executive portraits",
+          "Team & brand libraries",
+          "Real estate & listings"
+        ]
       },
       "social": {
         "title": "Social Media",
         "desc": "Scroll-stopping content built for the platforms your audience actually watches."
+      },
+      "digitalMarketing": {
+        "title": "Digital Marketing and Social Media",
+        "teaser": "Scroll-stopping content built for the platforms your audience actually watches.",
+        "desc": "Posting isn't the hard part. Posting the right thing, every week, without you thinking about it — that's the hard part.",
+        "keywords": [
+          "Campaign strategy",
+          "Social content",
+          "Websites",
+          "Editing & captions",
+          "Community management",
+          "Monthly reporting"
+        ],
+        "highlight": "You approve. We handle the rest — and you get a number you can point to."
+      },
+      "corporateVideo": {
+        "desc": "The difference isn't the camera. It's what you point it at. We build the narrative first — the objection your buyer has, the proof that answers it — then we shoot.",
+        "keywords": [
+          "Brand films",
+          "Recruitment",
+          "Client testimonials",
+          "Executive thought leadership",
+          "Event coverage"
+        ]
       },
       "podcast": {
         "title": "Podcast",
@@ -44,19 +74,30 @@
   "footer": {
     "contact": "Contact Us",
     "addressLbl": "Address",
+    "address": "Richmond, Virginia",
     "contactLbl": "Contact",
     "hoursLbl": "Opening Hours",
+    "hours": {
+      "weekdaysLbl": "Mon – Fri",
+      "weekdays": "9:00 am – 7:00 pm",
+      "saturdayLbl": "Saturday",
+      "saturday": "9:00 am – 5:00 pm",
+      "sundayLbl": "Sunday",
+      "sunday": "Closed"
+    },
     "subscribe": "Subscribe to our newsletter",
     "thanks": "Thanks for your message!",
     "emailPlaceholder": "your@email.com",
     "send": "Send",
     "follow": "Follow us on:",
+    "followLbl": "Follow Us",
+    "rights": "© {{year}} Vyewfinder Films. All rights reserved.",
     "privacy": "Privacy Policy"
   },
   "digitalMarketing": {
     "eyebrow": "Digital Marketing",
     "title": "Great visuals<br />need a strategy<br />to reach the<br />right people",
-    "lede": "We don't just create content — we make sure it works. From managing your social channels to running paid campaigns, we handle the full picture so you can focus on your business.",
+    "lede": "Great visuals, supported by a strong strategy to reach the right audience.",
     "capabilities": {
       "strategy": "Content Strategy",
       "campaigns": "Paid Campaigns",
@@ -77,15 +118,60 @@
     "getStarted": "Get Started",
     "mediaTag": "Studio / On air"
   },
+  "photography": {
+    "eyebrow": "Photography",
+    "title": "Every detail<br />worth<br />remembering",
+    "lede": "Commercial photography for the things your business needs to show: product, food, property, and the people behind it. Shot to work across your site, your listings and your feed.",
+    "capabilities": {
+      "product": "Product & Food",
+      "portraits": "Headshots & Portraits",
+      "property": "Real Estate & Spaces"
+    },
+    "getStarted": "Get Started",
+    "mediaTag": "On location / Richmond VA"
+  },
   "testimonials": {
-    "title": "Our Work",
-    "items": []
+    "eyebrow": "Reviews",
+    "title": "What our clients say about working with us",
+    "ratingLabel": "{{rating}} out of 5",
+    "counter": "{{current}} of {{total}}",
+    "next": "Next",
+    "prev": "Previous",
+    "items": [
+      {
+        "quote": "We hired Vyewfinder to do a video for our business and all I can say is that they are professional on time and I can't be happier with the results! So if you're looking for a videographer Richmond Virginia photographer Richmond Virginia this is your best option 200% recommend them you will be happy. Thanks David and Alondra for such amazing videos!",
+        "author": "Ralda's Details",
+        "role": "Commercial & Brand Video",
+        "rating": 5
+      },
+      {
+        "quote": "Amazing production and team. Loved working with them, bilingual service which is a plus!! They have great vision, strategies and creativity. I had a really high return investment. Thank you! truly recommend.",
+        "author": "Angela Garcia",
+        "role": "Corporate Event Coverage",
+        "rating": 5
+      },
+      {
+        "quote": "They did an amazing job with our video 100% recommended this company for any videography work in Richmond Virginia area!! Thanks for such amazing video.",
+        "author": "Nataly Turcios",
+        "role": "Digital Marketing",
+        "rating": 5
+      },
+      {
+        "quote": "I've worked with David and his company for many years on various audiovisual projects, and I can honestly say there's no one who compares. He truly knows his field, and not only that, but he's passionate about what he does, which always leads to wonderful results. He's very honest and meticulous in his work and as a person. I recommend him 100%. Thank you, David! For your support and for always being willing to give your best for my projects!",
+        "author": "Shirley Garcia",
+        "role": "Product & Marketing Content",
+        "rating": 5
+      }
+    ]
   },
   "clients": {
     "title": "Our Clients"
   },
   "instagram": {
-    "title": "Follow Us On Instagram"
+    "title": "Follow Us On Instagram",
+    "lede": "The latest from our feed.",
+    "follow": "Follow @vyewfinderfilms",
+    "visit": "Follow Vyewfinder Films on Instagram"
   },
   "stories": {
     "title": "STORIES WE'VE CRAFTED",
@@ -181,11 +267,13 @@
   "theme": {
     "toggle": "Toggle colour theme",
     "light": "Light",
-    "dark": "Dark"
+    "dark": "Dark",
+    "tryLight": "Try Light theme!",
+    "tryDark": "Try Dark theme!"
   },
   "servicesPage": {
     "eyebrow": "What we do",
-    "lede": "Four disciplines, one crew. Every project is scoped, shot and delivered by the same team that pitched it.",
+    "lede": "One crew, start to finish. Every project is scoped, shot and delivered by the same team that pitched it.",
     "viewMore": "View more"
   },
   "gallery": {
@@ -224,6 +312,8 @@
       "message": "Your message",
       "messagePh": "In short,",
       "submit": "Send message",
+      "sending": "Sending…",
+      "sendError": "Something went wrong sending your message. Please try again, or email <mail>info@vyewfinderfilms.com</mail> or call <tel>804-998-0564</tel>.",
       "required": "* Required fields",
       "nameError": "Please enter your name (at least 2 characters).",
       "emailError": "Please enter a valid email address.",
@@ -478,8 +568,8 @@
   },
   "podcastPage": {
     "eyebrow": "Podcast Production",
-    "title": "Your voice, produced like it matters",
-    "lede": "From the first episode to the clips that carry it across social, Vyewfinder Films handles the production so you can focus on the conversation.",
+    "title": "You talk. We handle the rest",
+    "lede": "The production, cameras, sound, edit, clip, so you can focus on the conversation",
     "cta": "Start your podcast",
     "ctaSecondary": "See what we cover",
     "formats": {
@@ -518,6 +608,22 @@
           "desc": "Starting from nothing? We can help shape the format, the look and the episode plan before the first recording."
         }
       }
+    },
+    "youtube": {
+      "eyebrow": "Our channel",
+      "title": "This is what we produce",
+      "lede": "The finished work, in full length, on the Vyewfinder Films channel.",
+      "chip": "YouTube",
+      "cta": "Watch on YouTube",
+      "cardLabel": "Watch on the Vyewfinder Films YouTube channel (opens in a new tab)",
+      "itemLabel": "Watch \"{{title}}\" on YouTube (opens in a new tab)",
+      "videos": [
+        { "id": "At59vMU1WRU", "title": "Beauty Wizard" },
+        { "id": "db3cnfGmciw", "title": "Kairos Financial & Tax" },
+        { "id": "CaCtrmX2Va8", "title": "Golds Gym Box" },
+        { "id": "4WRWGGWR0GY", "title": "Golds Gym - White Oak" },
+        { "id": "DmXjxjpLtq0", "title": "Lemur Remodeling Comercial HD" }
+      ]
     },
     "process": {
       "eyebrow": "How it works",

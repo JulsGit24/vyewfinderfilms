@@ -46,6 +46,25 @@
   --wst-loader-vignette-rgb: 0, 0, 0;
   --wst-loader-grain-opacity: 0.05;
 
+  /* Client logos are mixed art — some dark ink on transparency, some
+     full colour. Both themes now paint the same flat silhouette so the
+     ticker reads with identical weight either way: white here, black in
+     light theme. */
+  --wst-logo-filter: brightness(0) invert(1);
+  --wst-logo-opacity: 0.72;
+  /* Hover keeps the silhouette. The source ink is dark, so `none` here
+     would drop the logo onto the black field and erase it — which is
+     what hovering to look closer used to do. */
+  --wst-logo-filter-hover: brightness(0) invert(1);
+
+  /* Theme-toggle hover preview. Always the OPPOSITE of the active
+     theme — the card is showing what you would get if you clicked, so
+     these are deliberately inverted relative to every other token here. */
+  --wst-preview-bg: var(--brand-warm-white);
+  --wst-preview-ink: var(--brand-charcoal);
+  --wst-preview-accent: var(--brand-soft-gold-deep);
+  --wst-preview-border: rgba(46, 46, 46, 0.16);
+
   --font-primary: 'Montserrat', sans-serif;
   --font-display: 'Roboto', sans-serif;
 
@@ -81,6 +100,23 @@
   --wst-loader-watermark: rgba(46, 46, 46, 0.06);
   --wst-loader-vignette-rgb: 248, 246, 243;
   --wst-loader-grain-opacity: 0.03;
+
+  /* Mirror of dark theme: a flat dark silhouette, not a lifted one.
+     brightness() is multiplicative, so the previous
+     `grayscale(100%) brightness(1.8)` pushed every colour logo toward
+     white on warm white — Sasso's yellow and Raldas' grey gradient
+     clipped out entirely. */
+  --wst-logo-filter: brightness(0);
+  --wst-logo-opacity: 0.72;
+  /* On warm white the original brand colours are legible, so hover can
+     show the real logo. */
+  --wst-logo-filter-hover: none;
+
+  /* Active light → the preview shows dark. */
+  --wst-preview-bg: var(--brand-black);
+  --wst-preview-ink: var(--brand-white);
+  --wst-preview-accent: var(--brand-soft-gold);
+  --wst-preview-border: rgba(255, 255, 255, 0.14);
 
   color-scheme: light;
 }
@@ -265,66 +301,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================
-   Shared editorial case card
-   Used by the Digital Marketing and Podcast sections. Thin
-   bordered frame: type column one side, media flush to the
-   frame edge on the other. Add .case-frame--reverse to put
-   the media on the left.
+   Shared case typography
+   The meta list and inline CTA link used by the ShapeReveal
+   scenes (Digital Marketing / Podcast). The bordered case-card
+   frame that used to live here was retired when those sections
+   became full-bleed scroll scenes — see ShapeReveal.jsx.
    ========================================================== */
-/* The frame is intentionally static — no tilt, parallax or hover
-   scale. The reference case studies measure `transform: none` in
-   every state; their motion comes entirely from the looping media. */
-.case-frame {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border: 1px solid var(--wst-color-border);
-  background-color: var(--wst-color-fill-background-secondary);
-  overflow: hidden;
-  transition: border-color 0.45s ease;
-
-  &:hover {
-    border-color: rgba(201, 168, 106, 0.5);
-
-    .case-media-tag { opacity: 1; transform: translateY(0); }
-    .case-meta li::before { transform: scaleX(1.6); }
-  }
-
-  &--reverse {
-    .case-body { order: 2; }
-    .case-media { order: 1; }
-  }
-}
-
-.case-body {
-  display: flex;
-  flex-direction: column;
-  padding: clamp(32px, 4vw, 60px);
-}
-
-.case-title {
-  font-size: clamp(1.9rem, 3.4vw, 2.9rem);
-  line-height: 1.12;
-  font-weight: 900;
-  margin-bottom: 22px;
-}
-
-.case-lede {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--wst-color-text-secondary);
-  max-width: 44ch;
-  margin-bottom: 40px;
-}
-
-.case-foot {
-  margin-top: auto;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
 .case-meta {
   display: flex;
   flex-direction: column;
@@ -395,56 +377,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.case-media {
-  position: relative;
-  overflow: hidden;
-  min-height: 420px;
-
-  img,
-  .case-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-}
-
-.case-media-tag {
-  position: absolute;
-  left: 18px;
-  bottom: 16px;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  /* Overlays footage in both themes, so it stays light. */
-  color: #ffffff;
-  background: rgba(31, 31, 31, 0.72);
-  padding: 7px 12px;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
 @media (max-width: 900px) {
-  .case-frame,
-  .case-frame--reverse {
-    grid-template-columns: 1fr;
-  }
-
-  .case-media,
-  .case-frame--reverse .case-media {
-    order: -1;
-    min-height: 0;
-    aspect-ratio: 16 / 10;
-  }
-
-  .case-frame--reverse .case-body { order: 2; }
-
-  .case-foot {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
   .case-meta {
     flex-direction: row;
     flex-wrap: wrap;
@@ -453,8 +386,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .case-frame,
-  .case-media-tag,
   .case-link::after,
   .case-link-arrow,
   .case-meta li::before {

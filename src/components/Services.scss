@@ -16,13 +16,28 @@
 $step-angle: 9deg;
 $step-drop: 54px;
 
+/* Slide size lives here rather than on .wheel-slide so the stage can
+   be sized from the same clamps. The stage used to be a hand-picked
+   height that did not account for the arc, so the ±1 slides' drop plus
+   their rotated bottom corner painted 59–67px below the stage box —
+   straight through the 30px .wheel-ui margin and into the copy.
+
+   --arc-lift raises the whole fan by the amount the arc adds at the
+   bottom, so growing the stage does not push the active slide off
+   centre. Both expressions are derived from the rotation geometry
+   (transform-origin sits at 50% 140%, below the slide, so the rotation
+   swings the outer bottom corner down by a fraction of the width);
+   they are not eyeballed padding and should not be "simplified". */
 .services-wheel {
   position: relative;
+  --slide-w: clamp(230px, 25vw, 360px);
+  --slide-h: clamp(300px, 40vw, 460px);
+  --arc-lift: calc(var(--slide-h) * 0.02 + var(--slide-w) * 0.04 + 28px);
 }
 
 .wheel-stage {
   position: relative;
-  height: clamp(330px, 46vw, 520px);
+  height: calc(var(--slide-h) * 1.06 + var(--slide-w) * 0.08 + 64px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,8 +57,8 @@ $step-drop: 54px;
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(230px, 25vw, 360px);
-  height: clamp(300px, 40vw, 460px);
+  width: var(--slide-w);
+  height: var(--slide-h);
   margin: 0;
   padding: 0;
   border: none;
@@ -56,7 +71,7 @@ $step-drop: 54px;
   transform:
     translate(-50%, -50%)
     translateX(calc(var(--offset) * clamp(200px, 22vw, 320px)))
-    translateY(calc(var(--abs) * #{$step-drop}))
+    translateY(calc(var(--abs) * #{$step-drop} - var(--arc-lift)))
     rotate(calc(var(--offset) * #{$step-angle}))
     scale(calc(1 - var(--abs) * 0.08));
   opacity: calc(1 - var(--abs) * 0.4);
@@ -69,6 +84,12 @@ $step-drop: 54px;
   &.is-active {
     filter: none;
     cursor: default;
+  }
+
+  /* Offsets beyond ±1. See the comment in Services.jsx. */
+  &--far {
+    opacity: 0;
+    pointer-events: none;
   }
 
   &:focus-visible {
@@ -103,6 +124,26 @@ $step-drop: 54px;
   letter-spacing: 1.5px;
   color: var(--wst-color-accent);
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Always-visible label on every slide, at the bottom edge of the
+   image. Same rule as .case-media-tag: it overlays footage in both
+   themes, so it stays light rather than following the text token. */
+.wheel-slide-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 26px 16px 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: left;
+  color: #ffffff;
+  background: linear-gradient(to top, rgba(20, 20, 22, 0.82), rgba(20, 20, 22, 0));
+  pointer-events: none;
 }
 
 /* ---- Copy + controls ---- */

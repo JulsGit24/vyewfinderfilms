@@ -1,84 +1,63 @@
+/* ==========================================================
+   Instagram Reels — Splide carousel of oEmbed widgets
+   Instagram's embed.js swaps each blockquote for an iframe carrying
+   `min-width: 326px` — a floor this codebase cannot override, which
+   is what forces the carousel (a 5-up row needs >=1630px, impossible
+   inside the 1200px .container) rather than a grid or row. Heights
+   vary per reel (Instagram's own header/footer), so cards are not
+   equalised — only their tops are aligned.
+   ========================================================== */
 .instagram-section {
-  /* Was `100px 0 0 0` because the old edge-to-edge grid ran straight
-     into the footer. The carousel is contained, so the bottom padding
-     comes back — matching .section-padding. */
+  /* Was edge-to-edge under the old fallback grid; a contained
+     carousel needs bottom padding like every other section. */
   padding: 100px 0;
   background-color: var(--wst-color-fill-background-primary);
 
-  .heading-2 {
-    margin-bottom: 16px;
+  .subheading {
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .instagram-section {
+    padding: 60px 0;
   }
 }
 
 .instagram-reels {
+  position: relative;
   max-width: 1200px;
-  margin: 0 auto 44px;
+  margin: clamp(28px, 4vw, 48px) auto 0;
   padding: 0 20px;
 
-  /* Card heights differ per reel — Instagram's chrome varies with the
-     post — and they are not equalisable from here. Let short cards sit
-     at their natural height rather than stretching. */
+  .splide__track {
+    /* Room for the widget's own drop shadow so it isn't clipped. */
+    padding: 4px 0 12px;
+  }
+
   .splide__list {
+    /* Cards are not equalised to a common height — only their tops
+       align, so a short card doesn't stretch to match a tall one. */
     align-items: flex-start;
   }
 
   .splide__pagination {
-    margin-top: 24px;
-    padding: 0;
+    position: static;
+    margin-top: 20px;
 
-    .splide__pagination__page {
-      background: var(--wst-color-border-strong);
-      opacity: 1;
-
-      &.is-active {
-        background: var(--wst-color-action);
-        transform: scale(1.2);
-      }
+    li button.is-active {
+      background: var(--wst-color-action);
     }
   }
 }
 
-/* min-height stops the rail jumping if a reel is later deleted or made
-   private — Instagram renders its own (shorter) "content isn't
-   available" card in that case, which is the intended degradation. */
 .instagram-reel-slide {
   display: flex;
   justify-content: center;
+  /* A reel that fails to hydrate (deleted/private post) renders
+     Instagram's own shorter "content unavailable" card — this floor
+     keeps the row from visibly jumping when that happens. */
   min-height: 480px;
-}
-
-.instagram-controls {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-top: 32px;
-}
-
-/* Stories' arrow geometry, but token-driven: .stories-arrow hardcodes
-   rgba(255,255,255,…), which is a pre-existing light-theme weakness in
-   that component rather than a pattern to propagate. */
-.instagram-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 1px solid var(--wst-color-border-strong);
-  background: transparent;
-  color: var(--wst-color-text-primary);
-  cursor: pointer;
-  transition: background 0.3s, border-color 0.3s;
-
-  &:hover {
-    background: var(--wst-color-border-soft);
-    border-color: var(--wst-color-text-primary);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--wst-color-action);
-    outline-offset: 3px;
-  }
 }
 
 /* The Instagram iframe has a hard 326px min-width we cannot override,
@@ -92,9 +71,52 @@
   }
 }
 
-@media (max-width: 768px) {
-  .instagram-section {
-    padding: 60px 0;
+.instagram-controls {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* The "Follow @vyewfinderfilms" CTA sits in its own .container below
+   .instagram-reels, which carries no spacing of its own — it was
+   landing right under the 56px arrow circles with nothing but their
+   own margin between. Compound selector (.container.instagram-follow,
+   not a bare .instagram-follow): the shared .container utility sets
+   `margin: 0 auto`, same specificity as a single-class rule, and
+   whichever compiles later in Vite's CSS import order wins a tie —
+   here that was silently zeroing this back out. Two classes beats
+   one regardless of order. Scoped this way rather than touching
+   .container itself, which every other section also uses. */
+.container.instagram-follow {
+  margin-top: 30px;
+}
+
+/* Same geometry as .stories-arrow (56px circle, same chevron), but
+   token-driven rather than the hardcoded rgba(255,255,255,…) values
+   that are a light-theme weakness in that component — not a pattern
+   to propagate here. */
+.instagram-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid var(--wst-color-border-strong);
+  background: transparent;
+  color: var(--wst-color-text-primary);
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--wst-color-border-soft);
+    border-color: var(--wst-color-text-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 3px;
   }
 }
 

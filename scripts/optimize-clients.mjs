@@ -38,6 +38,20 @@ const VECTOR_EXT = new Set(['.svg'])
 const LOGO_EDGE = 400
 const LOGO_Q = 85
 
+/* The ticker forces every logo to a flat white/black silhouette (see
+   --wst-logo-filter in index.scss) so mixed-quality client art reads
+   as one consistent mark. That only works when a logo's "ink" is
+   opaque against a mostly-transparent field — a wordmark or line
+   icon. A badge-style logo (a filled circular disc, a solid card)
+   is mostly-opaque to begin with, so the filter collapses it to a
+   nearly featureless blob: no readable text, no icon, in either
+   theme. Measured across the current roster, real silhouette-safe
+   logos sit under ~31% opaque coverage and the one badge-style
+   outlier (a filled circular gym badge) sits at ~78% — a wide gap,
+   so the threshold has real margin on both sides rather than being a
+   near-miss tuned to one file. */
+const REAL_COLOR_OPAQUE_THRESHOLD = 0.5
+
 const args = new Set(process.argv.slice(2))
 const FORCE = args.has('--force')
 
@@ -68,6 +82,28 @@ const brandName = (file) =>
 
 const rel = (p) => p.replace(path.join(ROOT, 'public'), '').replace(/\\/g, '/')
 
+/* Fraction of pixels with significant saturation — if an image has enough
+   color (not just black/white/gray), we don't apply the silhouette filter 
+   because it would destroy the brand colors. */
+async function isColorful(file) {
+  const { data, info } = await sharp(file).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+  let coloredPixels = 0
+  let totalPixels = 0
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i+3] > 10) { // non-transparent
+      totalPixels++
+      const r = data[i], g = data[i+1], b = data[i+2]
+      const max = Math.max(r, g, b), min = Math.min(r, g, b)
+      if (max - min > 15 && max > 50) { // has some color saturation and is not extremely dark
+        coloredPixels++
+      }
+    }
+  }
+  const ratio = totalPixels ? coloredPixels / totalPixels : 0
+  // If more than 5% of the opaque pixels have color, consider it a colorful logo.
+  return ratio > 0.05
+}
+
 async function optimizeRaster(src, out) {
   if (!isFresh(src, out)) {
     const meta = await sharp(src).metadata()
@@ -84,7 +120,12 @@ async function optimizeRaster(src, out) {
       .toFile(out)
   }
   const outMeta = await sharp(out).metadata()
-  return { src: rel(out), width: outMeta.width, height: outMeta.height }
+  const hasColor = await isColorful(out)
+  const entry = { src: rel(out), width: outMeta.width, height: outMeta.height }
+  // Only recorded when true, so the common case doesn't carry a
+  // `realColor: false` on every single manifest entry.
+  if (hasColor) entry.realColor = true
+  return entry
 }
 
 function copyVector(src, out) {

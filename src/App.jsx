@@ -1,23 +1,23 @@
-import React, { Suspense, lazy, useEffect } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
 import Lenis, { useLenis } from '@studio-freight/react-lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Suspense, lazy, useEffect } from 'react'
+import { Route, Routes, useLocation } from 'react-router-dom'
 
-import Loader from './components/Loader'
 import Chatbot from './components/Chatbot'
-import { GridRule } from './components/GridOverlay'
-import Navigation from './components/Navigation'
-import Hero from './components/Hero'
-import Stories from './components/Stories'
-import Services from './components/Services'
-import DigitalMarketing from './components/DigitalMarketing'
-import Podcast from './components/Podcast'
-import Photography from './components/Photography'
-import Testimonials from './components/Testimonials'
 import Clients from './components/Clients'
-import Instagram from './components/Instagram'
+import DigitalMarketing from './components/DigitalMarketing'
 import Footer from './components/Footer'
+import { GridRule } from './components/GridOverlay'
+import Hero from './components/Hero'
+import Instagram from './components/Instagram'
+import Loader from './components/Loader'
+import Navigation from './components/Navigation'
+import Photography from './components/Photography'
+import Podcast from './components/Podcast'
+import Services from './components/Services'
+import Stories from './components/Stories'
+import Testimonials from './components/Testimonials'
 
 /* Routes are split out of the entry bundle: a visitor landing on the
    home page was downloading and parsing the services galleries, the
@@ -87,8 +87,8 @@ function HomePage() {
           as camera → mic → camera rather than a repeat. */}
       <Photography />
       <GridRule />
-      <Testimonials />
       <Clients />
+      <Testimonials />
       <GridRule />
       <Instagram />
     </>

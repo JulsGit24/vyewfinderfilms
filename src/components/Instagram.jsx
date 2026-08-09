@@ -190,7 +190,7 @@ export default function Instagram() {
         </div>
       </div>
 
-      <div className="container text-center">
+      <div className="container text-center instagram-follow">
         <a
           className="btn-outline"
           href={PROFILE_URL}

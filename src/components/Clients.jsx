@@ -15,7 +15,10 @@ function Track({ ariaHidden }) {
   return (
     <ul className="ticker-track" aria-hidden={ariaHidden || undefined}>
       {clients.map((client) => (
-        <li key={client.name} className="ticker-item">
+        <li
+          key={client.name}
+          className={client.realColor ? 'ticker-item ticker-item--real-color' : 'ticker-item'}
+        >
           <img src={client.src} alt={ariaHidden ? '' : client.name} loading="lazy" draggable="false" />
         </li>
       ))}

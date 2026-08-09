@@ -260,10 +260,8 @@ const CHECKS = [
       t.ok('nav Contact Us button uses the real business phone number',
         contactBtnTel === 'tel:18049980564', contactBtnTel)
 
-      // Instagram section: the shuffled Digital Marketing stills that
-      // stood in for a feed were replaced this round by five real
-      // Instagram Reel embeds (oEmbed widget, no credentials) in a
-      // Splide carousel.
+      // Instagram section: five real Instagram Reel embeds (oEmbed
+      // widget, no credentials) in a Splide carousel.
       t.ok('the old fallback image grid is gone', await page.$('.instagram-item') === null)
       const reelSlides = await page.$$('.instagram-reel-slide')
       t.ok('instagram section renders 5 reel slides', reelSlides.length === 5, `got ${reelSlides.length}`)
@@ -306,11 +304,10 @@ const CHECKS = [
 
       // First third-party embed script in this codebase: embed.js must
       // load exactly once and re-hydrate all 5 reels on every client-side
-      // remount, not just the initial full page load. Verified directly
-      // here (not trusted from a description) with two round trips away
-      // from and back to "/". Instagram's oEmbed pipeline hydrates
-      // progressively over a few seconds per mount, so this polls rather
-      // than asserting immediately after navigating back.
+      // remount, not just the initial full page load. Instagram's oEmbed
+      // pipeline hydrates progressively over a few seconds per mount, so
+      // this polls rather than asserting immediately after navigating
+      // back.
       for (let round = 1; round <= 2; round += 1) {
         await page.click('.desktop-nav a[href="/about"]')
         await wait(800)
@@ -360,7 +357,7 @@ const CHECKS = [
       const testimonialHeading = await page.evaluate(() =>
         document.querySelector('.testimonials-heading')?.innerText.replace(/\s+/g, ' ').trim())
       t.ok('testimonials heading is the sentence-style reference copy',
-        testimonialHeading === 'What our clients say about working with us', testimonialHeading)
+        testimonialHeading === 'What our clients say', testimonialHeading)
       t.ok('nav rail exposes both Next and Previous controls',
         await page.$('.testimonial-nav--next') !== null && await page.$('.testimonial-nav--prev') !== null)
 

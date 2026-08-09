@@ -14,7 +14,7 @@
              -full.webp  2000 px long edge   lightbox
      videos  -tile.mp4    720 px tall, muted, no audio track
              -full.mp4   1080 px tall, faststart
-             -poster.webp                    first frame
+             -poster.webp                    representative frame
 
    Sources live in media-src/ (outside public/) so the originals are
    never copied into dist. Output goes to public/media/<slug>/ and the
@@ -152,7 +152,13 @@ async function optimizeVideo(src, outBase) {
   }
 
   if (!isFresh(src, poster)) {
-    await ffmpeg(['-i', src, '-vf', fitBox(640), '-frames:v', '1', posterTmp])
+    /* `thumbnail` scores a window of frames and returns the most
+       representative one, rather than whatever happens to be first.
+       Clips that fade in from black were producing solid black
+       posters — video2.mp4 shipped one — which read as blank plates
+       wherever a poster stands in for the video. It degrades safely:
+       a clip shorter than the window is scored on the frames it has. */
+    await ffmpeg(['-i', src, '-vf', `thumbnail=100,${fitBox(640)}`, '-frames:v', '1', posterTmp])
     await sharp(posterTmp).webp({ quality: THUMB_Q }).toFile(poster)
     fs.unlinkSync(posterTmp)
   }

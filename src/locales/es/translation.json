@@ -132,7 +132,7 @@
   },
   "testimonials": {
     "eyebrow": "Reseñas",
-    "title": "Lo que dicen nuestros clientes de trabajar con nosotros",
+    "title": "Lo que dicen nuestros clientes",
     "ratingLabel": "{{rating}} de 5",
     "counter": "{{current}} de {{total}}",
     "next": "Siguiente",

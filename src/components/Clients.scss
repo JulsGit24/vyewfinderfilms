@@ -3,6 +3,25 @@
   overflow: hidden;
 }
 
+/* Extra top space on top of the shared .section-padding (100px): this
+   section follows the Photography ShapeReveal scene, which ends
+   full-viewport on its own video right up to the section boundary, so
+   the standard section gap alone read as too abrupt coming off that
+   footage. The compound selector (two classes, not one) is what beats
+   .section-padding's own padding-top on specificity regardless of
+   import order — a bare `.clients-section { padding-top: … }` would
+   otherwise be a coin flip against it. Scoped here rather than raising
+   .section-padding itself, which many other sections share. */
+.clients-section.section-padding {
+  padding-top: clamp(140px, 16vw, 220px);
+}
+
+@media (max-width: 768px) {
+  .clients-section.section-padding {
+    padding-top: clamp(90px, 20vw, 140px);
+  }
+}
+
 /* ==========================================================
    Client ticker
    Continuous horizontal marquee with fade-masked edges, so
@@ -35,7 +54,13 @@
 .ticker-rail {
   display: flex;
   width: max-content;
-  animation: ticker-slide 44s linear infinite;
+  /* Bumped alongside the taller logos below (64px -> 100px): every
+     mark now renders wider too (aspect ratio preserved), so the rail
+     is a longer total distance — without a matching duration increase
+     the same 44s would cover more ground and read as sped up. Not
+     recomputed to the pixel, just brought back into the same rough
+     scroll speed the ticker had before. */
+  animation: ticker-slide 60s linear infinite;
 
   /* Pausing on hover lets people actually look at a logo. */
   &:hover {
@@ -56,22 +81,37 @@
 
 .ticker-item {
   flex: 0 0 auto;
-  height: 64px;
+  /* Raised from 64px — several marks are tall/square (a stacked
+     icon-over-wordmark shape), and object-fit: contain against a
+     short box scaled them down so far the icon read as an
+     unreadable sliver, which looked like clipping even though
+     nothing was actually cropped. */
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 clamp(28px, 4vw, 56px);
 
   img {
-    max-height: 100%;
-    max-width: 200px;
+    /* height (not max-height): the derivatives are capped at 400px on
+       their long edge, so a wide wordmark's generated file can be
+       genuinely shorter than this 100px box — Chicken Fiesta comes out
+       of the pipeline at 400x83. max-height only clamps an oversized
+       image down; it never stretches an undersized one up, so those
+       logos sat 17px short of every other logo's height with no CSS
+       fix able to reach them. height:100% scales in both directions,
+       which is what "every logo reads the same size" actually needs. */
+    height: 100%;
     width: auto;
+    /* Not a real design cap — a safety ceiling only, so height:100%
+       can't blow out the rail on a genuinely banner-shaped drop-in.
+       The widest current mark (Chicken Fiesta, ~4.8:1) needs ~480px
+       to reach 100px tall; set with headroom above that. */
+    max-width: 520px;
     object-fit: contain;
     /* Theme-scoped: each theme paints a flat silhouette in its own
        ink — white on the black field, black on warm white. See
-       --wst-logo-* in index.scss. Both size constraints bind for
-       different logos (a 400×100 mark is capped by max-width, a
-       400×209 one by height), so both were lifted together. */
+       --wst-logo-* in index.scss. */
     filter: var(--wst-logo-filter);
     opacity: var(--wst-logo-opacity);
     transition: opacity 0.35s ease, filter 0.35s ease;
@@ -86,13 +126,22 @@
     opacity: 1;
     filter: var(--wst-logo-filter-hover);
   }
+
+  /* Logos that are colourful or mostly opaque get flagged as 
+     --real-color. The silhouette treatment would ruin them, so
+     they display in their original colors. */
+  &.ticker-item--real-color img {
+    filter: none;
+  }
 }
 
 @media (max-width: 768px) {
   .ticker-item {
-    height: 48px;
+    height: 76px;
 
-    img { max-width: 140px; }
+    /* Same fix as desktop, scaled to the shorter box: the widest mark
+       (~4.8:1) needs ~365px at 76px tall, well past the old 190px cap. */
+    img { max-width: 400px; }
   }
 }
 

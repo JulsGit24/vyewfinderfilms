@@ -1,127 +1,54 @@
-/* ==========================================================
-   Instagram Reels — Splide carousel of oEmbed widgets
-   Instagram's embed.js swaps each blockquote for an iframe carrying
-   `min-width: 326px` — a floor this codebase cannot override, which
-   is what forces the carousel (a 5-up row needs >=1630px, impossible
-   inside the 1200px .container) rather than a grid or row. Heights
-   vary per reel (Instagram's own header/footer), so cards are not
-   equalised — only their tops are aligned.
-   ========================================================== */
 .instagram-section {
-  /* Was edge-to-edge under the old fallback grid; a contained
-     carousel needs bottom padding like every other section. */
-  padding: 100px 0;
+  padding: 100px 0 0 0;
   background-color: var(--wst-color-fill-background-primary);
 
-  .subheading {
-    margin-top: 12px;
+  .heading-2 {
+    margin-bottom: 50px;
   }
 }
 
-@media (max-width: 768px) {
-  .instagram-section {
-    padding: 60px 0;
-  }
+.instagram-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 }
 
-.instagram-reels {
+.instagram-item {
   position: relative;
-  max-width: 1200px;
-  margin: clamp(28px, 4vw, 48px) auto 0;
-  padding: 0 20px;
+  display: block;
+  aspect-ratio: 1/1;
+  overflow: hidden;
 
-  .splide__track {
-    /* Room for the widget's own drop shadow so it isn't clipped. */
-    padding: 4px 0 12px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
   }
 
-  .splide__list {
-    /* Cards are not equalised to a common height — only their tops
-       align, so a short card doesn't stretch to match a tall one. */
-    align-items: flex-start;
+  .instagram-hover {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 20, 22, 0.6);
+    color: var(--wst-color-text-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  .splide__pagination {
-    position: static;
-    margin-top: 20px;
-
-    li button.is-active {
-      background: var(--wst-color-action);
+  &:hover {
+    img {
+      transform: scale(1.08);
+    }
+    .instagram-hover {
+      opacity: 1;
     }
   }
 }
 
-.instagram-reel-slide {
-  display: flex;
-  justify-content: center;
-  /* A reel that fails to hydrate (deleted/private post) renders
-     Instagram's own shorter "content unavailable" card — this floor
-     keeps the row from visibly jumping when that happens. */
-  min-height: 480px;
-}
-
-/* The Instagram iframe has a hard 326px min-width we cannot override,
-   so the rail gives up the container's side padding on the smallest
-   phones rather than letting the widget be clipped. Do not "tidy"
-   this back to 20px. */
-@media (max-width: 419px) {
-  .instagram-reels {
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-}
-
-.instagram-controls {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 24px;
-}
-
-/* The "Follow @vyewfinderfilms" CTA sits in its own .container below
-   .instagram-reels, which carries no spacing of its own — it was
-   landing right under the 56px arrow circles with nothing but their
-   own margin between. Compound selector (.container.instagram-follow,
-   not a bare .instagram-follow): the shared .container utility sets
-   `margin: 0 auto`, same specificity as a single-class rule, and
-   whichever compiles later in Vite's CSS import order wins a tie —
-   here that was silently zeroing this back out. Two classes beats
-   one regardless of order. Scoped this way rather than touching
-   .container itself, which every other section also uses. */
-.container.instagram-follow {
-  margin-top: 30px;
-}
-
-/* Same geometry as .stories-arrow (56px circle, same chevron), but
-   token-driven rather than the hardcoded rgba(255,255,255,…) values
-   that are a light-theme weakness in that component — not a pattern
-   to propagate here. */
-.instagram-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 1px solid var(--wst-color-border-strong);
-  background: transparent;
-  color: var(--wst-color-text-primary);
-  cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-
-  &:hover {
-    background-color: var(--wst-color-border-soft);
-    border-color: var(--wst-color-text-primary);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--wst-color-action);
-    outline-offset: 3px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .instagram-arrow {
-    transition: none;
+@media (max-width: 768px) {
+  .instagram-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

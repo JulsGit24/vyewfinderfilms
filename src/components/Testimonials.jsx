@@ -45,9 +45,14 @@ export default function Testimonials() {
   const [pinned, setPinned] = useState(false)
 
   /* returnObjects hands back the array; i18next returns the key string
-     when the array is missing, hence the shape guard. */
+     when the array is missing, hence the shape guard. Sorted shortest
+     quote first, longest last — the panel's height already tracks the
+     longest slide (see the file header), so opening on short reviews
+     keeps the section compact before it grows into the longer ones. */
   const raw = t('testimonials.items', { returnObjects: true })
-  const items = Array.isArray(raw) ? raw.filter((i) => i && i.quote) : []
+  const items = Array.isArray(raw)
+    ? raw.filter((i) => i && i.quote).sort((a, b) => a.quote.length - b.quote.length)
+    : []
   const count = items.length
 
   const reducedMotion = useMemo(

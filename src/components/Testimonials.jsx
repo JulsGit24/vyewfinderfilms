@@ -1,29 +1,22 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { gsap } from 'gsap'
-import { ArrowLeft, ArrowRight, Star } from 'lucide-react'
+import { Star } from 'lucide-react'
 import './Testimonials.scss'
 import { animateTextReveal } from '../utils/animations'
 
 /* ==========================================================
-   Testimonials — protocol3.framer.ai's carousel
+   Testimonials — single centered slide, dot pagination
 
-   One review on screen at a time in a large panel, with a nav rail
-   down the right: position counter at the top, then a stacked
-   Next / Previous pair. The reference mirrors the two buttons
-   (label-then-arrow on Next, arrow-then-label on Previous); that is
-   kept, as is the soft glow behind the quote.
+   One review on screen at a time in a centered card: avatar
+   monogram, star rating, quote, then attribution, with a row of
+   dots below to jump between reviews. No reviewer photos exist for
+   these real people, so the avatar is a monogram rather than an
+   invented face — it stands in for the client-logo slot a review
+   carousel would normally use. Stars only render when the entry
+   carries a real rating.
 
-   What is NOT copied is the reference's palette and type — the
-   panel, rules, glow and buttons all read from this site's
-   --wst-color-* tokens and its own display face, so it inverts with
-   the theme and sits with the rest of the page.
-
-   No reviewer photos exist for these real people, so the avatar is
-   a monogram rather than an invented face. Stars only render when
-   the entry carries a real rating.
-
-   Every slide stays mounted, stacked in one grid cell, so the panel
+   Every slide stays mounted, stacked in one grid cell, so the card
    is always as tall as the longest quote and stepping through never
    makes the page jump.
    ========================================================== */
@@ -46,7 +39,7 @@ export default function Testimonials() {
 
   /* returnObjects hands back the array; i18next returns the key string
      when the array is missing, hence the shape guard. Sorted shortest
-     quote first, longest last — the panel's height already tracks the
+     quote first, longest last — the card's height already tracks the
      longest slide (see the file header), so opening on short reviews
      keeps the section compact before it grows into the longer ones. */
   const raw = t('testimonials.items', { returnObjects: true })
@@ -60,12 +53,11 @@ export default function Testimonials() {
     []
   )
 
-  /* Wraps in both directions so neither button is ever a dead end.
-     Any use pins the carousel — someone driving it themselves should
-     not have it move under them. */
-  const go = (dir) => {
+  /* Jumping to a specific slide (dot click) pins the carousel — someone
+     driving it themselves should not have it move under them. */
+  const goTo = (i) => {
     setPinned(true)
-    setActive((i) => (i + dir + count) % count)
+    setActive(i)
   }
 
   useEffect(() => {
@@ -78,7 +70,7 @@ export default function Testimonials() {
     return () => clearInterval(id)
   }, [count, pinned, reducedMotion])
 
-  /* Only the header gets the site's text reveal. The panel is
+  /* Only the header gets the site's text reveal. The card is
      deliberately left to CSS: this subtree re-renders on every
      rotation, and GSAP from-tweens were observed leaving inline
      opacity stranded at 0 when a re-render landed mid-tween. */
@@ -99,7 +91,7 @@ export default function Testimonials() {
   return (
     <section className="testimonials-section section-padding" ref={sectionRef}>
       <div className="container">
-        <div className="section-header">
+        <div className="section-header text-center">
           <p className="eyebrow">{t('testimonials.eyebrow')}</p>
           <h2 className="testimonials-heading">{t('testimonials.title')}</h2>
         </div>
@@ -139,35 +131,20 @@ export default function Testimonials() {
               </figure>
             ))}
           </div>
+        </div>
 
-          <div className="testimonial-rail">
-            <p className="testimonial-counter">
-              {t('testimonials.counter', { current: active + 1, total: count })}
-            </p>
-
-            {/* Mirrored like the reference: Next reads label-then-arrow,
-                Previous reads arrow-then-label, so each button points
-                the way it travels. */}
+        <div className="testimonial-dots" role="tablist" aria-label={t('testimonials.title')}>
+          {items.map((item, i) => (
             <button
+              key={`dot-${item.author}-${item.quote.slice(0, 24)}`}
               type="button"
-              className="testimonial-nav testimonial-nav--next"
-              onClick={() => go(1)}
-              aria-label={t('testimonials.next')}
-            >
-              <span>{t('testimonials.next')}</span>
-              <ArrowRight size={18} aria-hidden="true" />
-            </button>
-
-            <button
-              type="button"
-              className="testimonial-nav testimonial-nav--prev"
-              onClick={() => go(-1)}
-              aria-label={t('testimonials.prev')}
-            >
-              <ArrowLeft size={18} aria-hidden="true" />
-              <span>{t('testimonials.prev')}</span>
-            </button>
-          </div>
+              role="tab"
+              className={`testimonial-dot ${i === active ? 'is-active' : ''}`}
+              aria-selected={i === active}
+              aria-label={t('testimonials.goTo', { position: i + 1 })}
+              onClick={() => goTo(i)}
+            />
+          ))}
         </div>
       </div>
     </section>

@@ -134,9 +134,7 @@
     "eyebrow": "Reseñas",
     "title": "Lo que dicen nuestros clientes",
     "ratingLabel": "{{rating}} de 5",
-    "counter": "{{current}} de {{total}}",
-    "next": "Siguiente",
-    "prev": "Anterior",
+    "goTo": "Ir a la reseña {{position}}",
     "items": [
       {
         "quote": "Contratamos a Vyewfinder para hacer un video para nuestro negocio y todo lo que puedo decir es que son profesionales, puntuales, ¡y no podría estar más feliz con los resultados! Así que si buscas un videógrafo en Richmond Virginia o un fotógrafo en Richmond Virginia, esta es tu mejor opción, los recomiendo 200%, vas a quedar feliz. ¡Gracias David y Alondra por unos videos increíbles!",

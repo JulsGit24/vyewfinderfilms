@@ -339,9 +339,9 @@ const CHECKS = [
           JSON.stringify(remountShortcodes))
       }
 
-      // testimonials: protocol3.framer.ai carousel — one review on
-      // screen at a time in a panel, with a nav rail (counter + stacked
-      // Next/Previous) down the right.
+      // testimonials: one review on screen at a time in a centered card
+      // (avatar monogram, stars, quote, attribution), with a row of dots
+      // below to jump directly to any review.
       await page.evaluate(() => document.querySelector('.testimonials-section')?.scrollIntoView())
       await wait(800)
       // Review count is content, not structure — derived here so adding
@@ -358,50 +358,44 @@ const CHECKS = [
         document.querySelector('.testimonials-heading')?.innerText.replace(/\s+/g, ' ').trim())
       t.ok('testimonials heading is the sentence-style reference copy',
         testimonialHeading === 'What our clients say', testimonialHeading)
-      t.ok('nav rail exposes both Next and Previous controls',
-        await page.$('.testimonial-nav--next') !== null && await page.$('.testimonial-nav--prev') !== null)
+      const dotCount = (await page.$$('.testimonial-dot')).length
+      t.ok('one dot renders per review', dotCount === slideCount, `got ${dotCount} dots, ${slideCount} slides`)
 
-      // Stepping forward advances the counter and moves which slide is
-      // active. Clicking also pins the carousel, so the auto-rotate
-      // cannot race the assertions that follow.
+      // Slides are sorted shortest quote first, longest last.
+      const quoteLengths = await page.evaluate(() =>
+        [...document.querySelectorAll('.testimonial-quote')].map((q) => q.textContent.length))
+      const sorted = [...quoteLengths].sort((a, b) => a - b)
+      t.ok('slides are ordered shortest quote to longest',
+        JSON.stringify(quoteLengths) === JSON.stringify(sorted), JSON.stringify(quoteLengths))
+
+      // Clicking a dot jumps straight to that review and pins the
+      // carousel, so the auto-rotate cannot race the assertions below.
       const readState = () => page.evaluate(() => ({
-        index: [...document.querySelectorAll('.testimonial-slide')].findIndex((s) => s.classList.contains('is-active')),
-        counter: document.querySelector('.testimonial-counter')?.textContent.trim()
+        slideIndex: [...document.querySelectorAll('.testimonial-slide')].findIndex((s) => s.classList.contains('is-active')),
+        dotIndex: [...document.querySelectorAll('.testimonial-dot')].findIndex((d) => d.classList.contains('is-active'))
       }))
       const startState = await readState()
-      t.ok('counter reflects the active slide',
-        startState.counter === `${startState.index + 1} of ${slideCount}`, JSON.stringify(startState))
+      t.ok('active dot matches active slide on load',
+        startState.dotIndex === startState.slideIndex, JSON.stringify(startState))
 
-      await page.click('.testimonial-nav--next')
+      const lastIndex = slideCount - 1
+      await page.click(`.testimonial-dot:nth-child(${lastIndex + 1})`)
       await wait(700)
-      const afterNext = await readState()
-      t.ok('Next advances to the following review',
-        afterNext.index === (startState.index + 1) % slideCount &&
-          afterNext.counter === `${afterNext.index + 1} of ${slideCount}`,
-        JSON.stringify(afterNext))
+      const afterLast = await readState()
+      t.ok('clicking the last dot jumps straight to the last review',
+        afterLast.slideIndex === lastIndex && afterLast.dotIndex === lastIndex, JSON.stringify(afterLast))
 
-      await page.click('.testimonial-nav--prev')
+      await page.click('.testimonial-dot:nth-child(1)')
       await wait(700)
-      const afterPrev = await readState()
-      t.ok('Previous steps back to the review before it',
-        afterPrev.index === startState.index, JSON.stringify(afterPrev))
+      const afterFirst = await readState()
+      t.ok('clicking the first dot jumps back to the first review',
+        afterFirst.slideIndex === 0 && afterFirst.dotIndex === 0, JSON.stringify(afterFirst))
 
-      // Both directions wrap, so neither control is ever a dead end.
-      // Walk back to the first slide, then one click past it.
-      await page.evaluate((n) => {
-        const prev = document.querySelector('.testimonial-nav--prev')
-        for (let i = 0; i < n; i += 1) prev.click()
-      }, afterPrev.index + 1)
-      await wait(700)
-      const afterWrap = await readState()
-      t.ok('stepping back past the first review wraps to the last',
-        afterWrap.index === slideCount - 1, JSON.stringify(afterWrap))
-
-      // The panel is sized by the longest quote, so stepping through
-      // must never change the section's height (no page jump).
+      // The card is sized by the longest quote, so jumping between
+      // reviews must never change the section's height (no page jump).
       const heightA = await page.evaluate(() =>
         document.querySelector('.testimonial-stage').getBoundingClientRect().height)
-      await page.click('.testimonial-nav--next')
+      await page.click(`.testimonial-dot:nth-child(${lastIndex + 1})`)
       await wait(700)
       const heightB = await page.evaluate(() =>
         document.querySelector('.testimonial-stage').getBoundingClientRect().height)

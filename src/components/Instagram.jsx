@@ -2,16 +2,24 @@ import { gsap } from 'gsap'
 import { Instagram as InstagramIcon } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import mediaManifest from '../data/mediaManifest.json'
 import { animateTextReveal } from '../utils/animations'
 import './Instagram.scss'
 
+/* Real client photography from the services media pool (the same
+   manifest that backs /services/digital-marketing,
+   /services/corporate-video and /services/photography), rather than
+   generic stock stills. `thumb` is the grid-sized derivative — `full`
+   is 40-60 megapixel camera originals, sized for the lightbox, not a
+   few-hundred-pixel tile. Two images per service keeps the row from
+   reading as one service's gallery. */
+const pickTwo = (slug) =>
+  mediaManifest[slug].filter((item) => item.type === 'image').slice(0, 2).map((item) => item.thumb)
+
 const images = [
-  '/images/portfolio-corporate.webp',
-  '/images/portfolio-social-1.webp',
-  '/images/portfolio-social-2.webp',
-  '/images/digital-marketing-side.webp',
-  '/images/hero-bg.webp',
-  '/images/testimonial-avatar.webp'
+  ...pickTwo('photography'),
+  ...pickTwo('digital-marketing'),
+  ...pickTwo('corporate-video')
 ]
 
 export default function Instagram() {

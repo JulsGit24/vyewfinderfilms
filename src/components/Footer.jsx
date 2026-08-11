@@ -5,6 +5,7 @@ import { Facebook, Instagram, Youtube } from 'lucide-react'
 import { gsap } from 'gsap'
 import './Footer.scss'
 import { animateTextReveal } from '../utils/animations'
+import { useCookieConsent } from '../context/CookieConsentContext'
 import { BUSINESS_PHONE_DISPLAY, BUSINESS_EMAIL } from '../utils/leads'
 
 /* This component used to hardcode every string, mixing English labels
@@ -15,12 +16,13 @@ import { BUSINESS_PHONE_DISPLAY, BUSINESS_EMAIL } from '../utils/leads'
 export default function Footer() {
   const { t } = useTranslation()
   const footerRef = useRef(null)
+  const { openSettings } = useCookieConsent()
 
   useEffect(() => {
     let revertText
     const ctx = gsap.context(() => {
       revertText = animateTextReveal(
-        '.footer h3, .footer h4, .footer p, .footer .hours-row span, .footer .footer-links a, .footer .footer-bottom span, .footer .privacy-link'
+        '.footer h3, .footer h4, .footer p, .footer .hours-row span, .footer .footer-links a, .footer .footer-bottom span, .footer .privacy-link, .footer .footer-legal a'
       )
     }, footerRef)
     return () => {
@@ -92,6 +94,16 @@ export default function Footer() {
         <div className="footer-bottom text-center">
           <span>{t('footer.rights', { year: new Date().getFullYear() })}</span>
           <a href="#" className="privacy-link">{t('footer.privacy')}</a>
+          {/* Same visual treatment as the link above (shared class),
+              but real destinations: a full policy page, and a way to
+              revisit the cookie choice without waiting for the banner
+              to reappear. */}
+          <span className="footer-legal">
+            <Link to="/cookie-policy" className="privacy-link">{t('footer.cookiePolicy')}</Link>
+            <button type="button" className="privacy-link" onClick={openSettings}>
+              {t('footer.cookieSettings')}
+            </button>
+          </span>
         </div>
       </div>
     </footer>

@@ -6,6 +6,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 
 import Chatbot from './components/Chatbot'
 import Clients from './components/Clients'
+import CookieConsent from './components/CookieConsent'
 import DigitalMarketing from './components/DigitalMarketing'
 import Footer from './components/Footer'
 import { GridRule } from './components/GridOverlay'
@@ -18,6 +19,7 @@ import Podcast from './components/Podcast'
 import Services from './components/Services'
 import Stories from './components/Stories'
 import Testimonials from './components/Testimonials'
+import { CookieConsentProvider } from './context/CookieConsentContext'
 
 /* Routes are split out of the entry bundle: a visitor landing on the
    home page was downloading and parsing the services galleries, the
@@ -27,6 +29,7 @@ const ServiceGallery = lazy(() => import('./pages/ServiceGallery'))
 const PodcastPage = lazy(() => import('./pages/PodcastPage'))
 const About = lazy(() => import('./pages/About'))
 const Contact = lazy(() => import('./pages/Contact'))
+const CookiePolicy = lazy(() => import('./pages/CookiePolicy'))
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -97,7 +100,7 @@ function HomePage() {
 
 function App() {
   return (
-    <>
+    <CookieConsentProvider>
       <Loader />
       <Lenis root options={{ lerp: 0.1, duration: 1.1, smoothWheel: true }}>
         <ScrollSync />
@@ -116,14 +119,18 @@ function App() {
                 <Route path="/podcast" element={<PodcastPage />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/cookie-policy" element={<CookiePolicy />} />
               </Routes>
             </Suspense>
           </main>
           <Footer />
           <Chatbot />
+          {/* Global, outside <Routes> — the choice has to be askable
+              and revisitable from every page, not just the home page. */}
+          <CookieConsent />
         </div>
       </Lenis>
-    </>
+    </CookieConsentProvider>
   )
 }
 

@@ -342,6 +342,74 @@
   }
 }
 
+/* Consent-gated stand-in for the autoplaying iframe (see PodcastPage.jsx)
+   — same poster geometry as .podcast-youtube-spotlight-poster, but with
+   a scrim + explanation + explicit opt-in instead of a play badge, since
+   this state exists specifically because nothing should load yet. */
+.podcast-youtube-spotlight-gate {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: var(--wst-color-inverse);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(1px) brightness(0.6);
+  }
+}
+
+.podcast-youtube-spotlight-gate-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+
+  p {
+    margin: 0;
+    max-width: 38ch;
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: #fff;
+  }
+}
+
+.podcast-youtube-spotlight-gate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+
+  .btn-primary,
+  .btn-outline {
+    padding: 11px 22px;
+    font-size: 0.72rem;
+  }
+
+  /* The poster behind is dark (brightness(0.6) over camera footage),
+     so the outline button's default ink-coloured border/text — meant
+     for a light or dark *page* background, not a photo — would be
+     unreadable here regardless of site theme. */
+  .btn-outline {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      border-color: #fff;
+    }
+  }
+}
+
 .podcast-youtube-spotlight-title {
   margin: 12px 0 0;
   font-size: 0.86rem;

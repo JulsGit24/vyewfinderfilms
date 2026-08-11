@@ -19,7 +19,14 @@ function Track({ ariaHidden }) {
           key={client.name}
           className={client.realColor ? 'ticker-item ticker-item--real-color' : 'ticker-item'}
         >
-          <img src={client.src} alt={ariaHidden ? '' : client.name} loading="lazy" draggable="false" />
+          <img
+            src={client.src}
+            alt={ariaHidden ? '' : client.name}
+            width={client.width}
+            height={client.height}
+            loading="lazy"
+            draggable="false"
+          />
         </li>
       ))}
     </ul>

@@ -91,7 +91,13 @@ export default function Lightbox({ items, index, onClose, onIndex }) {
             playsInline
           />
         ) : (
-          <img className="lightbox-media" src={item.full} alt="" />
+          <img
+            className="lightbox-media"
+            src={item.full}
+            alt=""
+            width={item.width}
+            height={item.height}
+          />
         )}
       </figure>
     </div>,

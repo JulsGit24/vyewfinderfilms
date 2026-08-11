@@ -41,8 +41,8 @@ const CHECKS = [
   {
     name: 'home',
     path: '/',
-    // loader animation runs on first paint; the Instagram Reels widget
-    // also needs time to fetch embed.js and swap in its five iframes
+    // loader animation runs on first paint and needs time to buffer +
+    // play its frame sequence before the rest of the page settles
     settleMs: 13000,
     assert: async (page, t) => {
       t.ok('hero renders', await page.$('.hero-section') !== null)
@@ -260,84 +260,38 @@ const CHECKS = [
       t.ok('nav Contact Us button uses the real business phone number',
         contactBtnTel === 'tel:18049980564', contactBtnTel)
 
-      // Instagram section: five real Instagram Reel embeds (oEmbed
-      // widget, no credentials) in a Splide carousel.
-      t.ok('the old fallback image grid is gone', await page.$('.instagram-item') === null)
-      const reelSlides = await page.$$('.instagram-reel-slide')
-      t.ok('instagram section renders 5 reel slides', reelSlides.length === 5, `got ${reelSlides.length}`)
+      // Instagram section: an image grid drawn from the same media pool
+      // as the service galleries (real client photography, no stock
+      // stills), linking out to the profile — not a live embed, so
+      // there is no third-party script or iframe here to hydrate.
+      const instaItems = await page.$$('.instagram-item')
+      t.ok('instagram grid renders 6 tiles (2 each from 3 services)',
+        instaItems.length === 6, `got ${instaItems.length}`)
 
-      // embed.js swaps each blockquote for its own iframe. Asserting on
-      // the iframes (not the blockquotes) is what distinguishes a live
-      // playable embed from un-hydrated markup.
-      const reelFrames = await page.evaluate(() =>
-        [...document.querySelectorAll('.instagram-reels iframe')].map((f) => f.src))
-      t.ok('all 5 reels hydrate into live Instagram iframes',
-        reelFrames.length === 5, `got ${reelFrames.length}`)
-      const SHORTCODES = ['DXsPvORBaAi', 'DWFP5pKlFJZ', 'DVzOTKtlIyv', 'C3Ts7t5sZLR', 'C2dbMlIO4hJ']
-      t.ok('every client-supplied reel shortcode is embedded',
-        SHORTCODES.every((code) => reelFrames.some((src) => src.includes(code))),
-        JSON.stringify(reelFrames))
+      const instaHrefs = await page.evaluate(() =>
+        [...document.querySelectorAll('.instagram-item')].map((a) => a.getAttribute('href')))
+      t.ok('every instagram tile links to the real profile',
+        instaHrefs.every((href) => href === 'https://www.instagram.com/vyewfinderfilms/'),
+        JSON.stringify(instaHrefs))
 
-      const followHref = await page.evaluate(() =>
-        document.querySelector('.instagram-section .btn-outline')?.getAttribute('href'))
-      t.ok('instagram section has a follow CTA pointing at the profile',
-        followHref === 'https://www.instagram.com/vyewfinderfilms/', followHref)
+      const instaImgDims = await page.evaluate(() =>
+        [...document.querySelectorAll('.instagram-item img')].map((img) => ({
+          w: img.getAttribute('width'), h: img.getAttribute('height')
+        })))
+      t.ok('every instagram tile image carries explicit width/height (CLS)',
+        instaImgDims.every((d) => d.w && d.h), JSON.stringify(instaImgDims))
 
-      // Flipping the theme while the reels are on screen must not touch
-      // the widget's own subtree (it isn't themeable and React has no
-      // reason to re-render it) and must not throw or drop any iframe.
-      await page.evaluate(() => document.querySelector('.instagram-section')?.scrollIntoView())
-      await wait(500)
-      const themeBeforeReelsToggle = await page.evaluate(() => document.documentElement.dataset.theme)
-      await page.click('.theme-toggle')
+      // Same grid must still be there (not orphaned React state) after a
+      // client-side remount away and back.
+      await page.click('.desktop-nav a[href="/about"]')
       await wait(800)
-      const themeAfterReelsToggle = await page.evaluate(() => document.documentElement.dataset.theme)
-      const reelsAfterThemeToggle = await page.$$('.instagram-reels iframe')
-      t.ok('theme toggle actually flips while reels are visible',
-        themeBeforeReelsToggle !== themeAfterReelsToggle, `${themeBeforeReelsToggle} -> ${themeAfterReelsToggle}`)
-      t.ok('all 5 reel iframes survive a theme toggle (widget subtree untouched)',
-        reelsAfterThemeToggle.length === 5, `got ${reelsAfterThemeToggle.length}`)
-      // flip back so the rest of the page's checks run against a known
-      // starting theme
-      await page.click('.theme-toggle')
-      await wait(500)
-
-      // First third-party embed script in this codebase: embed.js must
-      // load exactly once and re-hydrate all 5 reels on every client-side
-      // remount, not just the initial full page load. Instagram's oEmbed
-      // pipeline hydrates progressively over a few seconds per mount, so
-      // this polls rather than asserting immediately after navigating
-      // back.
-      for (let round = 1; round <= 2; round += 1) {
-        await page.click('.desktop-nav a[href="/about"]')
-        await wait(800)
-        t.ok(`SPA remount round ${round}: client-side nav away from home`,
-          page.url().endsWith('/about'), page.url())
-
-        await page.click('.logo')
-        await wait(500)
-        t.ok(`SPA remount round ${round}: client-side nav back to home`,
-          page.url() === BASE + '/', page.url())
-
-        let remountFrames = 0
-        for (let poll = 0; poll < 8 && remountFrames < 5; poll += 1) {
-          await wait(1000)
-          remountFrames = await page.evaluate(() => document.querySelectorAll('.instagram-reels iframe').length)
-        }
-        t.ok(`SPA remount round ${round}: all 5 reels re-hydrate after remount`,
-          remountFrames === 5, `got ${remountFrames}`)
-
-        const remountScripts = await page.evaluate(() =>
-          document.querySelectorAll('script[src*="instagram.com/embed.js"]').length)
-        t.ok(`SPA remount round ${round}: embed.js is still loaded exactly once (not duplicated)`,
-          remountScripts === 1, remountScripts)
-
-        const remountShortcodes = await page.evaluate(() =>
-          [...document.querySelectorAll('.instagram-reels iframe')].map((f) => f.src))
-        t.ok(`SPA remount round ${round}: every reel shortcode is still present after remount`,
-          SHORTCODES.every((code) => remountShortcodes.some((src) => src.includes(code))),
-          JSON.stringify(remountShortcodes))
-      }
+      t.ok('instagram: client-side nav away from home', page.url().endsWith('/about'), page.url())
+      await page.click('.logo')
+      await wait(800)
+      t.ok('instagram: client-side nav back to home', page.url() === BASE + '/', page.url())
+      const remountItems = await page.$$('.instagram-item')
+      t.ok('instagram grid re-renders after remount (6 tiles)',
+        remountItems.length === 6, `got ${remountItems.length}`)
 
       // testimonials: one review on screen at a time in a centered card
       // (avatar monogram, stars, quote, attribution), with a row of dots
@@ -459,6 +413,65 @@ const CHECKS = [
       await wait(500)
       const after = await page.evaluate(() => document.documentElement.dataset.theme)
       t.ok('theme toggle flips data-theme', before !== after, `${before} -> ${after}`)
+
+      // ---- cookie consent banner ----
+      // A fresh session (no vf-cookie-consent cookie yet) must show the
+      // banner, and — since both it and the navbar are `position: fixed;
+      // top: 0` — the navbar must have shifted down by exactly the
+      // banner's own rendered height, not be hidden underneath it.
+      t.ok('cookie banner shows on a fresh visit (no consent cookie yet)',
+        await page.$('.cookie-banner') !== null)
+      const bannerHeight = await page.evaluate(() =>
+        document.querySelector('.cookie-banner')?.getBoundingClientRect().height)
+      const navTop = await page.evaluate(() =>
+        parseFloat(getComputedStyle(document.querySelector('.navbar')).top))
+      t.ok('navbar shifts down to clear the banner exactly (no gap, no overlap)',
+        Math.abs(navTop - bannerHeight) < 1, `banner ${bannerHeight}px vs navbar top ${navTop}px`)
+      const policyLinkHref = await page.evaluate(() =>
+        document.querySelector('.cookie-banner a')?.getAttribute('href'))
+      t.ok('banner links to the cookie policy page', policyLinkHref === '/cookie-policy', policyLinkHref)
+
+      // Reject Non-Essential: banner closes, consent cookie records every
+      // optional category as false (necessary is never optional).
+      await page.click('.cookie-banner-btn--outline')
+      await wait(400)
+      const rejectState = await page.evaluate(() => ({
+        bannerGone: document.querySelector('.cookie-banner') === null,
+        navTop: getComputedStyle(document.querySelector('.navbar')).top,
+        consent: JSON.parse(decodeURIComponent(document.cookie.match(/vf-cookie-consent=([^;]*)/)?.[1] || 'null'))
+      }))
+      t.ok('reject non-essential dismisses the banner', rejectState.bannerGone)
+      t.ok('navbar returns to top:0 once the banner is gone', rejectState.navTop === '0px', rejectState.navTop)
+      t.ok('reject non-essential records every optional category as false',
+        rejectState.consent?.necessary === true &&
+        rejectState.consent?.functional === false &&
+        rejectState.consent?.analytics === false &&
+        rejectState.consent?.marketing === false,
+        JSON.stringify(rejectState.consent))
+
+      // Cookie Settings (footer) reopens the panel and its Accept-All
+      // path records every category true.
+      await page.evaluate(() => document.querySelector('.footer')?.scrollIntoView())
+      await wait(400)
+      await page.click('.footer-legal button')
+      await wait(400)
+      const switches = await page.$$('.cookie-switch')
+      t.ok('settings panel opens with one toggle per optional category (3)',
+        switches.length === 3, `got ${switches.length}`)
+      // flip all three on, then Save
+      for (const sw of switches) await sw.click()
+      await page.click('.cookie-settings-actions .btn-primary')
+      await wait(400)
+      const acceptState = await page.evaluate(() =>
+        JSON.parse(decodeURIComponent(document.cookie.match(/vf-cookie-consent=([^;]*)/)?.[1] || 'null')))
+      t.ok('saving all three toggles on records full consent',
+        acceptState?.functional === true && acceptState?.analytics === true && acceptState?.marketing === true,
+        JSON.stringify(acceptState))
+
+      // Reset to an undecided state so later CHECKS (podcast's consent
+      // gate in particular) see a fresh visitor, not this test's choice —
+      // Puppeteer pages share one cookie jar across the whole run.
+      await page.deleteCookie({ name: 'vf-cookie-consent' })
     }
   },
   {
@@ -549,13 +562,27 @@ const CHECKS = [
       // thumbnail rows.
       t.ok('youtube facade card is gone now that real videos exist',
         await page.$('#youtube .podcast-youtube-card') === null)
+
+      // The spotlight is a live third-party embed (sets YouTube/Google
+      // cookies), so it's consent-gated: a fresh visitor with no cookie
+      // choice yet sees a poster + explicit opt-in, not an auto-loading
+      // iframe. See CookieConsentContext / the "Functional" category.
+      t.ok('spotlight is consent-gated before any cookie choice is made',
+        await page.$('#youtube .podcast-youtube-spotlight-gate') !== null &&
+        await page.$('#youtube .podcast-youtube-spotlight-frame') === null)
+
+      await page.click('#youtube .podcast-youtube-spotlight-gate-actions .btn-primary')
+      await wait(600)
+
       const spotlightSrc = await page.evaluate(() =>
         document.querySelector('#youtube .podcast-youtube-spotlight-frame')?.getAttribute('src') || '')
-      t.ok('spotlight embeds the newest channel video',
+      t.ok('after granting consent, spotlight embeds the newest channel video',
         spotlightSrc.includes('/embed/At59vMU1WRU'), spotlightSrc)
       t.ok('spotlight autoplays muted and loops',
         spotlightSrc.includes('autoplay=1') && spotlightSrc.includes('mute=1') && spotlightSrc.includes('loop=1'),
         spotlightSrc)
+      const consentCookie = await page.evaluate(() => document.cookie.includes('vf-cookie-consent'))
+      t.ok('granting consent from the video gate persists a consent cookie', consentCookie)
       const listHrefs = await page.evaluate(() =>
         [...document.querySelectorAll('#youtube .podcast-youtube-list-item')].map((a) => a.getAttribute('href')))
       t.ok('4 more channel videos render as click-through thumbnails',
@@ -662,6 +689,44 @@ const CHECKS = [
         await page.$('.contact-success') !== null)
 
       await page.setRequestInterception(false)
+    }
+  },
+  {
+    name: 'cookie-policy',
+    path: '/cookie-policy',
+    assert: async (page, t) => {
+      t.ok('page renders a heading', await page.$('h1') !== null)
+      const heading = await page.evaluate(() => document.querySelector('h1')?.innerText)
+      t.ok('heading is the cookie policy title', heading === 'Cookie Policy', heading)
+
+      const sections = await page.$$('.cookie-policy-section')
+      t.ok('renders all 9 policy sections', sections.length === 9, `got ${sections.length}`)
+
+      const tableRows = await page.$$('.cookie-policy-table tbody tr')
+      t.ok('cookies-we-use table lists exactly the 2 real cookies',
+        tableRows.length === 2, `got ${tableRows.length}`)
+      const firstCookieName = await page.evaluate(() =>
+        document.querySelector('.cookie-policy-table tbody tr td')?.textContent)
+      t.ok('table names the real theme cookie', firstCookieName === 'vf-theme', firstCookieName)
+
+      t.ok('categories glossary renders', await page.$('.cookie-policy-deflist') !== null)
+
+      // The page's own "Cookie Settings" button re-opens the same panel
+      // used everywhere else — not a second, disconnected settings UI.
+      await page.click('.cookie-policy-settings-btn')
+      await wait(400)
+      t.ok('the page\'s Cookie Settings button opens the real settings panel',
+        await page.$('.cookie-settings-panel') !== null)
+      await page.keyboard.press('Escape')
+      await wait(300)
+
+      // bilingual parity
+      await page.click('.lang-toggle')
+      await wait(600)
+      const esHeading = await page.evaluate(() => document.querySelector('h1')?.innerText)
+      t.ok('heading translates to Spanish', esHeading === 'Política de cookies', esHeading)
+      const esSections = await page.$$('.cookie-policy-section')
+      t.ok('Spanish version has the same 9 sections', esSections.length === 9, `got ${esSections.length}`)
     }
   }
 ]

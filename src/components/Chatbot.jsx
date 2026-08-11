@@ -291,6 +291,8 @@ export default function Chatbot() {
               src={theme === 'light' ? LOGO_LIGHT : LOGO_DARK}
               alt=""
               aria-hidden="true"
+              width="32"
+              height="22"
             />
             <div>
               <p className="chatbot-title">{t('chatbot.title')}</p>

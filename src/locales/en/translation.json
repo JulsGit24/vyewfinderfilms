@@ -92,7 +92,9 @@
     "follow": "Follow us on:",
     "followLbl": "Follow Us",
     "rights": "© {{year}} Vyewfinder Films. All rights reserved.",
-    "privacy": "Privacy Policy"
+    "privacy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "cookieSettings": "Cookie Settings"
   },
   "digitalMarketing": {
     "eyebrow": "Digital Marketing",
@@ -618,12 +620,31 @@
       "cardLabel": "Watch on the Vyewfinder Films YouTube channel (opens in a new tab)",
       "itemLabel": "Watch \"{{title}}\" on YouTube (opens in a new tab)",
       "videos": [
-        { "id": "At59vMU1WRU", "title": "Beauty Wizard" },
-        { "id": "db3cnfGmciw", "title": "Kairos Financial & Tax" },
-        { "id": "CaCtrmX2Va8", "title": "Golds Gym Box" },
-        { "id": "4WRWGGWR0GY", "title": "Golds Gym - White Oak" },
-        { "id": "DmXjxjpLtq0", "title": "Lemur Remodeling Comercial HD" }
-      ]
+        {
+          "id": "At59vMU1WRU",
+          "title": "Beauty Wizard"
+        },
+        {
+          "id": "db3cnfGmciw",
+          "title": "Kairos Financial & Tax"
+        },
+        {
+          "id": "CaCtrmX2Va8",
+          "title": "Golds Gym Box"
+        },
+        {
+          "id": "4WRWGGWR0GY",
+          "title": "Golds Gym - White Oak"
+        },
+        {
+          "id": "DmXjxjpLtq0",
+          "title": "Lemur Remodeling Comercial HD"
+        }
+      ],
+      "consentGate": {
+        "text": "This video is hosted by YouTube. Playing it loads content from Google’s servers and sets third-party cookies.",
+        "allow": "Allow & Play"
+      }
     },
     "process": {
       "eyebrow": "How it works",
@@ -699,5 +720,158 @@
       "cta": "Request a quote",
       "note": "Scope, availability and pricing are confirmed by the team before anything is booked."
     }
+  },
+  "cookies": {
+    "banner": {
+      "title": "Cookie Notice",
+      "text": "We use cookies to keep this site working and, only with your permission, to load embedded video from YouTube. We don’t use analytics or advertising cookies.",
+      "link": "Learn more"
+    },
+    "actions": {
+      "acceptAll": "Accept All",
+      "rejectNonEssential": "Reject Non-Essential",
+      "settings": "Cookie Settings",
+      "cancel": "Cancel",
+      "save": "Save Preferences"
+    },
+    "close": "Close",
+    "settings": {
+      "title": "Cookie Preferences",
+      "intro": "Choose which categories of cookies you’re comfortable with. Strictly necessary cookies can’t be switched off because the Site can’t function properly without them. You can change your choice at any time from the “Cookie Settings” link in the footer.",
+      "alwaysOn": "Always On",
+      "readPolicy": "Read our full Cookie Policy"
+    },
+    "categories": {
+      "necessary": {
+        "name": "Strictly Necessary",
+        "desc": "Required for the Site’s basic functionality — remembering whether you prefer light or dark mode, and remembering the cookie choice you make here. These never track you and are never used for advertising."
+      },
+      "functional": {
+        "name": "Functional (Embedded Content)",
+        "desc": "Lets us embed content from other sites, such as the autoplaying YouTube video on our Podcast page. If you decline, you’ll see a thumbnail linking to the video on YouTube instead — nothing loads from YouTube’s servers, and no cookie is set, until you say yes."
+      },
+      "analytics": {
+        "name": "Performance & Analytics",
+        "desc": "Would help us understand how visitors use the Site, such as which pages are popular. We do not currently use any analytics tool (e.g. Google Analytics) — this toggle exists so your preference is already on record if that changes."
+      },
+      "marketing": {
+        "name": "Marketing & Targeting",
+        "desc": "Would be used to show you relevant ads on other sites or measure ad performance. We do not currently use any advertising or tracking pixel (e.g. Meta Pixel, Google Ads) — this toggle exists for the same reason as above."
+      }
+    }
+  },
+  "cookiePolicy": {
+    "eyebrow": "Legal",
+    "title": "Cookie Policy",
+    "lastUpdated": "Last updated: August 10, 2026",
+    "intro": "This Cookie Policy explains what cookies are, exactly which ones Vyewfinder Films (“we,” “us,” or “our”) uses on vyewfinderfilms.com (the “Site”), and how you can control them. If anything here is unclear, contact us using the details in Section 8.",
+    "sections": [
+      {
+        "heading": "1. What Are Cookies?",
+        "body": [
+          "A cookie is a small text file that a website stores on your device (computer, phone, or tablet) when you visit it. Cookies let a site remember things about your visit — like a preference you set, or whether you’ve already answered a prompt — so it doesn’t have to ask again every time you load a page.",
+          "Cookies cannot access other files on your device, run programs, or carry viruses. Some of what this policy describes is technically stored using “similar technologies” such as your browser’s local storage rather than a literal cookie — we use the word “cookie” throughout to cover both, since they work the same way from your side."
+        ]
+      },
+      {
+        "heading": "2. Cookies We Use",
+        "body": [
+          "We keep this list short on purpose — it reflects exactly what this Site sets, not a generic list of what a website might do. We update it whenever that changes."
+        ],
+        "table": {
+          "headers": [
+            "Cookie",
+            "Purpose",
+            "Duration",
+            "Category"
+          ],
+          "rows": [
+            [
+              "vf-theme",
+              "Remembers whether you’ve chosen light or dark mode",
+              "1 year",
+              "Strictly Necessary"
+            ],
+            [
+              "vf-cookie-consent",
+              "Remembers the cookie choices you make in the banner, so we don’t ask again every visit",
+              "6 months",
+              "Strictly Necessary"
+            ]
+          ]
+        },
+        "bodyAfter": [
+          "We do not use Google Analytics, Meta Pixel, Google Ads, Hotjar, or any comparable analytics or advertising tool. If that ever changes, we will update this policy first and ask for your consent through the cookie banner before any such cookie is set."
+        ]
+      },
+      {
+        "heading": "3. Embedded Content (YouTube)",
+        "body": [
+          "Our Podcast page can display an embedded YouTube video. Unlike the cookies listed in Section 2, we do not control what YouTube itself does once its player loads — Google may set its own cookies for purposes including analytics, personalisation, and advertising, governed by Google’s own privacy policy, not ours.",
+          "Because of that, this embed does not load automatically. It only loads once you actively enable the “Functional” category — either from the cookie banner, from Cookie Settings, or by clicking “Allow & Play” directly on the video. Until you do, you’ll see a static thumbnail with a link that opens the video on YouTube’s own site in a new tab instead — visiting that link does not itself set any cookie from this Site.",
+          "You can review Google’s own cookie and privacy practices at policies.google.com/privacy."
+        ]
+      },
+      {
+        "heading": "4. How to Control Cookies",
+        "body": [
+          "On this Site: use the “Cookie Settings” link in the footer at any time to change your choice — you don’t need to wait for the banner to reappear.",
+          "In your browser: most browsers let you block or delete cookies for any site through their settings menu. Doing so may reset preferences on this Site (for example, your theme choice) each time you visit, since the cookie that remembers it would be gone too."
+        ]
+      },
+      {
+        "heading": "5. Categories, Explained",
+        "body": [
+          "The categories below are the same ones offered in the cookie banner and Cookie Settings, restated here so this policy stands on its own."
+        ],
+        "definitionList": [
+          {
+            "term": "Strictly Necessary",
+            "def": "Required for the Site to work at all. Cannot be turned off. On this Site: the theme-preference cookie and the cookie-consent cookie itself."
+          },
+          {
+            "term": "Functional",
+            "def": "Enables optional embedded content from other sites. On this Site: the YouTube video embed on the Podcast page, described in Section 3."
+          },
+          {
+            "term": "Performance & Analytics",
+            "def": "Would measure how the Site is used. Not currently active on this Site — see Section 2."
+          },
+          {
+            "term": "Marketing & Targeting",
+            "def": "Would support advertising or ad measurement. Not currently active on this Site — see Section 2."
+          }
+        ]
+      },
+      {
+        "heading": "6. Information You Choose to Share With Us",
+        "body": [
+          "Cookies are different from information you actively type and submit — for example, your name, email, phone number, or project details through our contact form or website chatbot. That information is not stored as a cookie or similar technology; it’s sent directly to our team so we can respond to your enquiry.",
+          "This document covers cookies specifically. If you have questions about how information submitted through our forms or chatbot is handled, contact us using the details in Section 8."
+        ]
+      },
+      {
+        "heading": "7. Your Choices and Rights",
+        "body": [
+          "Wherever you’re visiting from, the cookie banner and Cookie Settings on this Site let you accept or reject every non-essential cookie category described above, and you can change that choice at any time.",
+          "Depending on where you live, you may also have additional rights under laws such as the EU/UK General Data Protection Regulation, or U.S. state privacy laws including the California Consumer Privacy Act (CCPA/CPRA) and the Virginia Consumer Data Protection Act (VCDPA). Many of the specific rights those laws create — such as opting out of the “sale” or “sharing” of personal information, or of targeted advertising — concern practices this Site does not engage in: we do not sell personal information, and we do not use cookies for targeted advertising.",
+          "If you believe that has changed, or you’d like to exercise a right that applies to you, contact us using the details in Section 8 and we will respond."
+        ]
+      },
+      {
+        "heading": "8. Contact Us",
+        "body": [
+          "Vyewfinder Films — Richmond, Virginia",
+          "Email: info@vyewfinderfilms.com",
+          "Phone: 804-998-0564"
+        ]
+      },
+      {
+        "heading": "9. Changes to This Policy",
+        "body": [
+          "We may update this Cookie Policy from time to time to reflect changes in the cookies we use, or for legal or regulatory reasons. We’ll update the “Last updated” date above when we do, and if a change affects an optional cookie category, we will ask for your consent again rather than assuming an earlier choice still applies."
+        ]
+      }
+    ]
   }
 }

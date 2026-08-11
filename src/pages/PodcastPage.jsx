@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { gsap } from 'gsap'
 import { ArrowUpRight, Play, Plus, Minus, Youtube } from 'lucide-react'
 import { animateTextReveal } from '../utils/animations'
+import { useCookieConsent } from '../context/CookieConsentContext'
 import { useSiteReady } from '../utils/siteReady'
 import './PodcastPage.scss'
 
@@ -47,6 +48,7 @@ export default function PodcastPage() {
   const videoRef = useRef(null)
   const siteReady = useSiteReady()
   const [openFaq, setOpenFaq] = useState(null)
+  const { consent, savePreferences, openSettings } = useCookieConsent()
 
   /* Content-driven: an empty array keeps today's single "visit the
      channel" facade (see the block below) exactly as it shipped last
@@ -179,10 +181,38 @@ export default function PodcastPage() {
 
               <div className="podcast-youtube-grid">
                 <div className="podcast-youtube-spotlight">
-                  {reducedMotion ? (
+                  {!reducedMotion && !consent.functional ? (
+                    /* This iframe is the one place on the site that would
+                       load a live third-party embed setting its own
+                       cookies (YouTube/Google) — see the Cookie Policy's
+                       Functional category. It only renders once that
+                       category is granted; until then, a poster stands in
+                       with an explicit action to opt in and load it,
+                       rather than the embed loading silently by default. */
+                    <div className="podcast-youtube-spotlight-gate">
+                      <img src={`https://i.ytimg.com/vi/${spotlight.id}/hqdefault.jpg`} alt="" width="480" height="360" loading="lazy" decoding="async" />
+                      <div className="podcast-youtube-spotlight-gate-overlay">
+                        <p>{t('podcastPage.youtube.consentGate.text')}</p>
+                        <div className="podcast-youtube-spotlight-gate-actions">
+                          <button
+                            type="button"
+                            className="btn-primary"
+                            onClick={() => savePreferences({ ...consent, functional: true })}
+                          >
+                            {t('podcastPage.youtube.consentGate.allow')}
+                          </button>
+                          <button type="button" className="btn-outline" onClick={openSettings}>
+                            {t('cookies.actions.settings')}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : reducedMotion ? (
                     // Respects prefers-reduced-motion: a poster + explicit
                     // play control rather than forcing autoplay on someone
                     // who asked the OS not to animate things for them.
+                    // Links straight to YouTube rather than embedding, so
+                    // it also never needs the consent gate above.
                     <a
                       className="podcast-youtube-spotlight-poster"
                       href={`https://www.youtube.com/watch?v=${spotlight.id}`}
@@ -190,7 +220,10 @@ export default function PodcastPage() {
                       rel="noreferrer noopener"
                       aria-label={t('podcastPage.youtube.itemLabel', { title: spotlight.title || t('podcastPage.youtube.title') })}
                     >
-                      <img src={`https://i.ytimg.com/vi/${spotlight.id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" />
+                      {/* i.ytimg.com's hqdefault.jpg is always exactly 480x360 —
+                          a fixed size YouTube itself guarantees, not derived
+                          from anything on this end. */}
+                      <img src={`https://i.ytimg.com/vi/${spotlight.id}/hqdefault.jpg`} alt="" width="480" height="360" loading="lazy" decoding="async" />
                       <span className="podcast-youtube-badge" aria-hidden="true">
                         <Play size={26} fill="currentColor" />
                       </span>
@@ -220,7 +253,7 @@ export default function PodcastPage() {
                           aria-label={t('podcastPage.youtube.itemLabel', { title: video.title || t('podcastPage.youtube.title') })}
                         >
                           <span className="podcast-youtube-list-thumb">
-                            <img src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" />
+                            <img src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" width="480" height="360" loading="lazy" decoding="async" />
                             <span className="podcast-youtube-list-play" aria-hidden="true">
                               <Play size={16} fill="currentColor" />
                             </span>
@@ -268,6 +301,8 @@ export default function PodcastPage() {
                 <img
                   src="/images/portfolio-corporate-v.webp"
                   alt=""
+                  width="1100"
+                  height="825"
                   loading="lazy"
                   decoding="async"
                 />

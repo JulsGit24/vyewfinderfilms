@@ -14,7 +14,10 @@ import './Instagram.scss'
    few-hundred-pixel tile. Two images per service keeps the row from
    reading as one service's gallery. */
 const pickTwo = (slug) =>
-  mediaManifest[slug].filter((item) => item.type === 'image').slice(0, 2).map((item) => item.thumb)
+  mediaManifest[slug]
+    .filter((item) => item.type === 'image')
+    .slice(0, 2)
+    .map((item) => ({ src: item.thumb, width: item.width, height: item.height }))
 
 const images = [
   ...pickTwo('photography'),
@@ -43,7 +46,7 @@ export default function Instagram() {
         <h2 className="heading-2">{t('instagram.title')}</h2>
       </div>
       <div className="instagram-grid">
-        {images.map((src, index) => (
+        {images.map((image, index) => (
           <a
             key={index}
             className="instagram-item"
@@ -51,7 +54,13 @@ export default function Instagram() {
             target="_blank"
             rel="noreferrer noopener"
           >
-            <img src={src} alt="Instagram post" loading="lazy" />
+            <img
+              src={image.src}
+              alt="Instagram post"
+              width={image.width}
+              height={image.height}
+              loading="lazy"
+            />
             <div className="instagram-hover">
               <InstagramIcon size={22} />
             </div>

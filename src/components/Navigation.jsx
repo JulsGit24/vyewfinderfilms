@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
+import { gsap } from 'gsap'
 import { useLenis } from '@studio-freight/react-lenis'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -16,6 +16,17 @@ const ACTIVE_PROBE_Y = 140
 export default function Navigation() {
   const { t, i18n } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
+  /* Framer Motion previously owned mount/unmount timing via
+     AnimatePresence — the panel stayed rendered until its exit tween
+     finished, then unmounted. GSAP has no equivalent lifecycle hook, so
+     `mounted` reproduces it by hand: true the instant the menu opens,
+     flipped back to false only once the closing tween's onComplete
+     fires. Framer Motion itself is gone from this file (and the
+     dependency tree) — it existed in this codebase solely for this one
+     open/close animation, ~38kB gzipped that every visitor downloaded
+     to open a hamburger menu only mobile ever triggers. */
+  const [mobileNavMounted, setMobileNavMounted] = useState(false)
+  const mobileNavRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('')
   const [tone, setTone] = useState('dark')
@@ -34,7 +45,14 @@ export default function Navigation() {
      the short "Digital Marketing"; the full "Digital Marketing and
      Social Media" name does its disambiguating on /services and on the
      gallery page, where there is room for it. */
-  const links = [
+  /* Memoized so this is the same array reference across re-renders that
+     don't actually change the language — without it, every setScrolled
+     / setActiveSection / setTone call below (i.e. every scroll frame
+     that crosses a threshold) built a brand-new `links` array, which
+     sits in the scroll-effect's dependency list, which tore the scroll
+     listener down and rebuilt it — and re-ran a full measure() — on
+     essentially every scroll-driven state change. */
+  const links = useMemo(() => [
     { name: t('nav.home'), href: '/' },
     {
       name: t('nav.services'),
@@ -48,7 +66,7 @@ export default function Navigation() {
     { name: t('nav.podcast'), href: '/podcast' },
     { name: t('nav.about'), href: '/about' },
     { name: t('nav.contact'), href: '/contact' }
-  ]
+  ], [t, i18n.language])
 
   const measureRef = useRef(() => {})
 
@@ -59,6 +77,15 @@ export default function Navigation() {
       frame = 0
       setScrolled(window.scrollY > 40)
 
+      /* Queried fresh every frame rather than cached at effect setup —
+         tried caching this once per route/theme/language change, but a
+         lazy-loaded route (e.g. /podcast) can still be on its Suspense
+         fallback the instant this effect's dependencies change, so a
+         snapshot taken right then would permanently miss a
+         data-nav-tone section that mounts moments later. querySelectorAll
+         itself doesn't force layout (it's the getBoundingClientRect
+         calls below that do); re-running it here is cheap and self-heals
+         once the real content is in the DOM. */
       const blocks = document.querySelectorAll('section, footer, [data-nav-tone]')
       let current = null
       for (const block of blocks) {
@@ -87,9 +114,9 @@ export default function Navigation() {
         .filter(l => l.href.startsWith('/#'))
         .map(link => ({ href: link.href, el: document.querySelector(link.href.replace('/', '')) }))
         .filter(t => t.el)
-        
-      for (const t of targets) {
-        if (t.el.getBoundingClientRect().top <= ACTIVE_PROBE_Y) active = t.href
+
+      for (const target of targets) {
+        if (target.el.getBoundingClientRect().top <= ACTIVE_PROBE_Y) active = target.href
       }
 
       if (location.pathname !== '/') {
@@ -133,6 +160,43 @@ export default function Navigation() {
     const id = setTimeout(() => measureRef.current(), 420)
     return () => clearTimeout(id)
   }, [theme])
+
+  /* Opening: mount, then tween from height:0 to the content's natural
+     height (gsap's 'auto' resolves that measurement itself — no manual
+     scrollHeight tracking needed). Closing: tween back to 0 first, and
+     only unmount in onComplete, so the panel is still on screen — and
+     still readable — for the full duration of its own exit. */
+  useEffect(() => {
+    if (isOpen) {
+      setMobileNavMounted(true)
+      return undefined
+    }
+    const el = mobileNavRef.current
+    if (!el) {
+      setMobileNavMounted(false)
+      return undefined
+    }
+    const tween = gsap.to(el, {
+      height: 0,
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.inOut',
+      onComplete: () => setMobileNavMounted(false)
+    })
+    return () => tween.kill()
+  }, [isOpen])
+
+  useEffect(() => {
+    if (!mobileNavMounted || !isOpen) return undefined
+    const el = mobileNavRef.current
+    if (!el) return undefined
+    const tween = gsap.fromTo(
+      el,
+      { height: 0, opacity: 0 },
+      { height: 'auto', opacity: 1, duration: 0.3, ease: 'power2.inOut' }
+    )
+    return () => tween.kill()
+  }, [mobileNavMounted, isOpen])
 
   const handleNavClick = useCallback((e, href) => {
     e.preventDefault()
@@ -270,57 +334,50 @@ export default function Navigation() {
         </button>
       </div>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="mobile-nav"
-          >
-            <ul>
-              {links.map(link => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className={activeSection === link.href ? 'active' : ''}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-              <li className="mobile-nav-divider">
-                <a href={`tel:${BUSINESS_PHONE_E164}`} className="mobile-nav-call">{t('nav.contactUsBtn')}</a>
-              </li>
-              {/* The desktop pill's controls had no mobile equivalent,
-                  so phone visitors could not switch theme at all. */}
-              <li className="mobile-nav-controls">
-                {/* Touch has no hover, so the preview card and the
-                    "Try X theme!" label are simply always visible here
-                    rather than being revealed. */}
-                <button
-                  type="button"
-                  className="mobile-nav-control mobile-nav-control--theme"
-                  onClick={toggleTheme}
-                  aria-label={t('theme.toggle')}
-                  aria-pressed={theme === 'light'}
+      {mobileNavMounted && (
+        <div ref={mobileNavRef} className="mobile-nav">
+          <ul>
+            {links.map(link => (
+              <li key={link.name}>
+                <a
+                  href={link.href}
+                  className={activeSection === link.href ? 'active' : ''}
+                  onClick={(e) => handleNavClick(e, link.href)}
                 >
-                  <span className="theme-preview-card theme-preview-card--mini" aria-hidden="true">
-                    <span className="theme-preview-bar" />
-                    <span className="theme-preview-bar theme-preview-bar--short" />
-                  </span>
-                  <span>{theme === 'dark' ? t('theme.tryLight') : t('theme.tryDark')}</span>
-                </button>
-                <button type="button" className="mobile-nav-control" onClick={toggleLang}>
-                  <Languages size={16} />
-                  <span>{i18n.language.toUpperCase()}</span>
-                </button>
+                  {link.name}
+                </a>
               </li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            ))}
+            <li className="mobile-nav-divider">
+              <a href={`tel:${BUSINESS_PHONE_E164}`} className="mobile-nav-call">{t('nav.contactUsBtn')}</a>
+            </li>
+            {/* The desktop pill's controls had no mobile equivalent,
+                so phone visitors could not switch theme at all. */}
+            <li className="mobile-nav-controls">
+              {/* Touch has no hover, so the preview card and the
+                  "Try X theme!" label are simply always visible here
+                  rather than being revealed. */}
+              <button
+                type="button"
+                className="mobile-nav-control mobile-nav-control--theme"
+                onClick={toggleTheme}
+                aria-label={t('theme.toggle')}
+                aria-pressed={theme === 'light'}
+              >
+                <span className="theme-preview-card theme-preview-card--mini" aria-hidden="true">
+                  <span className="theme-preview-bar" />
+                  <span className="theme-preview-bar theme-preview-bar--short" />
+                </span>
+                <span>{theme === 'dark' ? t('theme.tryLight') : t('theme.tryDark')}</span>
+              </button>
+              <button type="button" className="mobile-nav-control" onClick={toggleLang}>
+                <Languages size={16} />
+                <span>{i18n.language.toUpperCase()}</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}
     </header>
   )
 }

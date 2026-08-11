@@ -92,7 +92,9 @@
     "follow": "Síguenos en:",
     "followLbl": "Síguenos",
     "rights": "© {{year}} Vyewfinder Films. Todos los derechos reservados.",
-    "privacy": "Política de privacidad"
+    "privacy": "Política de privacidad",
+    "cookiePolicy": "Política de cookies",
+    "cookieSettings": "Configuración de cookies"
   },
   "digitalMarketing": {
     "eyebrow": "Marketing Digital",
@@ -618,12 +620,31 @@
       "cardLabel": "Ver el canal de YouTube de Vyewfinder Films (se abre en una pestaña nueva)",
       "itemLabel": "Ver \"{{title}}\" en YouTube (se abre en una pestaña nueva)",
       "videos": [
-        { "id": "At59vMU1WRU", "title": "Beauty Wizard" },
-        { "id": "db3cnfGmciw", "title": "Kairos Financial & Tax" },
-        { "id": "CaCtrmX2Va8", "title": "Golds Gym Box" },
-        { "id": "4WRWGGWR0GY", "title": "Golds Gym - White Oak" },
-        { "id": "DmXjxjpLtq0", "title": "Lemur Remodeling Comercial HD" }
-      ]
+        {
+          "id": "At59vMU1WRU",
+          "title": "Beauty Wizard"
+        },
+        {
+          "id": "db3cnfGmciw",
+          "title": "Kairos Financial & Tax"
+        },
+        {
+          "id": "CaCtrmX2Va8",
+          "title": "Golds Gym Box"
+        },
+        {
+          "id": "4WRWGGWR0GY",
+          "title": "Golds Gym - White Oak"
+        },
+        {
+          "id": "DmXjxjpLtq0",
+          "title": "Lemur Remodeling Comercial HD"
+        }
+      ],
+      "consentGate": {
+        "text": "Este video está alojado en YouTube. Reproducirlo carga contenido desde los servidores de Google e instala cookies de terceros.",
+        "allow": "Permitir y reproducir"
+      }
     },
     "process": {
       "eyebrow": "Cómo funciona",
@@ -699,5 +720,158 @@
       "cta": "Solicitar cotización",
       "note": "El alcance, la disponibilidad y el precio los confirma el equipo antes de reservar nada."
     }
+  },
+  "cookies": {
+    "banner": {
+      "title": "Aviso de cookies",
+      "text": "Usamos cookies para que este sitio funcione correctamente y, solo con tu permiso, para cargar video incrustado de YouTube. No usamos cookies de analítica ni de publicidad.",
+      "link": "Saber más"
+    },
+    "actions": {
+      "acceptAll": "Aceptar todo",
+      "rejectNonEssential": "Rechazar no esenciales",
+      "settings": "Configuración de cookies",
+      "cancel": "Cancelar",
+      "save": "Guardar preferencias"
+    },
+    "close": "Cerrar",
+    "settings": {
+      "title": "Preferencias de cookies",
+      "intro": "Elige qué categorías de cookies te parecen aceptables. Las cookies estrictamente necesarias no se pueden desactivar porque el sitio no puede funcionar correctamente sin ellas. Puedes cambiar tu elección en cualquier momento desde el enlace “Configuración de cookies” en el pie de página.",
+      "alwaysOn": "Siempre activo",
+      "readPolicy": "Lee nuestra Política de cookies completa"
+    },
+    "categories": {
+      "necessary": {
+        "name": "Estrictamente necesarias",
+        "desc": "Necesarias para el funcionamiento básico del sitio: recordar si prefieres el modo claro u oscuro, y recordar la elección de cookies que hagas aquí. Nunca te rastrean ni se usan con fines publicitarios."
+      },
+      "functional": {
+        "name": "Funcionales (contenido incrustado)",
+        "desc": "Nos permiten incrustar contenido de otros sitios, como el video de YouTube con reproducción automática en nuestra página de Podcast. Si las rechazas, verás una miniatura con un enlace para ver el video en YouTube en su lugar — no se carga nada desde los servidores de YouTube, ni se instala ninguna cookie, hasta que lo autorices."
+      },
+      "analytics": {
+        "name": "Rendimiento y analítica",
+        "desc": "Nos ayudarían a entender cómo los visitantes usan el sitio, como qué páginas son más populares. Actualmente no usamos ninguna herramienta de analítica (por ejemplo, Google Analytics) — este interruptor existe para que tu preferencia quede registrada de antemano si eso cambia."
+      },
+      "marketing": {
+        "name": "Marketing y segmentación",
+        "desc": "Se usarían para mostrarte anuncios relevantes en otros sitios o medir el rendimiento publicitario. Actualmente no usamos ningún píxel de publicidad o rastreo (por ejemplo, Meta Pixel, Google Ads) — este interruptor existe por la misma razón."
+      }
+    }
+  },
+  "cookiePolicy": {
+    "eyebrow": "Legal",
+    "title": "Política de cookies",
+    "lastUpdated": "Última actualización: 10 de agosto de 2026",
+    "intro": "Esta Política de cookies explica qué son las cookies, cuáles usa exactamente Vyewfinder Films (“nosotros”, “nuestro”) en vyewfinderfilms.com (el “Sitio”), y cómo puedes controlarlas. Si algo aquí no queda claro, contáctanos con los datos de la Sección 8.",
+    "sections": [
+      {
+        "heading": "1. ¿Qué son las cookies?",
+        "body": [
+          "Una cookie es un pequeño archivo de texto que un sitio web guarda en tu dispositivo (computadora, teléfono o tableta) cuando lo visitas. Las cookies permiten que un sitio recuerde cosas sobre tu visita —como una preferencia que configuraste, o si ya respondiste a un aviso— para no tener que preguntarte de nuevo cada vez que cargas una página.",
+          "Las cookies no pueden acceder a otros archivos de tu dispositivo, ejecutar programas ni transmitir virus. Parte de lo que describe esta política se almacena técnicamente mediante “tecnologías similares”, como el almacenamiento local de tu navegador, en lugar de una cookie literal — usamos la palabra “cookie” en todo el documento para referirnos a ambas, ya que funcionan igual desde tu punto de vista."
+        ]
+      },
+      {
+        "heading": "2. Cookies que usamos",
+        "body": [
+          "Mantenemos esta lista breve a propósito: refleja exactamente lo que este Sitio instala, no una lista genérica de lo que un sitio web podría hacer. La actualizamos cada vez que esto cambia."
+        ],
+        "table": {
+          "headers": [
+            "Cookie",
+            "Propósito",
+            "Duración",
+            "Categoría"
+          ],
+          "rows": [
+            [
+              "vf-theme",
+              "Recuerda si elegiste el modo claro u oscuro",
+              "1 año",
+              "Estrictamente necesaria"
+            ],
+            [
+              "vf-cookie-consent",
+              "Recuerda las elecciones de cookies que hiciste en el aviso, para no volver a preguntarte en cada visita",
+              "6 meses",
+              "Estrictamente necesaria"
+            ]
+          ]
+        },
+        "bodyAfter": [
+          "No usamos Google Analytics, Meta Pixel, Google Ads, Hotjar ni ninguna herramienta comparable de analítica o publicidad. Si eso cambia alguna vez, primero actualizaremos esta política y pediremos tu consentimiento a través del aviso de cookies antes de instalar cualquiera de esas cookies."
+        ]
+      },
+      {
+        "heading": "3. Contenido incrustado (YouTube)",
+        "body": [
+          "Nuestra página de Podcast puede mostrar un video de YouTube incrustado. A diferencia de las cookies indicadas en la Sección 2, no controlamos lo que hace YouTube una vez que su reproductor se carga — Google puede instalar sus propias cookies con fines de analítica, personalización y publicidad, regidas por la política de privacidad de Google, no por la nuestra.",
+          "Por eso, este contenido incrustado no se carga automáticamente. Solo se carga cuando activas la categoría “Funcionales” — ya sea desde el aviso de cookies, desde Configuración de cookies, o al hacer clic en “Permitir y reproducir” directamente sobre el video. Hasta entonces, verás una miniatura estática con un enlace que abre el video en el propio sitio de YouTube en una pestaña nueva — visitar ese enlace no instala ninguna cookie de este Sitio.",
+          "Puedes revisar las prácticas de cookies y privacidad de Google en policies.google.com/privacy."
+        ]
+      },
+      {
+        "heading": "4. Cómo controlar las cookies",
+        "body": [
+          "En este Sitio: usa el enlace “Configuración de cookies” en el pie de página en cualquier momento para cambiar tu elección — no es necesario esperar a que reaparezca el aviso.",
+          "En tu navegador: la mayoría de los navegadores te permiten bloquear o eliminar cookies de cualquier sitio desde su menú de configuración. Hacerlo puede restablecer las preferencias de este Sitio (por ejemplo, tu elección de tema) en cada visita, ya que la cookie que la recuerda también desaparecería."
+        ]
+      },
+      {
+        "heading": "5. Categorías explicadas",
+        "body": [
+          "Las categorías a continuación son las mismas que se ofrecen en el aviso de cookies y en Configuración de cookies, repetidas aquí para que esta política se entienda por sí sola."
+        ],
+        "definitionList": [
+          {
+            "term": "Estrictamente necesarias",
+            "def": "Imprescindibles para que el Sitio funcione. No se pueden desactivar. En este Sitio: la cookie de preferencia de tema y la propia cookie de consentimiento de cookies."
+          },
+          {
+            "term": "Funcionales",
+            "def": "Habilitan contenido incrustado opcional de otros sitios. En este Sitio: el video de YouTube incrustado en la página de Podcast, descrito en la Sección 3."
+          },
+          {
+            "term": "Rendimiento y analítica",
+            "def": "Medirían cómo se usa el Sitio. Actualmente no están activas en este Sitio — ver Sección 2."
+          },
+          {
+            "term": "Marketing y segmentación",
+            "def": "Servirían para publicidad o su medición. Actualmente no están activas en este Sitio — ver Sección 2."
+          }
+        ]
+      },
+      {
+        "heading": "6. Información que decides compartir con nosotros",
+        "body": [
+          "Las cookies son distintas de la información que escribes y envías activamente — por ejemplo, tu nombre, correo electrónico, teléfono o los detalles de tu proyecto a través de nuestro formulario de contacto o el chatbot del sitio. Esa información no se almacena como cookie ni tecnología similar; se envía directamente a nuestro equipo para poder responder tu consulta.",
+          "Este documento trata específicamente sobre cookies. Si tienes preguntas sobre cómo se maneja la información enviada a través de nuestros formularios o del chatbot, contáctanos con los datos de la Sección 8."
+        ]
+      },
+      {
+        "heading": "7. Tus opciones y derechos",
+        "body": [
+          "Sin importar desde dónde nos visites, el aviso de cookies y la Configuración de cookies de este Sitio te permiten aceptar o rechazar cada categoría de cookies no esenciales descrita arriba, y puedes cambiar esa elección en cualquier momento.",
+          "Según dónde vivas, también podrías tener derechos adicionales bajo leyes como el Reglamento General de Protección de Datos de la UE/Reino Unido (GDPR), o leyes estatales de privacidad de EE. UU., incluida la Ley de Privacidad del Consumidor de California (CCPA/CPRA) y la Ley de Protección de Datos del Consumidor de Virginia (VCDPA). Muchos de los derechos específicos que crean esas leyes —como optar por no participar en la “venta” o el “compartir” de información personal, o en la publicidad dirigida— se refieren a prácticas en las que este Sitio no participa: no vendemos información personal ni usamos cookies para publicidad dirigida.",
+          "Si crees que esto ha cambiado, o deseas ejercer un derecho que te corresponda, contáctanos con los datos de la Sección 8 y te responderemos."
+        ]
+      },
+      {
+        "heading": "8. Contáctanos",
+        "body": [
+          "Vyewfinder Films — Richmond, Virginia",
+          "Correo electrónico: info@vyewfinderfilms.com",
+          "Teléfono: 804-998-0564"
+        ]
+      },
+      {
+        "heading": "9. Cambios a esta política",
+        "body": [
+          "Podemos actualizar esta Política de cookies de vez en cuando para reflejar cambios en las cookies que usamos, o por motivos legales o regulatorios. Actualizaremos la fecha de “Última actualización” indicada arriba cuando lo hagamos, y si un cambio afecta a una categoría de cookies opcional, volveremos a pedir tu consentimiento en lugar de asumir que una elección anterior sigue siendo válida."
+        ]
+      }
+    ]
   }
 }

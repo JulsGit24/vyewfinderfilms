@@ -6,13 +6,17 @@ $notch: 30px;
 
 .navbar {
   position: fixed;
-  top: 0;
+  /* --cookie-banner-offset is 0px normally; CookieConsent.jsx sets it
+     to the banner's real rendered height only while that banner is
+     showing (top: 0, fixed, same as this bar) — otherwise the two
+     would occupy the same pixels. */
+  top: var(--cookie-banner-offset, 0px);
   left: 0;
   width: 100%;
   background: transparent;
   z-index: 100;
   padding: 24px 0;
-  transition: padding 0.3s ease;
+  transition: padding 0.3s ease, top 0.3s ease;
 
   /* Dark sections: charcoal panel, light ink */
   &.tone-dark {

@@ -402,10 +402,16 @@ const Loader = () => {
           <canvas ref={canvasRef} className="loader-canvas" aria-hidden="true" />
         </div>
 
+        {/* Intrinsic dims per source (see the crop-difference note in
+            Loader.scss): SVG 961x111, PNG 880x134. CSS drives the actual
+            rendered size (width: …; height: auto) — these only give the
+            browser the right aspect ratio to reserve space with. */}
         <img
           className={`loader-lockup ${isLight ? 'loader-lockup--vector' : ''}`}
           src={isLight ? LOGO_LIGHT : LOGO_DARK}
           alt="Vyewfinder Films"
+          width={isLight ? 961 : 880}
+          height={isLight ? 111 : 134}
         />
 
         <div className="loader-status">

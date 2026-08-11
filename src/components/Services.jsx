@@ -32,12 +32,16 @@ export default function Services() {
       title: t('services.items.corporate.title', 'Corporate Videos'),
       description: t('services.items.corporate.desc', 'Professional video production that communicates your brand story with clarity and impact.'),
       image: '/images/portfolio-corporate-v.webp',
+      imageWidth: 1100,
+      imageHeight: 825,
       link: '/services#corporate-video'
     },
     {
       title: t('services.items.photography.title', 'Photography'),
       description: t('services.items.photography.desc', 'High-end photography that captures the details worth remembering.'),
       image: '/images/portfolio-photography.webp',
+      imageWidth: 1100,
+      imageHeight: 1100,
       link: '/services#photography'
     },
     {
@@ -50,12 +54,16 @@ export default function Services() {
       title: t('nav.digitalMarketing', 'Digital Marketing'),
       description: t('services.items.digitalMarketing.teaser', 'Scroll-stopping content built for the platforms your audience actually watches.'),
       image: '/images/portfolio-social.webp',
+      imageWidth: 733,
+      imageHeight: 1100,
       link: '/services#digital-marketing'
     },
     {
       title: t('services.items.podcast.title', 'Podcast'),
       description: t('services.items.podcast.desc', 'Full-service podcast production, from studio setup to the episode your audience hears.'),
       image: '/images/portfolio-podcast.webp',
+      imageWidth: 720,
+      imageHeight: 1280,
       link: '/podcast'
     }
   ]
@@ -170,7 +178,15 @@ export default function Services() {
                 tabIndex={isActive ? 0 : -1}
               >
                 <span className="wheel-slide-media">
-                  <img src={service.image} alt="" draggable="false" loading="lazy" decoding="async" />
+                  <img
+                    src={service.image}
+                    alt=""
+                    width={service.imageWidth}
+                    height={service.imageHeight}
+                    draggable="false"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </span>
                 <span className="wheel-slide-index">{String(index + 1).padStart(2, '0')}</span>
                 {/* "Text at the edge of every image" — a label on each

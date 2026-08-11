@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&family=Roboto:wght@400;500;700;900&display=swap');
+/* Font is loaded from index.html (<link rel="stylesheet"> with a
+   preconnect ahead of it), NOT from here. A CSS @import is itself
+   render-blocking — it has to resolve before the rest of this
+   stylesheet can apply — so an @import of the exact same URL used to
+   sit here too, meaning mobile visitors paid for the font twice: once
+   as a blocking <link> in the HTML parse, and again as a blocking
+   @import inside the bundled CSS. Do not re-add it here. */
 
 :root {
   /* ----------------------------------------------------------

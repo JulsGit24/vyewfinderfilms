@@ -23,7 +23,6 @@ export default defineConfig({
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           'vendor-gsap': ['gsap', 'gsap/ScrollTrigger'],
-          'vendor-motion': ['framer-motion'],
           'vendor-i18n': ['i18next', 'react-i18next'],
           'vendor-slider': ['@splidejs/react-splide', '@splidejs/splide']
         }

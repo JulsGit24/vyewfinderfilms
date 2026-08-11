@@ -138,13 +138,20 @@
   color: var(--wst-color-text-secondary);
 }
 
-/* ---- dot pagination ---- */
+/* ---- nav row: prev arrow · dots · next arrow ---- */
+.testimonial-nav-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(20px, 3vw, 40px);
+  margin-top: clamp(20px, 2.5vw, 32px);
+}
+
 .testimonial-dots {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-top: clamp(20px, 2.5vw, 32px);
 }
 
 .testimonial-dot {
@@ -172,6 +179,34 @@
   }
 }
 
+/* Thin, borderless icon buttons — the affordance is the arrow shape
+   itself, matching the site's understated nav elsewhere rather than
+   a boxed/filled control. */
+.testimonial-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--wst-color-text-secondary);
+  transition: color 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &:hover {
+    color: var(--wst-color-accent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--wst-color-action);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  &--prev:hover { transform: translateX(-3px); }
+  &--next:hover { transform: translateX(3px); }
+}
+
 @media (max-width: 879px) {
   .testimonial-quote {
     max-width: none;
@@ -180,7 +215,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .testimonial-slide,
-  .testimonial-dot {
+  .testimonial-dot,
+  .testimonial-arrow {
     transition: none;
   }
 }

@@ -135,6 +135,8 @@
     "title": "What our clients say",
     "ratingLabel": "{{rating}} out of 5",
     "goTo": "Go to review {{position}}",
+    "next": "Next review",
+    "prev": "Previous review",
     "items": [
       {
         "quote": "We hired Vyewfinder to do a video for our business and all I can say is that they are professional on time and I can't be happier with the results! So if you're looking for a videographer Richmond Virginia photographer Richmond Virginia this is your best option 200% recommend them you will be happy. Thanks David and Alondra for such amazing videos!",

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { gsap } from 'gsap'
-import { Star } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Star } from 'lucide-react'
 import './Testimonials.scss'
 import { animateTextReveal } from '../utils/animations'
 
@@ -9,12 +9,14 @@ import { animateTextReveal } from '../utils/animations'
    Testimonials — single centered slide, dot pagination
 
    One review on screen at a time in a centered card: avatar
-   monogram, star rating, quote, then attribution, with a row of
-   dots below to jump between reviews. No reviewer photos exist for
-   these real people, so the avatar is a monogram rather than an
-   invented face — it stands in for the client-logo slot a review
-   carousel would normally use. Stars only render when the entry
-   carries a real rating.
+   monogram, star rating, quote, then attribution, with a nav row
+   below — thin prev/next arrows flanking a row of dots — so the
+   affordance to move between reviews is visible, not just the
+   position within them. No reviewer photos exist for these real
+   people, so the avatar is a monogram rather than an invented face —
+   it stands in for the client-logo slot a review carousel would
+   normally use. Stars only render when the entry carries a real
+   rating.
 
    Every slide stays mounted, stacked in one grid cell, so the card
    is always as tall as the longest quote and stepping through never
@@ -53,11 +55,17 @@ export default function Testimonials() {
     []
   )
 
-  /* Jumping to a specific slide (dot click) pins the carousel — someone
-     driving it themselves should not have it move under them. */
+  /* Any manual navigation — dot or arrow — pins the carousel, so
+     someone driving it themselves does not have it move under them.
+     Arrows wrap in both directions so neither is ever a dead end. */
   const goTo = (i) => {
     setPinned(true)
     setActive(i)
+  }
+
+  const step = (dir) => {
+    setPinned(true)
+    setActive((i) => (i + dir + count) % count)
   }
 
   useEffect(() => {
@@ -133,18 +141,38 @@ export default function Testimonials() {
           </div>
         </div>
 
-        <div className="testimonial-dots" role="tablist" aria-label={t('testimonials.title')}>
-          {items.map((item, i) => (
-            <button
-              key={`dot-${item.author}-${item.quote.slice(0, 24)}`}
-              type="button"
-              role="tab"
-              className={`testimonial-dot ${i === active ? 'is-active' : ''}`}
-              aria-selected={i === active}
-              aria-label={t('testimonials.goTo', { position: i + 1 })}
-              onClick={() => goTo(i)}
-            />
-          ))}
+        <div className="testimonial-nav-row">
+          <button
+            type="button"
+            className="testimonial-arrow testimonial-arrow--prev"
+            onClick={() => step(-1)}
+            aria-label={t('testimonials.prev')}
+          >
+            <ArrowLeft size={20} aria-hidden="true" />
+          </button>
+
+          <div className="testimonial-dots" role="tablist" aria-label={t('testimonials.title')}>
+            {items.map((item, i) => (
+              <button
+                key={`dot-${item.author}-${item.quote.slice(0, 24)}`}
+                type="button"
+                role="tab"
+                className={`testimonial-dot ${i === active ? 'is-active' : ''}`}
+                aria-selected={i === active}
+                aria-label={t('testimonials.goTo', { position: i + 1 })}
+                onClick={() => goTo(i)}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            className="testimonial-arrow testimonial-arrow--next"
+            onClick={() => step(1)}
+            aria-label={t('testimonials.next')}
+          >
+            <ArrowRight size={20} aria-hidden="true" />
+          </button>
         </div>
       </div>
     </section>

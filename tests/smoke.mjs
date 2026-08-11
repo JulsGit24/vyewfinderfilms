@@ -344,6 +344,15 @@ const CHECKS = [
       // below to jump directly to any review.
       await page.evaluate(() => document.querySelector('.testimonials-section')?.scrollIntoView())
       await wait(800)
+      // The default scrollIntoView() can rest with the nav row inside
+      // the fixed bottom chat dock's band (centered, z-index 8000) —
+      // real coordinate clicks land on the dock instead of the arrow
+      // underneath. Re-center specifically on the nav row before any
+      // click test touches it, same as a real visitor scrolling a
+      // little further to actually see the control they're aiming for.
+      await page.evaluate(() =>
+        document.querySelector('.testimonial-nav-row')?.scrollIntoView({ block: 'center' }))
+      await wait(400)
       // Review count is content, not structure — derived here so adding
       // or removing a review doesn't turn this suite red on its own.
       const slideCount = (await page.$$('.testimonial-slide')).length
@@ -390,6 +399,29 @@ const CHECKS = [
       const afterFirst = await readState()
       t.ok('clicking the first dot jumps back to the first review',
         afterFirst.slideIndex === 0 && afterFirst.dotIndex === 0, JSON.stringify(afterFirst))
+
+      // Prev/next arrows flank the dots as a visible scroll affordance
+      // and wrap in both directions.
+      t.ok('prev and next arrows render',
+        await page.$('.testimonial-arrow--prev') !== null && await page.$('.testimonial-arrow--next') !== null)
+
+      await page.click('.testimonial-arrow--next')
+      await wait(700)
+      const afterArrowNext = await readState()
+      t.ok('next arrow advances one review',
+        afterArrowNext.slideIndex === 1 && afterArrowNext.dotIndex === 1, JSON.stringify(afterArrowNext))
+
+      await page.click('.testimonial-arrow--prev')
+      await wait(700)
+      const afterArrowPrev = await readState()
+      t.ok('prev arrow steps back to the review before it',
+        afterArrowPrev.slideIndex === 0 && afterArrowPrev.dotIndex === 0, JSON.stringify(afterArrowPrev))
+
+      await page.click('.testimonial-arrow--prev')
+      await wait(700)
+      const afterArrowWrap = await readState()
+      t.ok('prev arrow wraps from the first review to the last',
+        afterArrowWrap.slideIndex === lastIndex && afterArrowWrap.dotIndex === lastIndex, JSON.stringify(afterArrowWrap))
 
       // The card is sized by the longest quote, so jumping between
       // reviews must never change the section's height (no page jump).

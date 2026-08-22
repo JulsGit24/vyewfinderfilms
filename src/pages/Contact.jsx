@@ -3,6 +3,7 @@ import { useTranslation, Trans } from 'react-i18next'
 import { Mail, Phone, MapPin, Plus, Check } from 'lucide-react'
 import { gsap } from 'gsap'
 import { animateTextReveal } from '../utils/animations'
+import Seo from '../components/Seo'
 import {
   submitLead,
   BUSINESS_EMAIL,
@@ -155,6 +156,7 @@ export default function Contact() {
 
   return (
     <div className="contact-page" ref={pageRef}>
+      <Seo titleKey="seo.contact.title" descriptionKey="seo.contact.description" />
       <section className="contact-hero">
         <div className="container">
           <p className="eyebrow">{t('contact.eyebrow')}</p>

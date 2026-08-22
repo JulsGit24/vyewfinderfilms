@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { animateTextReveal } from '../utils/animations'
+import Seo from '../components/Seo'
 import { useSiteReady } from '../utils/siteReady'
 import './About.scss'
 
@@ -64,6 +65,7 @@ export default function About() {
 
   return (
     <div className="about-page" ref={pageRef}>
+      <Seo titleKey="seo.about.title" descriptionKey="seo.about.description" />
       <div className="container">
         <header className="about-header text-center">
           <p className="eyebrow">{t('about.eyebrow')}</p>

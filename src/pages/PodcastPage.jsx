@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { gsap } from 'gsap'
 import { ArrowUpRight, Play, Plus, Minus, Youtube } from 'lucide-react'
 import { animateTextReveal } from '../utils/animations'
+import Seo from '../components/Seo'
 import { useCookieConsent } from '../context/CookieConsentContext'
 import { useSiteReady } from '../utils/siteReady'
 import './PodcastPage.scss'
@@ -90,6 +91,7 @@ export default function PodcastPage() {
 
   return (
     <div className="podcast-page" ref={pageRef}>
+      <Seo titleKey="seo.podcast.title" descriptionKey="seo.podcast.description" />
       {/* ---- hero ---- */}
       <section className="podcast-hero" data-nav-tone="dark">
         <div className="container">

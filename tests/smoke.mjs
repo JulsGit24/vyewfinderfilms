@@ -63,6 +63,34 @@ const CHECKS = [
       t.ok('services wheel has 4 slides', wheel.length === 4, `got ${wheel.length}`)
       t.ok('chatbot launcher present', await page.$('.chatbot-launcher') !== null)
 
+      // SEO: baseline <head> metadata for the home route, set by
+      // Seo.jsx from seo.home.* in translation.json. Also confirms the
+      // upsert lookups (Seo.jsx §1) find exactly one of each tag rather
+      // than accumulating duplicates on first mount.
+      const seoHome = await page.evaluate(() => ({
+        title: document.title,
+        description: document.querySelector('meta[name="description"]')?.getAttribute('content'),
+        canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href'),
+        hreflang: document.querySelector('link[rel="alternate"][hreflang="x-default"]')?.getAttribute('href'),
+        metaDescCount: document.querySelectorAll('meta[name="description"]').length,
+        canonicalCount: document.querySelectorAll('link[rel="canonical"]').length,
+        hreflangCount: document.querySelectorAll('link[rel="alternate"][hreflang="x-default"]').length,
+        jsonLdCount: document.querySelectorAll('script[type="application/ld+json"]').length
+      }))
+      t.ok('home <title> matches seo.home.title',
+        seoHome.title === 'Video Production Company in Richmond, VA | Vyewfinder Films', seoHome.title)
+      t.ok('home meta description matches seo.home.description',
+        seoHome.description === 'Vyewfinder Films is an audiovisual production company in Richmond, VA. We create video, photography, and podcast content that makes clients choose you. Est. 2017.',
+        seoHome.description)
+      t.ok('home canonical is the self-referential root URL (trailing slash kept)',
+        seoHome.canonical === 'https://vyewfinderfilms.com/', seoHome.canonical)
+      t.ok('hreflang x-default equals canonical (self-referential, no per-language alternates)',
+        seoHome.hreflang === seoHome.canonical, JSON.stringify(seoHome))
+      t.ok('exactly one meta description / canonical / hreflang tag on first mount (upsert, not append)',
+        seoHome.metaDescCount === 1 && seoHome.canonicalCount === 1 && seoHome.hreflangCount === 1,
+        JSON.stringify(seoHome))
+      t.ok('exactly one LocalBusiness JSON-LD script tag', seoHome.jsonLdCount === 1, seoHome.jsonLdCount)
+
       // every wheel slide carries its own visible label ("text at the
       // edge of every image"), not just the active slide's caption
       const wheelLabels = await page.$$('.wheel-slide-label')
@@ -286,12 +314,47 @@ const CHECKS = [
       await page.click('.desktop-nav a[href="/about"]')
       await wait(800)
       t.ok('instagram: client-side nav away from home', page.url().endsWith('/about'), page.url())
+
+      // SEO: a client-side route change (no full page load) must
+      // upsert, not append — exactly one of each tag, updated to the
+      // new route's copy. This is the specific scenario an
+      // append-instead-of-upsert bug would show up in.
+      const seoAfterNav = await page.evaluate(() => ({
+        title: document.title,
+        canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href'),
+        metaDescCount: document.querySelectorAll('meta[name="description"]').length,
+        canonicalCount: document.querySelectorAll('link[rel="canonical"]').length,
+        hreflangCount: document.querySelectorAll('link[rel="alternate"][hreflang="x-default"]').length
+      }))
+      t.ok('client-side nav to /about updates the title',
+        seoAfterNav.title === 'About Us | Vyewfinder Films, Richmond VA Production Company', seoAfterNav.title)
+      t.ok('client-side nav to /about updates the canonical to /about',
+        seoAfterNav.canonical === 'https://vyewfinderfilms.com/about', seoAfterNav.canonical)
+      t.ok('still exactly one description/canonical/hreflang tag after a client-side route change',
+        seoAfterNav.metaDescCount === 1 && seoAfterNav.canonicalCount === 1 && seoAfterNav.hreflangCount === 1,
+        JSON.stringify(seoAfterNav))
+
       await page.click('.logo')
       await wait(800)
       t.ok('instagram: client-side nav back to home', page.url() === BASE + '/', page.url())
       const remountItems = await page.$$('.instagram-item')
       t.ok('instagram grid re-renders after remount (6 tiles)',
         remountItems.length === 6, `got ${remountItems.length}`)
+
+      const seoAfterNavBack = await page.evaluate(() => ({
+        title: document.title,
+        canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href'),
+        metaDescCount: document.querySelectorAll('meta[name="description"]').length,
+        canonicalCount: document.querySelectorAll('link[rel="canonical"]').length,
+        hreflangCount: document.querySelectorAll('link[rel="alternate"][hreflang="x-default"]').length
+      }))
+      t.ok('client-side nav back to / restores the home title',
+        seoAfterNavBack.title === 'Video Production Company in Richmond, VA | Vyewfinder Films', seoAfterNavBack.title)
+      t.ok('client-side nav back to / restores the root canonical',
+        seoAfterNavBack.canonical === 'https://vyewfinderfilms.com/', seoAfterNavBack.canonical)
+      t.ok('still exactly one description/canonical/hreflang tag after two client-side route changes',
+        seoAfterNavBack.metaDescCount === 1 && seoAfterNavBack.canonicalCount === 1 && seoAfterNavBack.hreflangCount === 1,
+        JSON.stringify(seoAfterNavBack))
 
       // testimonials: one review on screen at a time in a centered card
       // (avatar monogram, stars, quote, attribution), with a row of dots
@@ -407,6 +470,38 @@ const CHECKS = [
       t.ok('footer (ES) shows Domingo/Cerrado, no residual English hours labels',
         footerTextEs.includes('Cerrado') && !footerTextEs.includes('Sunday') && !footerTextEs.includes('Closed'))
 
+      // SEO: a mid-session language toggle must update title,
+      // description AND <html lang> together — this is the specific
+      // case Seo.jsx's props-are-keys contract (§1) and i18n.js's
+      // syncHtmlLang (§4) exist for. HomePage() itself has no
+      // useTranslation() hook, so this also proves Seo subscribes to
+      // i18next on its own rather than relying on the parent re-rendering.
+      const seoAfterToggle = await page.evaluate(() => ({
+        title: document.title,
+        description: document.querySelector('meta[name="description"]')?.getAttribute('content'),
+        lang: document.documentElement.lang
+      }))
+      t.ok('mid-session language toggle updates the title to Spanish',
+        seoAfterToggle.title === 'Productora de Video en Richmond, VA | Vyewfinder Films', seoAfterToggle.title)
+      t.ok('mid-session language toggle updates the meta description to Spanish',
+        seoAfterToggle.description === 'Vyewfinder Films es una productora audiovisual en Richmond, VA. Creamos video, fotografía y podcast que hacen que los clientes te elijan. Est. 2017.',
+        seoAfterToggle.description)
+      t.ok('mid-session language toggle syncs <html lang> to es',
+        seoAfterToggle.lang === 'es', seoAfterToggle.lang)
+
+      // toggle back so nothing later in this check (or a human re-reading
+      // it) assumes the page is stuck in Spanish
+      await page.click('.lang-toggle')
+      await wait(600)
+      const seoAfterToggleBack = await page.evaluate(() => ({
+        title: document.title,
+        lang: document.documentElement.lang
+      }))
+      t.ok('toggling back updates the title back to English',
+        seoAfterToggleBack.title === 'Video Production Company in Richmond, VA | Vyewfinder Films', seoAfterToggleBack.title)
+      t.ok('toggling back syncs <html lang> to en',
+        seoAfterToggleBack.lang === 'en', seoAfterToggleBack.lang)
+
       // theme toggle actually flips document state
       const before = await page.evaluate(() => document.documentElement.dataset.theme)
       await page.click('.theme-toggle')
@@ -479,6 +574,16 @@ const CHECKS = [
     path: '/services',
     assert: async (page, t) => {
       t.ok('media grid tiles render', (await page.$$('.media-tile')).length > 0)
+
+      const seo = await page.evaluate(() => ({
+        title: document.title,
+        description: document.querySelector('meta[name="description"]')?.getAttribute('content')
+      }))
+      t.ok('services <title> matches seo.services.title',
+        seo.title === 'Video, Photography & Podcast Services | Vyewfinder Films', seo.title)
+      t.ok('services meta description matches seo.services.description',
+        seo.description === 'Commercial video, product and real estate photography, social media content, and podcast production in Richmond, VA. See what Vyewfinder Films can do for your brand.',
+        seo.description)
     }
   },
   {
@@ -492,6 +597,18 @@ const CHECKS = [
       t.ok('photography gallery shows the 4 new keyword chips', chips.length === 4, JSON.stringify(chips))
       t.ok('photography gallery has no highlight callout (digital-marketing only)',
         await page.$('.service-highlight') === null)
+
+      // SEO: gallery title/description interpolate the service name
+      // (values={{ service: t(service.titleKey) }}) — no per-slug copy.
+      const seo = await page.evaluate(() => ({
+        title: document.title,
+        description: document.querySelector('meta[name="description"]')?.getAttribute('content')
+      }))
+      t.ok('gallery <title> interpolates the service name (Photography)',
+        seo.title === 'Photography — Selected Work | Vyewfinder Films', seo.title)
+      t.ok('gallery meta description interpolates the service name (Photography)',
+        seo.description === 'Selected Photography work by Vyewfinder Films, an audiovisual production company in Richmond, VA. Photos and video from real client projects.',
+        seo.description)
     }
   },
   {
@@ -515,6 +632,18 @@ const CHECKS = [
       t.ok('digital-marketing gallery shows the highlight callout', !!highlight, highlight)
 
       t.ok('scroll wall renders tiles (merged media pool)', (await page.$$('.wall-tile')).length > 0)
+
+      // SEO: gallery title interpolates the merged service's title key
+      // (services.items.digitalMarketing.title, not a generic label).
+      const seo = await page.evaluate(() => ({
+        title: document.title,
+        description: document.querySelector('meta[name="description"]')?.getAttribute('content')
+      }))
+      t.ok('gallery <title> interpolates the service name (Digital Marketing and Social Media)',
+        seo.title === 'Digital Marketing and Social Media — Selected Work | Vyewfinder Films', seo.title)
+      t.ok('gallery meta description interpolates the service name (Digital Marketing and Social Media)',
+        seo.description === 'Selected Digital Marketing and Social Media work by Vyewfinder Films, an audiovisual production company in Richmond, VA. Photos and video from real client projects.',
+        seo.description)
     }
   },
   {
@@ -527,6 +656,10 @@ const CHECKS = [
       t.ok('corporate-video gallery shows the 5 new keyword chips', chips.length === 5, JSON.stringify(chips))
       t.ok('corporate-video gallery has no highlight callout (digital-marketing only)',
         await page.$('.service-highlight') === null)
+
+      const seo = await page.evaluate(() => ({ title: document.title }))
+      t.ok('gallery <title> interpolates the service name (Corporate Video)',
+        seo.title === 'Corporate Video — Selected Work | Vyewfinder Films', seo.title)
     }
   },
   {
@@ -538,6 +671,15 @@ const CHECKS = [
       // unrecognised :slug back to /services instead of 404ing.
       t.ok('unknown /services/social-media slug redirects to /services',
         page.url().endsWith('/services'), page.url())
+
+      // SEO: <Seo> in ServiceGallery sits below the `if (!service)`
+      // redirect guard specifically so an unknown slug never writes a
+      // gallery title before bouncing. Confirm the page that actually
+      // renders after the redirect (ServicesPage) is the one that owns
+      // the title — not a stale/blank/mis-interpolated gallery title.
+      const title = await page.evaluate(() => document.title)
+      t.ok('redirect from an unknown slug shows the /services title, not a stale gallery title',
+        title === 'Video, Photography & Podcast Services | Vyewfinder Films', title)
     }
   },
   {
@@ -596,6 +738,16 @@ const CHECKS = [
         [...document.querySelectorAll('.podcast-block')].map((s) => s.id))
       t.ok('youtube section sits directly after the formats section',
         blockOrder.indexOf('youtube') === blockOrder.indexOf('formats') + 1, JSON.stringify(blockOrder))
+
+      const seo = await page.evaluate(() => ({
+        title: document.title,
+        description: document.querySelector('meta[name="description"]')?.getAttribute('content')
+      }))
+      t.ok('podcast <title> matches seo.podcast.title',
+        seo.title === 'Podcast Production in Richmond, VA | Vyewfinder Films', seo.title)
+      t.ok('podcast meta description matches seo.podcast.description',
+        seo.description === 'Full-service podcast production in Richmond, VA: recording, video, and editing. Vyewfinder Films helps your brand launch and grow a podcast that gets seen.',
+        seo.description)
     }
   },
   {
@@ -603,6 +755,16 @@ const CHECKS = [
     path: '/about',
     assert: async (page, t) => {
       t.ok('page renders a heading', await page.$('h1') !== null)
+
+      const seo = await page.evaluate(() => ({
+        title: document.title,
+        description: document.querySelector('meta[name="description"]')?.getAttribute('content')
+      }))
+      t.ok('about <title> matches seo.about.title',
+        seo.title === 'About Us | Vyewfinder Films, Richmond VA Production Company', seo.title)
+      t.ok('about meta description matches seo.about.description',
+        seo.description === 'Since 2017, Vyewfinder Films has produced video, photography, and podcasts for brands in Richmond, VA. Meet the team behind the work.',
+        seo.description)
     }
   },
   {
@@ -610,6 +772,16 @@ const CHECKS = [
     path: '/contact',
     assert: async (page, t) => {
       t.ok('contact form renders', await page.$('form') !== null)
+
+      const seo = await page.evaluate(() => ({
+        title: document.title,
+        description: document.querySelector('meta[name="description"]')?.getAttribute('content')
+      }))
+      t.ok('contact <title> matches seo.contact.title',
+        seo.title === 'Contact | Vyewfinder Films, Richmond VA', seo.title)
+      t.ok('contact meta description matches seo.contact.description (hyphenated phone, per spec)',
+        seo.description === 'Ready to create video, photography, or podcast content for your brand? Contact Vyewfinder Films in Richmond, VA. Call 804-998-0564 or send a message.',
+        seo.description)
 
       const heroTel = await page.evaluate(() =>
         document.querySelector('.contact-details a[href^="tel:"]')?.getAttribute('href'))
@@ -711,6 +883,16 @@ const CHECKS = [
 
       t.ok('categories glossary renders', await page.$('.cookie-policy-deflist') !== null)
 
+      const seoEn = await page.evaluate(() => ({
+        title: document.title,
+        description: document.querySelector('meta[name="description"]')?.getAttribute('content')
+      }))
+      t.ok('cookie-policy <title> matches seo.cookiePolicy.title',
+        seoEn.title === 'Cookie Policy | Vyewfinder Films', seoEn.title)
+      t.ok('cookie-policy meta description matches seo.cookiePolicy.description',
+        seoEn.description === 'How Vyewfinder Films uses cookies on vyewfinderfilms.com, which ones we set, and how to change your choice at any time.',
+        seoEn.description)
+
       // The page's own "Cookie Settings" button re-opens the same panel
       // used everywhere else — not a second, disconnected settings UI.
       await page.click('.cookie-policy-settings-btn')
@@ -727,6 +909,92 @@ const CHECKS = [
       t.ok('heading translates to Spanish', esHeading === 'Política de cookies', esHeading)
       const esSections = await page.$$('.cookie-policy-section')
       t.ok('Spanish version has the same 9 sections', esSections.length === 9, `got ${esSections.length}`)
+
+      const seoEs = await page.evaluate(() => ({
+        title: document.title,
+        description: document.querySelector('meta[name="description"]')?.getAttribute('content')
+      }))
+      t.ok('cookie-policy <title> translates to Spanish',
+        seoEs.title === 'Política de cookies | Vyewfinder Films', seoEs.title)
+      t.ok('cookie-policy meta description translates to Spanish',
+        seoEs.description === 'Cómo usa Vyewfinder Films las cookies en vyewfinderfilms.com, cuáles instalamos y cómo cambiar tu elección en cualquier momento.',
+        seoEs.description)
+    }
+  },
+  {
+    name: 'seo static files (robots.txt, sitemap.xml, JSON-LD)',
+    path: '/',
+    assert: async (page, t) => {
+      // robots.txt and sitemap.xml are served straight from public/ by
+      // Vite with no build step — confirm they're actually reachable at
+      // runtime, not just present as source files in the repo. Fetched
+      // directly (not via page.evaluate) so this exercises exactly what
+      // a crawler requesting these URLs would get.
+      const robotsRes = await fetch(`${BASE}/robots.txt`)
+      const robotsBody = await robotsRes.text()
+      t.ok('robots.txt is served with a 200', robotsRes.status === 200, robotsRes.status)
+      t.ok('robots.txt allows crawling, disallows /api/, and points at the sitemap',
+        robotsBody.includes('Allow: /') && robotsBody.includes('Disallow: /api/') &&
+        robotsBody.includes('Sitemap: https://vyewfinderfilms.com/sitemap.xml'),
+        robotsBody.slice(0, 200))
+
+      const sitemapRes = await fetch(`${BASE}/sitemap.xml`)
+      const sitemapBody = await sitemapRes.text()
+      t.ok('sitemap.xml is served with a 200', sitemapRes.status === 200, sitemapRes.status)
+      t.ok('sitemap.xml declaration is the first line',
+        sitemapBody.trimStart().startsWith('<?xml'), sitemapBody.slice(0, 60))
+      const sitemapUrls = ['/', '/services', '/podcast', '/about', '/contact']
+        .map((p) => `https://vyewfinderfilms.com${p === '/' ? '/' : p}`)
+      // Compare against the actual <loc> entries only — the file's own
+      // explanatory comment intentionally mentions "/services/:slug" and
+      // "/cookie-policy" as *excluded* paths, so a raw substring check
+      // against the whole file false-positives on the comment text.
+      const locEntries = [...sitemapBody.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1])
+      t.ok('sitemap.xml lists exactly the 5 top-level URLs, no sub-galleries or cookie-policy',
+        locEntries.length === 5 && sitemapUrls.every((u) => locEntries.includes(u)),
+        JSON.stringify(locEntries))
+
+      // LocalBusiness JSON-LD: fetched as raw HTML (not through
+      // Puppeteer's rendered DOM) so this specifically verifies it's in
+      // the BUILT dist/index.html itself, readable by a crawler that
+      // never executes JS — not something React injected at runtime.
+      const rawHtml = await fetch(`${BASE}/`).then((r) => r.text())
+      const scriptMatches = [...rawHtml.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+      t.ok('exactly one JSON-LD script tag in the built index.html',
+        scriptMatches.length === 1, scriptMatches.length)
+
+      let jsonLd = null
+      try { jsonLd = JSON.parse(scriptMatches[0]?.[1] ?? '') } catch { /* leave null, assertions below fail */ }
+      t.ok('JSON-LD script parses as valid JSON', !!jsonLd, scriptMatches[0]?.[1]?.slice(0, 200))
+      t.ok('JSON-LD @type is LocalBusiness', jsonLd?.['@type'] === 'LocalBusiness', jsonLd?.['@type'])
+      t.ok('JSON-LD name is "Vyewfinder Films"', jsonLd?.name === 'Vyewfinder Films', jsonLd?.name)
+      t.ok('JSON-LD url is the canonical bare domain (no www)',
+        jsonLd?.url === 'https://vyewfinderfilms.com', jsonLd?.url)
+      t.ok('JSON-LD telephone matches BUSINESS_PHONE_E164 (src/utils/leads.js)',
+        jsonLd?.telephone === '+1-804-998-0564', jsonLd?.telephone)
+      t.ok('JSON-LD email matches BUSINESS_EMAIL (src/utils/leads.js)',
+        jsonLd?.email === 'info@vyewfinderfilms.com', jsonLd?.email)
+      t.ok('JSON-LD foundingDate is "2017"', jsonLd?.foundingDate === '2017', jsonLd?.foundingDate)
+      t.ok('JSON-LD address has no streetAddress (none on file — do not invent one)',
+        jsonLd?.address?.['@type'] === 'PostalAddress' &&
+        jsonLd?.address?.addressLocality === 'Richmond' &&
+        jsonLd?.address?.addressRegion === 'VA' &&
+        jsonLd?.address?.addressCountry === 'US' &&
+        !('streetAddress' in (jsonLd?.address || {})),
+        JSON.stringify(jsonLd?.address))
+      t.ok('JSON-LD sameAs carries all 4 profiles, TikTok included with no tracking query string',
+        Array.isArray(jsonLd?.sameAs) && jsonLd.sameAs.length === 4 &&
+        jsonLd.sameAs.includes('https://www.tiktok.com/@vyewfinderfilms') &&
+        !jsonLd.sameAs.some((u) => u.includes('?')),
+        JSON.stringify(jsonLd?.sameAs))
+
+      // index.html must NOT ship a static canonical/hreflang — Seo.jsx
+      // owns those exclusively (§5b: a hardcoded one would point every
+      // route at "/" until React mounts, which is worse than absent).
+      t.ok('built index.html ships no static <link rel="canonical"> (Seo.jsx sets it, not the HTML baseline)',
+        !rawHtml.includes('rel="canonical"'), rawHtml.includes('rel="canonical"'))
+      t.ok('built index.html ships no static hreflang alternate (Seo.jsx sets it, not the HTML baseline)',
+        !rawHtml.includes('hreflang='), rawHtml.includes('hreflang='))
     }
   }
 ]

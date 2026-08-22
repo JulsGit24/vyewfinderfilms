@@ -1,0 +1,12 @@
+# Vyewfinder Films — https://vyewfinderfilms.com
+#
+# Nothing on this site is hidden from search. The Allow line is explicit
+# rather than implied so the intent is readable at a glance, and the one
+# Disallow keeps the lead-capture endpoint — a POST-only PHP handler,
+# not a page — out of the index if it is ever linked or guessed.
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://vyewfinderfilms.com/sitemap.xml

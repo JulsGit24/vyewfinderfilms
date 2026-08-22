@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { gsap } from 'gsap'
 import { animateTextReveal } from '../utils/animations'
+import Seo from '../components/Seo'
 import { useCookieConsent } from '../context/CookieConsentContext'
 import './CookiePolicy.scss'
 
@@ -40,6 +41,7 @@ export default function CookiePolicy() {
 
   return (
     <div className="cookie-policy-page" ref={pageRef}>
+      <Seo titleKey="seo.cookiePolicy.title" descriptionKey="seo.cookiePolicy.description" />
       <div className="container">
         <header className="cookie-policy-header">
           <p className="eyebrow">{t('cookiePolicy.eyebrow')}</p>

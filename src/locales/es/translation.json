@@ -873,5 +873,35 @@
         ]
       }
     ]
+  },
+  "seo": {
+    "home": {
+      "title": "Productora de Video en Richmond, VA | Vyewfinder Films",
+      "description": "Vyewfinder Films es una productora audiovisual en Richmond, VA. Creamos video, fotografía y podcast que hacen que los clientes te elijan. Est. 2017."
+    },
+    "services": {
+      "title": "Servicios de Video, Fotografía y Podcast | Vyewfinder Films",
+      "description": "Video comercial, fotografía de producto y bienes raíces, contenido para redes y podcast en Richmond, VA. Mira qué puede hacer Vyewfinder Films por tu marca."
+    },
+    "podcast": {
+      "title": "Producción de Podcast en Richmond, VA | Vyewfinder Films",
+      "description": "Producción de podcast integral en Richmond, VA: grabación, video y edición. Vyewfinder Films te ayuda a lanzar y hacer crecer un podcast que se note."
+    },
+    "about": {
+      "title": "Nosotros | Vyewfinder Films, Productora en Richmond, VA",
+      "description": "Desde 2017, Vyewfinder Films produce video, fotografía y podcasts para marcas en Richmond, VA. Conoce al equipo detrás del trabajo."
+    },
+    "contact": {
+      "title": "Contacto | Vyewfinder Films, Richmond VA",
+      "description": "¿Listo para crear video, fotografía o contenido de podcast para tu marca? Contacta a Vyewfinder Films en Richmond, VA. Llama al 804-998-0564 o escríbenos."
+    },
+    "gallery": {
+      "title": "{{service}} — Trabajo seleccionado | Vyewfinder Films",
+      "description": "Trabajo seleccionado de {{service}} de Vyewfinder Films, productora audiovisual en Richmond, VA. Fotos y video de proyectos reales de clientes."
+    },
+    "cookiePolicy": {
+      "title": "Política de cookies | Vyewfinder Films",
+      "description": "Cómo usa Vyewfinder Films las cookies en vyewfinderfilms.com, cuáles instalamos y cómo cambiar tu elección en cualquier momento."
+    }
   }
 }

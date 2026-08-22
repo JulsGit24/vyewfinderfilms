@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { gsap } from 'gsap'
 import { animateTextReveal } from '../utils/animations'
 import MediaGrid from '../components/MediaGrid'
+import Seo from '../components/Seo'
 import { services, PREVIEW_COUNT } from '../data/services'
 import './ServicesPage.scss'
 
@@ -38,6 +39,7 @@ export default function ServicesPage() {
 
   return (
     <div className="services-page" ref={pageRef}>
+      <Seo titleKey="seo.services.title" descriptionKey="seo.services.description" />
       {/* servicesPage.lede was already written and translated but never
           rendered, leaving the H1 alone above ~200px of padding. The
           existing animateTextReveal selector above already covers

@@ -5,6 +5,7 @@ import { ArrowLeft } from 'lucide-react'
 import { gsap } from 'gsap'
 import { animateTextReveal } from '../utils/animations'
 import ScrollWall from '../components/ScrollWall'
+import Seo from '../components/Seo'
 import { getService } from '../data/services'
 import './ServiceGallery.scss'
 
@@ -52,6 +53,15 @@ export default function ServiceGallery() {
 
   return (
     <div className="gallery-page" ref={pageRef}>
+      {/* Below the !service guard on purpose: an unknown slug redirects
+          without first writing a title for a page that does not exist.
+          The interpolated name reuses the key the <h1> already renders,
+          so the gallery title is bilingual with no new per-slug copy. */}
+      <Seo
+        titleKey="seo.gallery.title"
+        descriptionKey="seo.gallery.description"
+        values={{ service: t(service.titleKey) }}
+      />
       <div className="container">
         <Link to="/services" className="gallery-back">
           <ArrowLeft size={16} />

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Vyewfinder Films sitemap. The five top-level pages, nothing else.
+
+  Deliberately excluded:
+    - /services/:slug galleries (digital-marketing, corporate-video,
+      photography) — media-only pages whose text is the same title and
+      description already indexed on /services.
+    - /cookie-policy — legal boilerplate with no search value.
+  Adding either is a change of intent, not a fix. Ask before doing it.
+
+  One URL per page: language is a client-side toggle, not a route (site
+  owner decision, 2026-08-22), so there are no /es/... entries and no
+  <xhtml:link> hreflang alternates here. The self-referential
+  hreflang="x-default" lives in the page <head>, set by Seo.jsx.
+
+  <lastmod> is hand-maintained — bump a page's line when that page's
+  content materially changes. No <changefreq> or <priority>: Google
+  ignores both, and a stale value is worse than no value.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://vyewfinderfilms.com/</loc>
+    <lastmod>2026-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://vyewfinderfilms.com/services</loc>
+    <lastmod>2026-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://vyewfinderfilms.com/podcast</loc>
+    <lastmod>2026-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://vyewfinderfilms.com/about</loc>
+    <lastmod>2026-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://vyewfinderfilms.com/contact</loc>
+    <lastmod>2026-08-22</lastmod>
+  </url>
+</urlset>

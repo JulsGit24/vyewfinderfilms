@@ -156,6 +156,7 @@ media-src/
 changes_log/
 workflow/
 docs/
+intake/
 prompts/
 AGENTS.md
 CLAUDE.md

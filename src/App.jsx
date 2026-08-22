@@ -16,6 +16,7 @@ import Loader from './components/Loader'
 import Navigation from './components/Navigation'
 import Photography from './components/Photography'
 import Podcast from './components/Podcast'
+import Seo from './components/Seo'
 import Services from './components/Services'
 import Stories from './components/Stories'
 import Testimonials from './components/Testimonials'
@@ -77,6 +78,7 @@ function ScrollToTop() {
 function HomePage() {
   return (
     <>
+      <Seo titleKey="seo.home.title" descriptionKey="seo.home.description" />
       <Hero />
       <Stories />
       <GridRule />
